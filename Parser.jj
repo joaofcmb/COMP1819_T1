@@ -1,0 +1,14 @@
+options 
+{
+    LOOKAHEAD = 1;
+}
+
+PARSER_BEGIN(Parser)
+
+public class Parser {
+    public static void main(String[] args) throws ParseException {
+        Parser p = new Parser(System.in);
+    }
+}
+
+PARSER_END(Parser)
