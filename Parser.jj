@@ -12,3 +12,13 @@ public class Parser {
 }
 
 PARSER_END(Parser)
+
+SKIP:
+{
+    " " | "\n" | "\t" | "\r"
+}
+
+TOKEN:
+{
+    
+}
