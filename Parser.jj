@@ -13,12 +13,48 @@ public class Parser {
 
 PARSER_END(Parser)
 
-SKIP:
-{
+// Symbols that should be ignored
+SKIP: {
     " " | "\n" | "\t" | "\r"
 }
 
+// Definition of terminal symbols
 TOKEN:
 {
+    < AND: "&&" >
+    | < LOWER : "<" >
+    | < PLUS : "+" > 
+    | < MINUS : "-" >
+    | < TIMES : "*" >
+    | < DIVIDE : "/" >
+    | < LENGTH : "length" >
+    | < OPEN_PAREN : "(" >
+    | < CLOSE_PAREN : ")" >
+    | < COMMA : "," >
+    | < DOT : "." >
+    | < OPEN_BRACK : "[" >
+    | < CLOSE_BRACK : "]" >
+    | < INT : "int" > 
+    | < NOT : "!" >
+    | < NEW :  "new" >
+    | < THIS : "this" >
+    | < TRUE : "true" >
+    | < FALSE : "false" >
+    | < ASSIGN : "=" >
+    | < BOOLEAN : "boolean" >
+    | < SEMI_COLON : ";" >
+    | < WHILE : "while" >
+    | < IF : "if" >
+    | < ELSE : "else" >
+    | < OPEN_BRACES : "{" >
+    | < CLOSE_BRACES : "}" >
+    | < PUBLIC : "public" >
+    | < RETURN : "return" >
+    | < EXTENDS : "extends" >
+    | < CLASS : "class" >
+    | < INTEGER_LITERAL : (["0"-"9"])+ >
+    | < IDENTIFIER : ["a"-"z""A"-"Z"] (["a"-"z""A"-"Z""0"-"9""_"])* > 
+    | < EOF : "EOF" >
     
 }
+
