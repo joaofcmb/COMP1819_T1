@@ -53,8 +53,82 @@ TOKEN:
     | < EXTENDS : "extends" >
     | < CLASS : "class" >
     | < INTEGER_LITERAL : (["0"-"9"])+ >
-    | < IDENTIFIER : ["a"-"z""A"-"Z"] (["a"-"z""A"-"Z""0"-"9""_"])* > 
-    | < EOF : "EOF" >
-    
+    | < IDENTIFIER : ["a"-"z""A"-"Z"] (["a"-"z""A"-"Z""0"-"9""_"])* >  
 }
 
+void Program(): {}
+{
+    ClassDeclaration() <EOF>
+}
+
+void ClassDeclaration(): {} {
+    <CLASS> <IDENTIFIER> (<EXTENDS> <IDENTIFIER>)? <OPEN_BRACES> (VarDeclaration())* (MethodDeclaration())* <CLOSE_BRACES>
+}
+
+void VarDeclaration(): {}
+{
+    Type() <IDENTIFIER> <SEMI_COLON>
+}
+
+void Type(): {}
+{
+    <INT><OPEN_BRACK><CLOSE_BRACK> 
+    | <INT> 
+    | <BOOLEAN> 
+    | <IDENTIFIER>
+}
+
+void MethodDeclaration(): {}
+{
+    <PUBLIC> Type() <IDENTIFIER> <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> (VarDeclaration())* (Statement())* <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
+}
+
+void Params(): {}
+{
+    (Type() <IDENTIFIER> (<COMMA> Type() <IDENTIFIER> )*)?
+}
+
+void Statement(): {}
+{
+    <OPEN_BRACES> (Statement())* <CLOSE_BRACES>
+    | <IF> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement() <ELSE> Statement()
+    | <WHILE> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement()
+    | Expression() <SEMI_COLON>
+    | <IDENTIFIER> (<OPEN_BRACK> Expression() <CLOSE_BRACK>)? <ASSIGN> Expression() <SEMI_COLON> 
+}
+
+void Expression(): {}
+{
+    Exp() (
+        Op() Expression() 
+        | <OPEN_BRACK> Expression() <CLOSE_BRACK> 
+        | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>)
+        )*
+}
+
+void Exp(): {}
+{
+    <INTEGER_LITERAL>
+    | <TRUE>
+    | <FALSE> 
+    | <IDENTIFIER>
+    | <THIS>
+    | <NEW> (<INT> <OPEN_BRACK> Expression() <CLOSE_BRACK> | <IDENTIFIER> <OPEN_PAREN> <CLOSE_PAREN>)
+    | <NOT> Expression()
+    | <OPEN_PAREN> Expression() <CLOSE_PAREN>
+}
+
+void ExpParams(): {}
+{
+    Expression() (<COMMA> Expression())*    
+}
+
+void Op(): {}
+{
+    <AND> 
+    | <MINUS> 
+    | <PLUS>
+    | <TIMES>
+    | <DIVIDE>
+    | <LOWER>
+}
