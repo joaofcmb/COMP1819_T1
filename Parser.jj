@@ -35,6 +35,7 @@ TOKEN:
     | < OPEN_BRACK : "[" >
     | < CLOSE_BRACK : "]" >
     | < INT : "int" > 
+    | < INTARRAY : "int[]" >
     | < NOT : "!" >
     | < NEW :  "new" >
     | < THIS : "this" >
@@ -72,20 +73,38 @@ void VarDeclaration(): {}
 
 void Type(): {}
 {
-    <INT><OPEN_BRACK><CLOSE_BRACK> 
-    | <INT> 
-    | <BOOLEAN> 
-    | <IDENTIFIER>
+    (<INTARRAY> | <INT> | <BOOLEAN> | <IDENTIFIER>)
 }
 
 void MethodDeclaration(): {}
 {
-    <PUBLIC> Type() <IDENTIFIER> <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> (VarDeclaration())* (Statement())* <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
+    <PUBLIC> Type() <IDENTIFIER> <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> MethodVars() (Statement())* <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
 }
 
 void Params(): {}
 {
-    (Type() <IDENTIFIER> (<COMMA> Type() <IDENTIFIER> )*)?
+    (Type() <IDENTIFIER> (<COMMA> Type() <IDENTIFIER>)*)?
+}
+
+void MethodVars(): {} 
+{   
+    (<INTARRAY> | <INT> | <BOOLEAN>) <IDENTIFIER> <SEMI_COLON> (MethodVars())*  
+    | <IDENTIFIER> MaybeStatement() 
+}
+
+void MaybeStatement(): {} 
+{
+    <IDENTIFIER> <SEMI_COLON> (MethodVars())*
+    | IdStatement()
+}
+
+void IdStatement(): {} 
+{   
+    (
+        (Op() Expression() | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>)) NextExps()
+        | <OPEN_BRACK> Expression() <CLOSE_BRACK> (<ASSIGN> Expression() | NextExps())
+        | <ASSIGN> Expression()
+    ) <SEMI_COLON>
 }
 
 void Statement(): {}
@@ -93,25 +112,31 @@ void Statement(): {}
     <OPEN_BRACES> (Statement())* <CLOSE_BRACES>
     | <IF> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement() <ELSE> Statement()
     | <WHILE> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement()
-    | Expression() <SEMI_COLON>
-    | <IDENTIFIER> (<OPEN_BRACK> Expression() <CLOSE_BRACK>)? <ASSIGN> Expression() <SEMI_COLON> 
+    | <IDENTIFIER> IdStatement()
+    | Exp1() NextExps() <SEMI_COLON>
 }
 
 void Expression(): {}
+{   
+    Exp() NextExps()
+}
+
+void NextExps(): {}
 {
-    Exp() (
-        Op() Expression() 
-        | <OPEN_BRACK> Expression() <CLOSE_BRACK> 
-        | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>)
-        )*
+    (Op() Expression() | <OPEN_BRACK> Expression() <CLOSE_BRACK> | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>))*
 }
 
 void Exp(): {}
+{   
+    <IDENTIFIER>
+    | Exp1()
+}
+
+void Exp1():{}
 {
     <INTEGER_LITERAL>
     | <TRUE>
     | <FALSE> 
-    | <IDENTIFIER>
     | <THIS>
     | <NEW> (<INT> <OPEN_BRACK> Expression() <CLOSE_BRACK> | <IDENTIFIER> <OPEN_PAREN> <CLOSE_PAREN>)
     | <NOT> Expression()
@@ -126,9 +151,9 @@ void ExpParams(): {}
 void Op(): {}
 {
     <AND> 
-    | <MINUS> 
+    | <LOWER>
     | <PLUS>
+    | <MINUS> 
     | <TIMES>
     | <DIVIDE>
-    | <LOWER>
 }
