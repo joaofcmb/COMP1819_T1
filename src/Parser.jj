@@ -7,7 +7,9 @@ PARSER_BEGIN(Parser)
 
 public class Parser {
     public static void main(String[] args) throws ParseException {
-        Parser p = new Parser(System.in);
+        Parser parser = new Parser(System.in);
+        parser.Program();
+
     }
 }
 
@@ -54,7 +56,15 @@ TOKEN:
     | < EXTENDS : "extends" >
     | < CLASS : "class" >
     | < INTEGER_LITERAL : (["0"-"9"])+ >
-    | < IDENTIFIER : ["a"-"z""A"-"Z"] (["a"-"z""A"-"Z""0"-"9""_"])* >  
+    | < IDENTIFIER : (["a"-"z","A"-"Z"]) (["a"-"z","A"-"Z","0"-"9","_"])* > 
+    |< EMPTY : "" >
+    : MATCH_NON_EMPTY // change state, or infinite matches of the empty string could result
+}
+
+// Definition of epsilon token
+<MATCH_NON_EMPTY>
+TOKEN : {
+    < NON_EMPTY : ~[] >
 }
 
 void Program(): {}
@@ -88,13 +98,14 @@ void Params(): {}
 
 void MethodVars(): {} 
 {   
-    (<INTARRAY> | <INT> | <BOOLEAN>) <IDENTIFIER> <SEMI_COLON> (MethodVars())*  
-    | <IDENTIFIER> MaybeStatement() 
+    (<INTARRAY> | <INT> | <BOOLEAN>) <IDENTIFIER> <SEMI_COLON> MethodVars()  
+    | <IDENTIFIER> MaybeStatement()
+    | <EMPTY>
 }
 
 void MaybeStatement(): {} 
 {
-    <IDENTIFIER> <SEMI_COLON> (MethodVars())*
+    <IDENTIFIER> <SEMI_COLON> MethodVars()
     | IdStatement()
 }
 
@@ -123,7 +134,8 @@ void Expression(): {}
 
 void NextExps(): {}
 {
-    (Op() Expression() | <OPEN_BRACK> Expression() <CLOSE_BRACK> | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>))*
+    (Op() Expression() | <OPEN_BRACK> Expression() <CLOSE_BRACK> | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>))
+    | <EMPTY>
 }
 
 void Exp(): {}
