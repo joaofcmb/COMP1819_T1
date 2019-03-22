@@ -1,8 +1,12 @@
 /*
  * Class declaration
  */
-class Fac {
-    public int ComputeFac(int num){
+class Test extends Base {
+
+    int x;
+    bool check;
+
+    public int ComputeFac(int num, char redundant){
         int num_aux;
 
         while (num < 1) {
@@ -15,8 +19,9 @@ class Fac {
             num_aux = num * (this.ComputeFac(num-1));
         return num_aux;
     }
+
     public void main(int[] a){
-        io.println(new Fac().ComputeFac(10));   //assuming the existence
+        io.println(new Test().ComputeFac(10));   //assuming the existence
                                                 // of the classfile io.class
 
         return A;                                            

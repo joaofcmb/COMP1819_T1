@@ -56,7 +56,8 @@ class SimpleNode implements Node {
      you need to do. */
 
   public String toString() {
-    return ParserTreeConstants.jjtNodeName[id];
+    if (value != null)  return ParserTreeConstants.jjtNodeName[id] + "(" + this.value + ")";
+    else                return ParserTreeConstants.jjtNodeName[id];
   }
   public String toString(String prefix) { return prefix + toString(); }
 

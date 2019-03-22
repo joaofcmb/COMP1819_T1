@@ -1,5 +1,6 @@
 options 
 {
+    NODE_DEFAULT_VOID = true;
     LOOKAHEAD = 1;
 }
 
@@ -11,12 +12,12 @@ public class Parser {
         //Parser initialization
         Parser parser;
 
-        if(args.length != 1){
+        if (args.length != 1){
             System.out.println ("Usage: java Parser <file_directory>");
             return;
         }
         else {
-            System.out.println ("Parser: Reading the file " + args[0] + " ..." );
+            System.out.println("Parser: Reading the file " + args[0] + " ..." );
             try {
                 parser = new Parser(new java.io.FileInputStream(args[0]));
             }
@@ -102,33 +103,44 @@ TOKEN:
     
 }
 
-SimpleNode Program(): {}
+// Definition of Terminal Leafs
+void Id() #ID: {Token t;}
+{
+    t=<IDENTIFIER> {jjtThis.value = t.image;}
+}
+
+void Type() #TYPE: {Token t;}
+{
+    (t=<INTARRAY> | t=<INT> | t=<BOOLEAN> | t=<IDENTIFIER>){jjtThis.value = t.image;}
+}
+
+// Grammar Definition
+SimpleNode Program() #PROGRAM: {}
 {
     ClassDeclaration() <EOF> {return jjtThis;}
 }
 
-void ClassDeclaration(): {} {
-    <CLASS> <IDENTIFIER> (<EXTENDS> <IDENTIFIER>)? <OPEN_BRACES> (VarDeclaration())* (MethodDeclaration())* <CLOSE_BRACES>
+void ClassDeclaration() #CLASS: {}
+{
+    <CLASS>
+    Id()
+    (<EXTENDS> Id())? 
+    <OPEN_BRACES> (VarDeclaration())* (MethodDeclaration())* <CLOSE_BRACES>
 }
 
-void VarDeclaration(): {}
+void VarDeclaration() #VAR: {}
 {
-    Type() <IDENTIFIER> <SEMI_COLON>
+    Type() Id() <SEMI_COLON>
 }
 
-void Type(): {}
+void MethodDeclaration() #METHOD: {}
 {
-    (<INTARRAY> | <INT> | <BOOLEAN> | <IDENTIFIER>)
+    <PUBLIC> Type() Id() <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> [MethodBody()] <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
 }
 
-void MethodDeclaration(): {}
+void Params() #PARAMETERS: {}
 {
-    <PUBLIC> Type() <IDENTIFIER> <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> [MethodBody()] <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
-}
-
-void Params(): {}
-{
-    (Type() <IDENTIFIER> (<COMMA> Type() <IDENTIFIER>)*)?
+    (Type() Id() (<COMMA> Type() Id())*)?
 }
 
 void MethodBody(): {} 
@@ -157,11 +169,11 @@ void NoIdStatement(): {}
         }
         catch (ParseException e) {   
             System.out.println(e.toString());  // Print the error message         
-            error_skipto();            
+            error_skip();            
         }
         catch (TokenMgrError e) {
             System.out.println(e.toString());  // Print the error message
-            error_skipto();            
+            error_skip();            
         }
         Statement()
     | Exp1() NextExps() <SEMI_COLON>
@@ -216,16 +228,14 @@ void Op(): {}
 }
 
 JAVACODE
-void error_skipto() {
-
+void error_skip() {
     Token t = getToken(1);
 
-    while(t.kind != CLOSE_PAREN && t.kind != OPEN_BRACES && t.kind != IF && t.kind != WHILE && t.kind != IDENTIFIER && t.kind != INTEGER_LITERAL 
-            && t.kind != TRUE && t.kind != FALSE && t.kind != THIS && t.kind != NEW && t.kind != NOT && t.kind != OPEN_PAREN) {        
+    while(t.kind != CLOSE_PAREN && t.kind != OPEN_BRACES && t.kind != IF && t.kind != WHILE && t.kind != SEMI_COLON) {        
         t = getNextToken();    
     }
 
-    if(t.kind == CLOSE_PAREN) {
+    if(t.kind == CLOSE_PAREN || t.kind == SEMI_COLON) {
         getNextToken(); 
     }        
 }
