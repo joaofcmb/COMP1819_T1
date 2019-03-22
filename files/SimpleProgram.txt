@@ -1,7 +1,7 @@
 /*
  * Class declaration
  */
-classe Fac {
+class Fac {
     public int ComputeFac(int num){
         int num_aux;
 

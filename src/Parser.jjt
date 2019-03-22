@@ -1,0 +1,231 @@
+options 
+{
+    LOOKAHEAD = 1;
+}
+
+PARSER_BEGIN(Parser)
+
+public class Parser {
+    public static void main(String[] args) throws ParseException {
+        
+        //Parser initialization
+        Parser parser;
+
+        if(args.length != 1){
+            System.out.println ("Usage: java Parser <file_directory>");
+            return;
+        }
+        else {
+            System.out.println ("Parser: Reading the file " + args[0] + " ..." );
+            try {
+                parser = new Parser(new java.io.FileInputStream(args[0]));
+            }
+            catch(java.io.FileNotFoundException e) {
+                System.out.println ("Parser: The file " + args[0] + " was not found.");
+                return;
+            }
+        }
+
+        try {            
+            SimpleNode root = parser.Program();
+            System.out.println ("Parser: The input was readed sucessfully.");
+
+            root.dump(""); // Prints syntax tree
+        }
+        catch(TokenMgrError e){
+            System.out.println ("Parser: There was an error.");
+            System.out.println (e.getMessage());
+        }  
+        catch(ParseException e){
+            System.out.println ("Parser: There was an error during the parse.");            
+            System.out.println (e.getMessage());
+        }                 
+    }
+}
+
+PARSER_END(Parser)
+
+// Symbols that should be ignored
+SKIP: {
+    " " | "\n" | "\t" | "\r"
+}
+
+// Must ignore single and multi line comments
+SKIP: {
+    < "//" (~["\r", "\n"])* >
+    | < "/*" > : ML_COMMENT_STATE
+}
+
+<ML_COMMENT_STATE> SKIP :
+{
+    < "*/" > : DEFAULT
+    | < ~[] >   
+}
+
+// Definition of terminal symbols
+TOKEN:
+{
+    < AND: "&&" >
+    | < LOWER : "<" >
+    | < PLUS : "+" > 
+    | < MINUS : "-" >
+    | < TIMES : "*" >
+    | < DIVIDE : "/" >
+    | < LENGTH : "length" >
+    | < OPEN_PAREN : "(" >
+    | < CLOSE_PAREN : ")" >
+    | < COMMA : "," >
+    | < DOT : "." >
+    | < OPEN_BRACK : "[" >
+    | < CLOSE_BRACK : "]" >
+    | < INT : "int" > 
+    | < INTARRAY : "int[]" >
+    | < NOT : "!" >
+    | < NEW :  "new" >
+    | < THIS : "this" >
+    | < TRUE : "true" >
+    | < FALSE : "false" >
+    | < ASSIGN : "=" >
+    | < BOOLEAN : "boolean" >
+    | < SEMI_COLON : ";" >
+    | < WHILE : "while" >
+    | < IF : "if" >
+    | < ELSE : "else" >
+    | < OPEN_BRACES : "{" >
+    | < CLOSE_BRACES : "}" >
+    | < PUBLIC : "public" >
+    | < RETURN : "return" >
+    | < EXTENDS : "extends" >
+    | < CLASS : "class" >
+    | < INTEGER_LITERAL : (["0"-"9"])+ >
+    | < IDENTIFIER : (["a"-"z","A"-"Z"]) (["a"-"z","A"-"Z","0"-"9","_"])* > 
+    
+}
+
+SimpleNode Program(): {}
+{
+    ClassDeclaration() <EOF> {return jjtThis;}
+}
+
+void ClassDeclaration(): {} {
+    <CLASS> <IDENTIFIER> (<EXTENDS> <IDENTIFIER>)? <OPEN_BRACES> (VarDeclaration())* (MethodDeclaration())* <CLOSE_BRACES>
+}
+
+void VarDeclaration(): {}
+{
+    Type() <IDENTIFIER> <SEMI_COLON>
+}
+
+void Type(): {}
+{
+    (<INTARRAY> | <INT> | <BOOLEAN> | <IDENTIFIER>)
+}
+
+void MethodDeclaration(): {}
+{
+    <PUBLIC> Type() <IDENTIFIER> <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> [MethodBody()] <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
+}
+
+void Params(): {}
+{
+    (Type() <IDENTIFIER> (<COMMA> Type() <IDENTIFIER>)*)?
+}
+
+void MethodBody(): {} 
+{   
+    (<INTARRAY> | <INT> | <BOOLEAN>) <IDENTIFIER> <SEMI_COLON> MethodBody()  
+    | <IDENTIFIER> (<IDENTIFIER> <SEMI_COLON> MethodBody() | IdStatement() (Statement())*)
+    | NoIdStatement() (Statement())*
+    
+}
+
+void IdStatement(): {} 
+{   
+    (
+        (Op() Expression() | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>)) NextExps()
+        | <OPEN_BRACK> Expression() <CLOSE_BRACK> (<ASSIGN> Expression() | NextExps())
+        | <ASSIGN> Expression()
+    ) <SEMI_COLON>
+}
+
+void NoIdStatement(): {}
+{   
+    <OPEN_BRACES> (Statement())* <CLOSE_BRACES>
+    | <IF> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement() <ELSE> Statement()
+    |   <WHILE> try {            
+            <OPEN_PAREN> Expression() <CLOSE_PAREN>
+        }
+        catch (ParseException e) {   
+            System.out.println(e.toString());  // Print the error message         
+            error_skipto();            
+        }
+        catch (TokenMgrError e) {
+            System.out.println(e.toString());  // Print the error message
+            error_skipto();            
+        }
+        Statement()
+    | Exp1() NextExps() <SEMI_COLON>
+}
+
+void Statement(): {}
+{
+    NoIdStatement() 
+    | <IDENTIFIER> IdStatement()
+}
+
+void Expression(): {}
+{   
+    Exp() NextExps()
+}
+
+void NextExps(): {}
+{      
+    (LOOKAHEAD(2) (Op() Expression() | <OPEN_BRACK> Expression() <CLOSE_BRACK> | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>)))*
+}
+
+void Exp(): {}
+{   
+    <IDENTIFIER>
+    | Exp1()
+}
+
+void Exp1():{}
+{
+    <INTEGER_LITERAL>
+    | <TRUE>
+    | <FALSE> 
+    | <THIS>
+    | <NEW> (<INT> <OPEN_BRACK> Expression() <CLOSE_BRACK> | <IDENTIFIER> <OPEN_PAREN> <CLOSE_PAREN>)
+    | <NOT> Expression()
+    | <OPEN_PAREN> Expression() <CLOSE_PAREN>
+}
+
+void ExpParams(): {}
+{
+    Expression() (<COMMA> Expression())*    
+}
+
+void Op(): {}
+{
+    <AND> 
+    | <LOWER>
+    | <PLUS>
+    | <MINUS> 
+    | <TIMES>
+    | <DIVIDE>
+}
+
+JAVACODE
+void error_skipto() {
+
+    Token t = getToken(1);
+
+    while(t.kind != CLOSE_PAREN && t.kind != OPEN_BRACES && t.kind != IF && t.kind != WHILE && t.kind != IDENTIFIER && t.kind != INTEGER_LITERAL 
+            && t.kind != TRUE && t.kind != FALSE && t.kind != THIS && t.kind != NEW && t.kind != NOT && t.kind != OPEN_PAREN) {        
+        t = getNextToken();    
+    }
+
+    if(t.kind == CLOSE_PAREN) {
+        getNextToken(); 
+    }        
+}
