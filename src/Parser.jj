@@ -12,11 +12,11 @@ public class Parser {
         Parser parser;
 
         if(args.length != 1){
-            System.out.println ("\nUsage: java Parser <file_directory>");
+            System.out.println ("Usage: java Parser <file_directory>");
             return;
         }
         else {
-            System.out.println ("\nParser: Reading the file " + args[0] + " ..." );
+            System.out.println ("Parser: Reading the file " + args[0] + " ..." );
             try {
                 parser = new Parser(new java.io.FileInputStream(args[0]));
             }
@@ -37,7 +37,7 @@ public class Parser {
         catch(ParseException e){
             System.out.println ("Parser: There was an error during the parse.");
             System.out.println (e.getMessage());
-        }                  
+        }                 
     }
 }
 
@@ -97,14 +97,7 @@ TOKEN:
     | < CLASS : "class" >
     | < INTEGER_LITERAL : (["0"-"9"])+ >
     | < IDENTIFIER : (["a"-"z","A"-"Z"]) (["a"-"z","A"-"Z","0"-"9","_"])* > 
-    |< EMPTY : "" >
-    : MATCH_NON_EMPTY 
-}
-
-// Definition of epsilon token
-<MATCH_NON_EMPTY>
-TOKEN : {
-    < NON_EMPTY : ~[] >
+    
 }
 
 void Program(): {}
@@ -128,7 +121,7 @@ void Type(): {}
 
 void MethodDeclaration(): {}
 {
-    <PUBLIC> Type() <IDENTIFIER> <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> MethodBody() <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
+    <PUBLIC> Type() <IDENTIFIER> <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> [MethodBody()] <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
 }
 
 void Params(): {}
@@ -141,7 +134,7 @@ void MethodBody(): {}
     (<INTARRAY> | <INT> | <BOOLEAN>) <IDENTIFIER> <SEMI_COLON> MethodBody()  
     | <IDENTIFIER> (<IDENTIFIER> <SEMI_COLON> MethodBody() | IdStatement() (Statement())*)
     | NoIdStatement() (Statement())*
-    | <EMPTY>
+    
 }
 
 void IdStatement(): {} 
@@ -157,13 +150,18 @@ void NoIdStatement(): {}
 {   
     <OPEN_BRACES> (Statement())* <CLOSE_BRACES>
     | <IF> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement() <ELSE> Statement()
-    |   <WHILE> <OPEN_PAREN> try {
-            Expression()
+    |   <WHILE> <OPEN_PAREN> try {            
+            Expression() <CLOSE_PAREN>
         }
-        catch (ParseException e) {
-            error_skip_while_expression();
+        catch (ParseException e) {   
+            System.out.println(e.toString());  // Print the error message         
+            error_skip_while_expression();            
         }
-        <CLOSE_PAREN> Statement()
+        catch (TokenMgrError e) {
+            System.out.println(e.toString());  // Print the error message
+            error_skip_while_expression();            
+        }
+        Statement()
     | Exp1() NextExps() <SEMI_COLON>
 }
 
@@ -217,11 +215,12 @@ void Op(): {}
 
 JAVACODE
 void error_skip_while_expression() {
-  ParseException e = generateParseException();  // Generate the exception object.
-  System.out.println(e.toString());  // Print the error message
+  //ParseException e = generateParseException();  // Generate the exception object.
+  
+  
   Token t;
   do {
     t = getNextToken();
-    System.out.println(t.toString());
-  } while (t.toString() != ")");
+    //System.out.println("-  " + t.kind + " " + t.toString() + "  " + kind);
+  } while (t.kind != CLOSE_PAREN);
 }
