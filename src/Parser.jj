@@ -35,7 +35,7 @@ public class Parser {
             System.out.println (e.getMessage());
         }  
         catch(ParseException e){
-            System.out.println ("Parser: There was an error during the parse.");
+            System.out.println ("Parser: There was an error during the parse.");            
             System.out.println (e.getMessage());
         }                 
     }
@@ -150,16 +150,16 @@ void NoIdStatement(): {}
 {   
     <OPEN_BRACES> (Statement())* <CLOSE_BRACES>
     | <IF> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement() <ELSE> Statement()
-    |   <WHILE> <OPEN_PAREN> try {            
-            Expression() <CLOSE_PAREN>
+    |   <WHILE> try {            
+            <OPEN_PAREN> Expression() <CLOSE_PAREN>
         }
         catch (ParseException e) {   
             System.out.println(e.toString());  // Print the error message         
-            error_skip_while_expression();            
+            error_skipto();            
         }
         catch (TokenMgrError e) {
             System.out.println(e.toString());  // Print the error message
-            error_skip_while_expression();            
+            error_skipto();            
         }
         Statement()
     | Exp1() NextExps() <SEMI_COLON>
@@ -214,13 +214,16 @@ void Op(): {}
 }
 
 JAVACODE
-void error_skip_while_expression() {
-  //ParseException e = generateParseException();  // Generate the exception object.
-  
-  
-  Token t;
-  do {
-    t = getNextToken();
-    //System.out.println("-  " + t.kind + " " + t.toString() + "  " + kind);
-  } while (t.kind != CLOSE_PAREN);
+void error_skipto() {
+
+    Token t = getToken(1);
+
+    while(t.kind != CLOSE_PAREN && t.kind != OPEN_BRACES && t.kind != IF && t.kind != WHILE && t.kind != IDENTIFIER && t.kind != INTEGER_LITERAL 
+            && t.kind != TRUE && t.kind != FALSE && t.kind != THIS && t.kind != NEW && t.kind != NOT && t.kind != OPEN_PAREN) {        
+        t = getNextToken();    
+    }
+
+    if(t.kind == CLOSE_PAREN) {
+        getNextToken(); 
+    }        
 }

@@ -1,16 +1,13 @@
 /*
  * Class declaration
  */
-class Fac {
+classe Fac {
     public int ComputeFac(int num){
         int num_aux;
 
         while (num < 1) {
-            
+                        
         }
-
-        num_aux = 2 * 3 + 5;
-        num_aux = 4;
 
         if (num < 1)
             num_aux = 1;
