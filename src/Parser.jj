@@ -7,9 +7,38 @@ PARSER_BEGIN(Parser)
 
 public class Parser {
     public static void main(String[] args) throws ParseException {
-        Parser parser = new Parser(System.in);
-        parser.Program();
+        
+        //Parser initialization
+        Parser parser;
 
+        if(args.length != 1){
+            System.out.println ("Usage: java Parser <file_directory>");
+            return;
+        }
+        else {
+            System.out.println ("Parser: Reading the file " + args[0] + " ..." );
+            try {
+                parser = new Parser(new java.io.FileInputStream(args[0]));
+            }
+            catch(java.io.FileNotFoundException e) {
+                System.out.println ("Parser: The file " + args[0] + " was not found.");
+                return;
+            }
+        }
+
+        try {            
+            parser.Program();
+            System.out.println ("ExampleParser: The input was readed sucessfully.");
+        }
+        catch(ParseException e){
+            System.out.println ("ExampleParser: There was an error during the parse.");
+            System.out.println (e.getMessage());
+        }
+        catch(TokenMgrError e){
+            System.out.println ("ExampleParser: There was an error.");
+            System.out.println (e.getMessage());
+        }
+            
     }
 }
 
@@ -18,6 +47,18 @@ PARSER_END(Parser)
 // Symbols that should be ignored
 SKIP: {
     " " | "\n" | "\t" | "\r"
+}
+
+// Must ignore single and multi line comments
+SKIP: {
+    < "//" (~["\r", "\n"])* >
+    | < "/*" > : ML_COMMENT_STATE
+}
+
+<ML_COMMENT_STATE> SKIP :
+{
+    < "*/" > : DEFAULT
+    | < ~[] >   
 }
 
 // Definition of terminal symbols
@@ -58,7 +99,7 @@ TOKEN:
     | < INTEGER_LITERAL : (["0"-"9"])+ >
     | < IDENTIFIER : (["a"-"z","A"-"Z"]) (["a"-"z","A"-"Z","0"-"9","_"])* > 
     |< EMPTY : "" >
-    : MATCH_NON_EMPTY // change state, or infinite matches of the empty string could result
+    : MATCH_NON_EMPTY 
 }
 
 // Definition of epsilon token
@@ -88,7 +129,7 @@ void Type(): {}
 
 void MethodDeclaration(): {}
 {
-    <PUBLIC> Type() <IDENTIFIER> <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> MethodVars() (Statement())* <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
+    <PUBLIC> Type() <IDENTIFIER> <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> MethodBody() <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
 }
 
 void Params(): {}
@@ -96,17 +137,12 @@ void Params(): {}
     (Type() <IDENTIFIER> (<COMMA> Type() <IDENTIFIER>)*)?
 }
 
-void MethodVars(): {} 
+void MethodBody(): {} 
 {   
-    (<INTARRAY> | <INT> | <BOOLEAN>) <IDENTIFIER> <SEMI_COLON> MethodVars()  
-    | <IDENTIFIER> MaybeStatement()
+    (<INTARRAY> | <INT> | <BOOLEAN>) <IDENTIFIER> <SEMI_COLON> MethodBody()  
+    | <IDENTIFIER> (<IDENTIFIER> <SEMI_COLON> MethodBody() | IdStatement() (Statement())*)
+    | NoIdStatement() (Statement())*
     | <EMPTY>
-}
-
-void MaybeStatement(): {} 
-{
-    <IDENTIFIER> <SEMI_COLON> MethodVars()
-    | IdStatement()
 }
 
 void IdStatement(): {} 
@@ -118,13 +154,18 @@ void IdStatement(): {}
     ) <SEMI_COLON>
 }
 
-void Statement(): {}
+void NoIdStatement(): {}
 {
     <OPEN_BRACES> (Statement())* <CLOSE_BRACES>
     | <IF> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement() <ELSE> Statement()
     | <WHILE> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement()
-    | <IDENTIFIER> IdStatement()
     | Exp1() NextExps() <SEMI_COLON>
+}
+
+void Statement(): {}
+{
+    NoIdStatement() 
+    | <IDENTIFIER> IdStatement()
 }
 
 void Expression(): {}
@@ -133,9 +174,8 @@ void Expression(): {}
 }
 
 void NextExps(): {}
-{
-    (Op() Expression() | <OPEN_BRACK> Expression() <CLOSE_BRACK> | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>))
-    | <EMPTY>
+{      
+    (LOOKAHEAD(2) (Op() Expression() | <OPEN_BRACK> Expression() <CLOSE_BRACK> | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>)))*
 }
 
 void Exp(): {}
