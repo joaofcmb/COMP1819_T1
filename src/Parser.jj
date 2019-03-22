@@ -12,11 +12,11 @@ public class Parser {
         Parser parser;
 
         if(args.length != 1){
-            System.out.println ("Usage: java Parser <file_directory>");
+            System.out.println ("\nUsage: java Parser <file_directory>");
             return;
         }
         else {
-            System.out.println ("Parser: Reading the file " + args[0] + " ..." );
+            System.out.println ("\nParser: Reading the file " + args[0] + " ..." );
             try {
                 parser = new Parser(new java.io.FileInputStream(args[0]));
             }
@@ -28,17 +28,16 @@ public class Parser {
 
         try {            
             parser.Program();
-            System.out.println ("ExampleParser: The input was readed sucessfully.");
-        }
-        catch(ParseException e){
-            System.out.println ("ExampleParser: There was an error during the parse.");
-            System.out.println (e.getMessage());
+            System.out.println ("Parser: The input was readed sucessfully.");
         }
         catch(TokenMgrError e){
-            System.out.println ("ExampleParser: There was an error.");
+            System.out.println ("Parser: There was an error.");
             System.out.println (e.getMessage());
-        }
-            
+        }  
+        catch(ParseException e){
+            System.out.println ("Parser: There was an error during the parse.");
+            System.out.println (e.getMessage());
+        }                  
     }
 }
 
@@ -155,10 +154,16 @@ void IdStatement(): {}
 }
 
 void NoIdStatement(): {}
-{
+{   
     <OPEN_BRACES> (Statement())* <CLOSE_BRACES>
     | <IF> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement() <ELSE> Statement()
-    | <WHILE> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement()
+    |   <WHILE> <OPEN_PAREN> try {
+            Expression()
+        }
+        catch (ParseException e) {
+            error_skip_while_expression();
+        }
+        <CLOSE_PAREN> Statement()
     | Exp1() NextExps() <SEMI_COLON>
 }
 
@@ -208,4 +213,15 @@ void Op(): {}
     | <MINUS> 
     | <TIMES>
     | <DIVIDE>
+}
+
+JAVACODE
+void error_skip_while_expression() {
+  ParseException e = generateParseException();  // Generate the exception object.
+  System.out.println(e.toString());  // Print the error message
+  Token t;
+  do {
+    t = getNextToken();
+    System.out.println(t.toString());
+  } while (t.toString() != ")");
 }
