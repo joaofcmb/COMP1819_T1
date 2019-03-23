@@ -8,7 +8,6 @@ PARSER_BEGIN(Parser)
 
 public class Parser {
     public static void main(String[] args) throws ParseException {
-        
         //Parser initialization
         Parser parser;
 
@@ -109,9 +108,29 @@ void Id() #ID: {Token t;}
     t=<IDENTIFIER> {jjtThis.value = t.image;}
 }
 
-void Type() #TYPE: {Token t;}
+void Integer() #INTEGER: {Token t;}
 {
-    (t=<INTARRAY> | t=<INT> | t=<BOOLEAN> | t=<IDENTIFIER>){jjtThis.value = t.image;}
+    t=<INTEGER_LITERAL> {jjtThis.value = t.image;}
+}
+
+void Type(): {}
+{
+    TypeNoId() | TypeId()
+}
+
+void TypeNoId(): {}
+{
+    (<INTARRAY>#INTARRAY | <INT>#INT | <BOOLEAN>#BOOLEAN )
+}
+
+void TypeId() #ID: {Token t;}
+{
+    t=<IDENTIFIER> {jjtThis.value = t.image;}
+}
+
+void Op(): {}
+{
+    (<AND>#AND | <LOWER>#LOWER | <PLUS>#PLUS | <MINUS>#MINUS | <TIMES>#TIMES | <DIVIDE>#DIVIDE)
 }
 
 // Grammar Definition
@@ -135,7 +154,7 @@ void VarDeclaration() #VAR: {}
 
 void MethodDeclaration() #METHOD: {}
 {
-    <PUBLIC> Type() Id() <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> [MethodBody()] <RETURN> Expression() <SEMI_COLON> <CLOSE_BRACES>
+    <PUBLIC> Type() Id() <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> Body() <CLOSE_BRACES>
 }
 
 void Params() #PARAMETERS: {}
@@ -143,29 +162,55 @@ void Params() #PARAMETERS: {}
     (Type() Id() (<COMMA> Type() Id())*)?
 }
 
+void Body() #BODY: {}
+{
+    [MethodBody()] Return()
+}
+
+void Return() #RETURN: {}
+{
+    <RETURN> Expression() <SEMI_COLON>
+}
+
 void MethodBody(): {} 
 {   
-    (<INTARRAY> | <INT> | <BOOLEAN>) <IDENTIFIER> <SEMI_COLON> MethodBody()  
-    | <IDENTIFIER> (<IDENTIFIER> <SEMI_COLON> MethodBody() | IdStatement() (Statement())*)
-    | NoIdStatement() (Statement())*
-    
+    VarDeclarationNoId() MethodBody()
+    | Id() (Id() #VAR(2) <SEMI_COLON> MethodBody() | IdStatement() Statements())
+    | NoIdStatement() Statements()
+}
+
+void VarDeclarationNoId() #VAR: {}
+{
+    TypeNoId() Id() <SEMI_COLON>
+}
+
+void Statements(): {}
+{
+    [Statement() Statements()]
+}
+
+void Statement(): {}
+{
+    NoIdStatement() | Id() IdStatement()
 }
 
 void IdStatement(): {} 
 {   
     (
-        (Op() Expression() | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>)) NextExps()
+        NoBrackExps()
         | <OPEN_BRACK> Expression() <CLOSE_BRACK> (<ASSIGN> Expression() | NextExps())
-        | <ASSIGN> Expression()
+        | <ASSIGN> Expression() #ASSIGN(2)
     ) <SEMI_COLON>
 }
 
 void NoIdStatement(): {}
 {   
-    <OPEN_BRACES> (Statement())* <CLOSE_BRACES>
-    | <IF> <OPEN_PAREN> Expression() <CLOSE_PAREN> Statement() <ELSE> Statement()
-    |   <WHILE> try {            
-            <OPEN_PAREN> Expression() <CLOSE_PAREN>
+    <OPEN_BRACES> Statements() <CLOSE_BRACES>
+    | (<IF> <OPEN_PAREN> Expression()#COND <CLOSE_PAREN> Statement()#THEN <ELSE> Statement()#ELSE) #IF(3)
+    | (
+        <WHILE> 
+        try {            
+            <OPEN_PAREN> Expression()#COND <CLOSE_PAREN>
         }
         catch (ParseException e) {   
             System.out.println(e.toString());  // Print the error message         
@@ -175,56 +220,40 @@ void NoIdStatement(): {}
             System.out.println(e.toString());  // Print the error message
             error_skip();            
         }
-        Statement()
+        Statement()#DO
+    ) #WHILE(2)
     | Exp1() NextExps() <SEMI_COLON>
-}
-
-void Statement(): {}
-{
-    NoIdStatement() 
-    | <IDENTIFIER> IdStatement()
 }
 
 void Expression(): {}
 {   
-    Exp() NextExps()
+    (Id() | Exp1()) NextExps()
 }
-
+ 
 void NextExps(): {}
 {      
-    (LOOKAHEAD(2) (Op() Expression() | <OPEN_BRACK> Expression() <CLOSE_BRACK> | <DOT> (<LENGTH> | <IDENTIFIER> <OPEN_PAREN> (ExpParams())? <CLOSE_PAREN>)))*
+    (NoBrackExps() | <OPEN_BRACK> Expression() #INDEX(2) <CLOSE_BRACK> | {})
 }
 
-void Exp(): {}
-{   
-    <IDENTIFIER>
-    | Exp1()
-}
-
-void Exp1():{}
+void NoBrackExps(): {}
 {
-    <INTEGER_LITERAL>
-    | <TRUE>
-    | <FALSE> 
-    | <THIS>
-    | <NEW> (<INT> <OPEN_BRACK> Expression() <CLOSE_BRACK> | <IDENTIFIER> <OPEN_PAREN> <CLOSE_PAREN>)
-    | <NOT> Expression()
-    | <OPEN_PAREN> Expression() <CLOSE_PAREN>
+    (Op() Expression() #OP(3) | <DOT> (<LENGTH> #LENGTH(1) | Id() <OPEN_PAREN> ExpParams() <CLOSE_PAREN> #FCALL(3)))
 }
 
-void ExpParams(): {}
+void Exp1(): {}
 {
-    Expression() (<COMMA> Expression())*    
+    Integer()
+    | <TRUE> #TRUE
+    | <FALSE> #FALSE
+    | <THIS> #THIS
+    | <NEW> (<INT> <OPEN_BRACK> Expression() #NEWARRAY <CLOSE_BRACK> | Id() #NEWOBJ <OPEN_PAREN> <CLOSE_PAREN>)
+    | <NOT> Expression() #NOT
+    | <OPEN_PAREN> Expression() #EXP <CLOSE_PAREN>
 }
 
-void Op(): {}
+void ExpParams() #PARAMETERS: {}
 {
-    <AND> 
-    | <LOWER>
-    | <PLUS>
-    | <MINUS> 
-    | <TIMES>
-    | <DIVIDE>
+    [Expression() (<COMMA> Expression())*]
 }
 
 JAVACODE

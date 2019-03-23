@@ -2,28 +2,41 @@
  * Class declaration
  */
 class Test extends Base {
-
     int x;
-    bool check;
+    boolean check;
 
-    public int ComputeFac(int num, char redundant){
+    public int ComputeFac(int num, int[] redundant){
         int num_aux;
+        boolean another_redundant;
 
-        while (num < 1) {
-                        
+        Test another_one;
+        Base and_another_one;
+
+        x = new Base().func((x + 3) * 4 + 3 / this.gimmeFive(), !check && false + new int[5].length);
+        x + 5;
+        x = x + 3;
+
+        Test.gimmeFive(x, redundant[this.gimmeFive()]);
+
+        if (check && another_redundant)
+            num_aux = Test.gimmeFive();
+        else {
+            while (num < 1) {
+               x = x + 1;             
+            }
+
+            if (num < 1)
+                num_aux = 1;
+            else
+                num_aux = num * (this.ComputeFac(num-1));
+            
+            x = new Base().func((x + 3) * 4 + 3 / this.gimmeFive(), !check && false + new int[5].length);
         }
 
-        if (num < 1)
-            num_aux = 1;
-        else
-            num_aux = num * (this.ComputeFac(num-1));
+        num_aux = x + 2 * 6;
+
         return num_aux;
     }
 
-    public void main(int[] a){
-        io.println(new Test().ComputeFac(10));   //assuming the existence
-                                                // of the classfile io.class
-
-        return A;                                            
-    }
+    public int gimmeFive() {return 5;}
 }
