@@ -128,11 +128,6 @@ void TypeId() #ID: {Token t;}
     t=<IDENTIFIER> {jjtThis.value = t.image;}
 }
 
-void Op(): {}
-{
-    (<AND>#AND | <LOWER>#LOWER | <PLUS>#PLUS | <MINUS>#MINUS | <TIMES>#TIMES | <DIVIDE>#DIVIDE)
-}
-
 // Grammar Definition
 SimpleNode Program() #PROGRAM: {}
 {
@@ -169,13 +164,13 @@ void Body() #BODY: {}
 
 void Return() #RETURN: {}
 {
-    <RETURN> Expression() <SEMI_COLON>
+    <RETURN> FullExpression() <SEMI_COLON>
 }
 
 void MethodBody(): {} 
 {   
     VarDeclarationNoId() MethodBody()
-    | Id() (Id() #VAR(2) <SEMI_COLON> MethodBody() | IdStatement() Statements())
+    | Id() (Id() #VAR(2) <SEMI_COLON> MethodBody() | [IdStatement()] <SEMI_COLON> Statements())
     | NoIdStatement() Statements()
 }
 
@@ -191,26 +186,24 @@ void Statements(): {}
 
 void Statement(): {}
 {
-    NoIdStatement() | Id() IdStatement()
+    NoIdStatement() | Id() [IdStatement()] <SEMI_COLON>
 }
 
 void IdStatement(): {} 
 {   
-    (
-        NoBrackExps()
-        | <OPEN_BRACK> Expression() <CLOSE_BRACK> (<ASSIGN> Expression() | NextExps())
-        | <ASSIGN> Expression() #ASSIGN(2)
-    ) <SEMI_COLON>
+    FullExpressionNoBrack()
+    | <OPEN_BRACK> FullExpression() #INDEX(2) <CLOSE_BRACK> [(<ASSIGN> FullExpression() #ASSIGN(2) | FullExpressionNoFactor())]
+    | <ASSIGN> FullExpression() #ASSIGN(2)
 }
 
 void NoIdStatement(): {}
 {   
     <OPEN_BRACES> Statements() <CLOSE_BRACES>
-    | (<IF> <OPEN_PAREN> Expression()#COND <CLOSE_PAREN> Statement()#THEN <ELSE> Statement()#ELSE) #IF(3)
+    | (<IF> <OPEN_PAREN> FullExpression() #COND <CLOSE_PAREN> Statement() #THEN <ELSE> Statement() #ELSE) #IF(3)
     | (
         <WHILE> 
         try {            
-            <OPEN_PAREN> Expression()#COND <CLOSE_PAREN>
+            <OPEN_PAREN> FullExpression() #COND <CLOSE_PAREN>
         }
         catch (ParseException e) {   
             System.out.println(e.toString());  // Print the error message         
@@ -220,40 +213,65 @@ void NoIdStatement(): {}
             System.out.println(e.toString());  // Print the error message
             error_skip();            
         }
-        Statement()#DO
+        Statement() #DO
     ) #WHILE(2)
-    | Exp1() NextExps() <SEMI_COLON>
+    | FullExpressionNoId() <SEMI_COLON>
 }
 
-void Expression(): {}
-{   
-    (Id() | Exp1()) NextExps()
-}
- 
-void NextExps(): {}
-{      
-    (NoBrackExps() | <OPEN_BRACK> Expression() #INDEX(2) <CLOSE_BRACK> | {})
-}
+void FullExpression(): {}           { CompExpression() (<AND> CompExpression() #AND(2))* }
+void FullExpressionNoId(): {}       { CompExpressionNoId() (<AND> CompExpression() #AND(2))* }
+void FullExpressionNoBrack(): {}    { (<AND> CompExpression() #AND(2) | CompExpressionNoBrack()) (<AND> CompExpression() #AND(2))* }
+void FullExpressionNoFactor(): {}   { CompExpressionNoFactor() (<AND> CompExpression() #AND(2))* }
 
-void NoBrackExps(): {}
-{
-    (Op() Expression() #OP(3) | <DOT> (<LENGTH> #LENGTH(1) | Id() <OPEN_PAREN> ExpParams() <CLOSE_PAREN> #FCALL(3)))
-}
+void CompExpression(): {}           { Expression() (<LOWER> Expression() #LOWER(2))* }
+void CompExpressionNoId(): {}       { ExpressionNoId() (<LOWER> Expression() #LOWER(2))* }
+void CompExpressionNoBrack(): {}    { (<LOWER> Expression() #LOWER(2) | ExpressionNoBrack()) (<LOWER> Expression() #LOWER(2))* }
+void CompExpressionNoFactor(): {}   { ExpressionNoFactor() (<LOWER> Expression() #LOWER(2))* }
 
-void Exp1(): {}
+void Expression(): {}               { Term() (<PLUS> Term() #PLUS(2) | <MINUS> Term() #MINUS(2))* }
+void ExpressionNoId(): {}           { TermNoId() (<PLUS> Term() #PLUS(2) | <MINUS> Term() #MINUS(2))* }
+void ExpressionNoBrack(): {}        { ((<PLUS> Term() #PLUS(2) | <MINUS> Term() #MINUS(2)) | TermNoBrack()) 
+                                      (<PLUS> Term() #PLUS(2) | <MINUS> Term() #MINUS(2))* }
+void ExpressionNoFactor(): {}       { TermNoFactor() (<PLUS> Term() #PLUS(2) | <MINUS> Term() #MINUS(2))* }
+
+void Term(): {}                 { Factor() (<TIMES> Factor() #TIMES(2) | <DIVIDE> Factor() #DIVIDE(2))* }
+void TermNoId(): {}             { FactorNoId() (<TIMES> Factor() #TIMES(2) | <DIVIDE> Factor() #DIVIDE(2))* }
+void TermNoBrack(): {}          { NoBrackNextFactor() (TermNoFactor() | (<TIMES> Factor() #TIMES(2) | <DIVIDE> Factor() #DIVIDE(2))*) }
+void TermNoFactor(): {}         { (NextFactor())+ (<TIMES> Factor() #TIMES(2) | <DIVIDE> Factor() #DIVIDE(2))* }
+
+void Factor(): {}               { (Id() | NoIdFactor()) NextFactors()}
+void FactorNoId(): {}           { NoIdFactor() NextFactors() }
+
+void NoIdFactor(): {}
 {
     Integer()
     | <TRUE> #TRUE
     | <FALSE> #FALSE
     | <THIS> #THIS
-    | <NEW> (<INT> <OPEN_BRACK> Expression() #NEWARRAY <CLOSE_BRACK> | Id() #NEWOBJ <OPEN_PAREN> <CLOSE_PAREN>)
-    | <NOT> Expression() #NOT
-    | <OPEN_PAREN> Expression() #EXP <CLOSE_PAREN>
+    | <NEW> (<INT> <OPEN_BRACK> FullExpression() #NEWARRAY <CLOSE_BRACK> | Id() #NEWOBJ <OPEN_PAREN> <CLOSE_PAREN>)
+    | <NOT> Factor() #NOT
+    | <OPEN_PAREN> FullExpression() <CLOSE_PAREN>
 }
 
-void ExpParams() #PARAMETERS: {}
+void NextFactors(): {}
 {
-    [Expression() (<COMMA> Expression())*]
+    NextFactor() NextFactors() | {}
+}
+
+void NextFactor(): {}
+{
+    NoBrackNextFactor()
+    | <OPEN_BRACK> FullExpression() #INDEX(2) <CLOSE_BRACK>
+}
+
+void NoBrackNextFactor(): {}
+{
+    <DOT> (<LENGTH> #LENGTH(1) | Id() <OPEN_PAREN> FunctionCallParams() <CLOSE_PAREN> #FCALL(3))
+}
+
+void FunctionCallParams() #PARAMETERS: {}
+{
+    [FullExpression() (<COMMA> FullExpression())*]
 }
 
 JAVACODE

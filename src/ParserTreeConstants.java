@@ -7,37 +7,35 @@ public interface ParserTreeConstants
   public int JJTINTARRAY = 3;
   public int JJTINT = 4;
   public int JJTBOOLEAN = 5;
-  public int JJTAND = 6;
-  public int JJTLOWER = 7;
-  public int JJTPLUS = 8;
-  public int JJTMINUS = 9;
-  public int JJTTIMES = 10;
-  public int JJTDIVIDE = 11;
-  public int JJTPROGRAM = 12;
-  public int JJTCLASS = 13;
-  public int JJTVAR = 14;
-  public int JJTMETHOD = 15;
-  public int JJTPARAMETERS = 16;
-  public int JJTBODY = 17;
-  public int JJTRETURN = 18;
-  public int JJTASSIGN = 19;
-  public int JJTCOND = 20;
-  public int JJTTHEN = 21;
-  public int JJTELSE = 22;
-  public int JJTIF = 23;
-  public int JJTDO = 24;
-  public int JJTWHILE = 25;
-  public int JJTINDEX = 26;
-  public int JJTOP = 27;
-  public int JJTLENGTH = 28;
-  public int JJTFCALL = 29;
-  public int JJTTRUE = 30;
-  public int JJTFALSE = 31;
-  public int JJTTHIS = 32;
-  public int JJTNEWARRAY = 33;
-  public int JJTNEWOBJ = 34;
-  public int JJTNOT = 35;
-  public int JJTEXP = 36;
+  public int JJTPROGRAM = 6;
+  public int JJTCLASS = 7;
+  public int JJTVAR = 8;
+  public int JJTMETHOD = 9;
+  public int JJTPARAMETERS = 10;
+  public int JJTBODY = 11;
+  public int JJTRETURN = 12;
+  public int JJTINDEX = 13;
+  public int JJTASSIGN = 14;
+  public int JJTCOND = 15;
+  public int JJTTHEN = 16;
+  public int JJTELSE = 17;
+  public int JJTIF = 18;
+  public int JJTDO = 19;
+  public int JJTWHILE = 20;
+  public int JJTAND = 21;
+  public int JJTLOWER = 22;
+  public int JJTPLUS = 23;
+  public int JJTMINUS = 24;
+  public int JJTTIMES = 25;
+  public int JJTDIVIDE = 26;
+  public int JJTTRUE = 27;
+  public int JJTFALSE = 28;
+  public int JJTTHIS = 29;
+  public int JJTNEWARRAY = 30;
+  public int JJTNEWOBJ = 31;
+  public int JJTNOT = 32;
+  public int JJTLENGTH = 33;
+  public int JJTFCALL = 34;
 
 
   public String[] jjtNodeName = {
@@ -47,12 +45,6 @@ public interface ParserTreeConstants
     "INTARRAY",
     "INT",
     "BOOLEAN",
-    "AND",
-    "LOWER",
-    "PLUS",
-    "MINUS",
-    "TIMES",
-    "DIVIDE",
     "PROGRAM",
     "CLASS",
     "VAR",
@@ -60,6 +52,7 @@ public interface ParserTreeConstants
     "PARAMETERS",
     "BODY",
     "RETURN",
+    "INDEX",
     "ASSIGN",
     "COND",
     "THEN",
@@ -67,17 +60,20 @@ public interface ParserTreeConstants
     "IF",
     "DO",
     "WHILE",
-    "INDEX",
-    "OP",
-    "LENGTH",
-    "FCALL",
+    "AND",
+    "LOWER",
+    "PLUS",
+    "MINUS",
+    "TIMES",
+    "DIVIDE",
     "TRUE",
     "FALSE",
     "THIS",
     "NEWARRAY",
     "NEWOBJ",
     "NOT",
-    "EXP",
+    "LENGTH",
+    "FCALL",
   };
 }
-/* JavaCC - OriginalChecksum=84ce1c37f096f33604673292d6a73bd0 (do not edit this line) */
+/* JavaCC - OriginalChecksum=992c50c25b88dfda9241384bde94ec1a (do not edit this line) */
