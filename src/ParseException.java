@@ -134,11 +134,20 @@ public class ParseException extends Exception {
   private static String errorTip(Token tok, int[][] expectedTokenSequences, String[] tokenImage) {
     if (tokenImage[tok.kind] == null) return "";
 
+    String retval = "";
+
     if (tokenImage[tok.kind].equals("\"{\"")) {
-      return "TIP: Did you forget to close parenthesis? Is there an else after an if statement?";
+      retval += "TIP: Did you forget to close parenthesis? Is there an else after an if statement?\n";
     }
+
+    for (int i = 0; i < expectedTokenSequences.length; i++)
+      for (int j = 0; j < expectedTokenSequences[i].length; j++) {
+        if (tokenImage[expectedTokenSequences[i][j]].equals("\";\"")) {
+          retval +=  "TIP: Make sure the previous statement is complete (isn't missing a \";\")\n";
+        }
+      }
     
-    return "";
+    return retval;
   }
 
   /**

@@ -11,35 +11,35 @@ class Test extends Base {
 
         Test another_one;
         Base and_another_one;
-        x + 5 * 4 / (2 + 3 / 4);
+        num_aux = x + 5 * 4 / (2 + 3 / 4);
 
         //x = new Base().func((x - 1 + 3) * 4 + 3 / this.gimmeFive(), !check && false + new int[5].length);
-        x + 5;
+        num_aux = x + 5;
         x = x + 3;
 
         redundant[5].f();
 
         Test.gimmeFive(x, redundant[this.gimmeFive()]);
 
-        x + 5 * 4 / (2 + 3 / 4);
+        num_aux = x + 5 * 4 / (2 + 3 / 4);
         if (check && another_redundant)
             num_aux = Test.gimmeFive();
         else {
-            x + 5 * 4 / (2 + 3 / 4);
+            num_aux = x + 5 * 4 / (2 + 3 / 4);
             while (num < 1) {
-               x = x + 1;
-               x + 5 * 4 / (2 + 3 / 4);            
+               x = x + 5;
+               num_aux = x + 5 * 4 / (2 + 3 / 4);            
             }
 
             if (num < 1)
-                x + 5 * 4 / (2 + 3 / 4);
+                num_aux = x + 5 * 4 / (2 + 3 / 4);
             else
-                x + 5 * 4 / (2 + 3 / 4);
+                num_aux = x + 5 * 4 / (2 + 3 / 4);
             
             x = new Base().func((x + 3) * 4 + 3 / this.gimmeFive(), !check && false + new int[5].length);
         }
         
-        x + 5 * 4 / (2 + 3 / 4);
+        num_aux = x + 5 * 4 / (2 + 3 / 4);
         num_aux = x + 2 * 6;
 
         return x + 5 * 4 / (2 + 3 / 4);
