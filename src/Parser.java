@@ -10,28 +10,28 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
             return;
         }
         else {
-            System.out.println("Parser: Reading the file " + args[0] + " ..." );
+            System.out.println("Parser: Reading file " + args[0] + " ..." );
             try {
                 parser = new Parser(new java.io.FileInputStream(args[0]));
             }
             catch(java.io.FileNotFoundException e) {
-                System.out.println ("Parser: The file " + args[0] + " was not found.");
+                System.out.println ("Parser: File " + args[0] + " not found.");
                 return;
             }
         }
 
         try {
             SimpleNode root = parser.Program();
-            System.out.println ("Parser: The input was readed sucessfully.");
+            System.out.println ("Parser: File parsed successfully.");
 
             root.dump(""); // Prints syntax tree
         }
         catch(TokenMgrError e){
-            System.out.println ("Parser: There was an error.");
+            System.out.println ("Parser: Token error.");
             System.out.println (e.getMessage());
         }
         catch(ParseException e){
-            System.out.println ("Parser: There was an error during the parse.");
+            System.out.println ("Parser: Parsing error.");
             System.out.println (e.getMessage());
         }
     }
@@ -763,7 +763,7 @@ if (jjtc003) {
     }
   }
 
-  static final public void NoIdStatement() throws ParseException {
+  static final public void NoIdStatement() throws ParseException {boolean error = false;
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case OPEN_BRACES:{
       jj_consume_token(OPEN_BRACES);
@@ -907,10 +907,14 @@ if (jjtc005) {
           }
           jj_consume_token(CLOSE_PAREN);
         } catch (ParseException e) {
-System.out.println(e.toString());  // Print the error message         
+error = true;
+            System.out.println ("Parser: Parsing error.");
+            System.out.println(e.toString());  // Print the error message         
             error_skip();
         } catch (TokenMgrError e) {
-System.out.println(e.toString());  // Print the error message
+error = true;
+            System.out.println ("Parser: Token error.");
+            System.out.println(e.toString());  // Print the error message
             error_skip();
         }
 SimpleNode jjtn006 = new SimpleNode(JJTDO);
@@ -953,7 +957,7 @@ if (jjtc007) {
         {if (true) throw (Error)jjte007;}
       } finally {
 if (jjtc007) {
-          jjtree.closeNodeScope(jjtn007,  2);
+          jjtree.closeNodeScope(jjtn007,  error ? 1 : 2);
         }
       }
       break;
@@ -2455,6 +2459,7 @@ if (jjtc000) {
 
     if(t.kind == CLOSE_PAREN || t.kind == SEMI_COLON) {
         getNextToken();
+        System.out.println("T-> " + t.kind);
     }
   }
 

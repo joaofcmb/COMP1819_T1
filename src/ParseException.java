@@ -123,7 +123,22 @@ public class ParseException extends Exception {
       retval += "Was expecting one of:" + eol + "    ";
     }
     retval += expected.toString();
-    return retval;
+
+    return retval + eol + errorTip(currentToken.next, expectedTokenSequences, tokenImage) + eol;
+  }
+
+  /** 
+   * Error tips to aid the programmer solve the error
+   */
+
+  private static String errorTip(Token tok, int[][] expectedTokenSequences, String[] tokenImage) {
+    if (tokenImage[tok.kind] == null) return "";
+
+    if (tokenImage[tok.kind].equals("\"{\"")) {
+      return "TIP: Did you forget to close parenthesis? Is there an else after an if statement?";
+    }
+    
+    return "";
   }
 
   /**

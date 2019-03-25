@@ -20,28 +20,28 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@
             return;
         }
         else {
-            System.out.println("Parser: Reading the file " + args[0] + " ..." );
+            System.out.println("Parser: Reading file " + args[0] + " ..." );
             try {
                 parser = new Parser(new java.io.FileInputStream(args[0]));
             }
             catch(java.io.FileNotFoundException e) {
-                System.out.println ("Parser: The file " + args[0] + " was not found.");
+                System.out.println ("Parser: File " + args[0] + " not found.");
                 return;
             }
         }
 
         try {            
             SimpleNode root = parser.Program();
-            System.out.println ("Parser: The input was readed sucessfully.");
+            System.out.println ("Parser: File parsed successfully.");
 
             root.dump(""); // Prints syntax tree
         }
         catch(TokenMgrError e){
-            System.out.println ("Parser: There was an error.");
+            System.out.println ("Parser: Token error.");
             System.out.println (e.getMessage());
         }  
         catch(ParseException e){
-            System.out.println ("Parser: There was an error during the parse.");            
+            System.out.println ("Parser: Parsing error.");            
             System.out.println (e.getMessage());
         }                 
     }
@@ -611,7 +611,7 @@ void IdStatement(): {}
 /*@egen*/           
 }
 
-void NoIdStatement(): {}
+void NoIdStatement(): {boolean error = false;}
 {   
     <OPEN_BRACES> Statements() <CLOSE_BRACES>
     |/*@bgen(jjtree) #IF( 3) */
@@ -723,7 +723,7 @@ void NoIdStatement(): {}
         }
       }
 /*@egen*/       
-    |/*@bgen(jjtree) #WHILE( 2) */
+    |/*@bgen(jjtree) #WHILE( error ? 1 : 2) */
       {
         SimpleNode jjtn007 = new SimpleNode(JJTWHILE);
         boolean jjtc007 = true;
@@ -762,13 +762,17 @@ void NoIdStatement(): {}
                          }
 /*@egen*/       <CLOSE_PAREN>
         }
-        catch (ParseException e) {   
+        catch (ParseException e) {
+            error = true;
+            System.out.println ("Parser: Parsing error.");
             System.out.println(e.toString());  // Print the error message         
-            error_skip();            
+            error_skip();        
         }
         catch (TokenMgrError e) {
+            error = true;
+            System.out.println ("Parser: Token error.");
             System.out.println(e.toString());  // Print the error message
-            error_skip();            
+            error_skip();        
         }/*@bgen(jjtree) DO */
         {
           SimpleNode jjtn006 = new SimpleNode(JJTDO);
@@ -815,10 +819,10 @@ void NoIdStatement(): {}
         throw (Error)jjte007;
       } finally {
         if (jjtc007) {
-          jjtree.closeNodeScope(jjtn007,  2);
+          jjtree.closeNodeScope(jjtn007,  error ? 1 : 2);
         }
       }
-/*@egen*/          
+/*@egen*/                      
     | FullExpressionNoId() <SEMI_COLON>
 }
 
@@ -1843,5 +1847,6 @@ void error_skip() {
 
     if(t.kind == CLOSE_PAREN || t.kind == SEMI_COLON) {
         getNextToken(); 
+        System.out.println("T-> " + t.kind);
     }        
 }
