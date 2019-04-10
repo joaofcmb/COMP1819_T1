@@ -35,47 +35,55 @@ public interface ParserConstants {
   /** RegularExpression Id. */
   int CLOSE_BRACK = 21;
   /** RegularExpression Id. */
-  int INT = 22;
+  int VOID = 22;
   /** RegularExpression Id. */
-  int INTARRAY = 23;
+  int INT = 23;
   /** RegularExpression Id. */
-  int NOT = 24;
+  int INTARRAY = 24;
   /** RegularExpression Id. */
-  int NEW = 25;
+  int STRINGARRAY = 25;
   /** RegularExpression Id. */
-  int THIS = 26;
+  int NOT = 26;
   /** RegularExpression Id. */
-  int TRUE = 27;
+  int NEW = 27;
   /** RegularExpression Id. */
-  int FALSE = 28;
+  int THIS = 28;
   /** RegularExpression Id. */
-  int ASSIGN = 29;
+  int TRUE = 29;
   /** RegularExpression Id. */
-  int BOOLEAN = 30;
+  int FALSE = 30;
   /** RegularExpression Id. */
-  int SEMI_COLON = 31;
+  int ASSIGN = 31;
   /** RegularExpression Id. */
-  int WHILE = 32;
+  int BOOLEAN = 32;
   /** RegularExpression Id. */
-  int IF = 33;
+  int SEMI_COLON = 33;
   /** RegularExpression Id. */
-  int ELSE = 34;
+  int WHILE = 34;
   /** RegularExpression Id. */
-  int OPEN_BRACES = 35;
+  int IF = 35;
   /** RegularExpression Id. */
-  int CLOSE_BRACES = 36;
+  int ELSE = 36;
   /** RegularExpression Id. */
-  int PUBLIC = 37;
+  int OPEN_BRACES = 37;
   /** RegularExpression Id. */
-  int RETURN = 38;
+  int CLOSE_BRACES = 38;
   /** RegularExpression Id. */
-  int EXTENDS = 39;
+  int PUBLIC = 39;
   /** RegularExpression Id. */
-  int CLASS = 40;
+  int STATIC = 40;
   /** RegularExpression Id. */
-  int INTEGER_LITERAL = 41;
+  int MAIN = 41;
   /** RegularExpression Id. */
-  int IDENTIFIER = 42;
+  int RETURN = 42;
+  /** RegularExpression Id. */
+  int EXTENDS = 43;
+  /** RegularExpression Id. */
+  int CLASS = 44;
+  /** RegularExpression Id. */
+  int INTEGER_LITERAL = 45;
+  /** RegularExpression Id. */
+  int IDENTIFIER = 46;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -106,8 +114,10 @@ public interface ParserConstants {
     "\".\"",
     "\"[\"",
     "\"]\"",
+    "\"void\"",
     "\"int\"",
     "\"int[]\"",
+    "\"String[]\"",
     "\"!\"",
     "\"new\"",
     "\"this\"",
@@ -122,6 +132,8 @@ public interface ParserConstants {
     "\"{\"",
     "\"}\"",
     "\"public\"",
+    "\"static\"",
+    "\"main\"",
     "\"return\"",
     "\"extends\"",
     "\"class\"",

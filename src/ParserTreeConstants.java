@@ -11,31 +11,32 @@ public interface ParserTreeConstants
   public int JJTCLASS = 7;
   public int JJTVAR = 8;
   public int JJTMETHOD = 9;
-  public int JJTPARAMETERS = 10;
-  public int JJTBODY = 11;
-  public int JJTRETURN = 12;
-  public int JJTINDEX = 13;
-  public int JJTASSIGN = 14;
-  public int JJTCOND = 15;
-  public int JJTTHEN = 16;
-  public int JJTELSE = 17;
-  public int JJTIF = 18;
-  public int JJTDO = 19;
-  public int JJTWHILE = 20;
-  public int JJTAND = 21;
-  public int JJTLOWER = 22;
-  public int JJTPLUS = 23;
-  public int JJTMINUS = 24;
-  public int JJTTIMES = 25;
-  public int JJTDIVIDE = 26;
-  public int JJTTRUE = 27;
-  public int JJTFALSE = 28;
-  public int JJTTHIS = 29;
-  public int JJTNEWARRAY = 30;
-  public int JJTNEWOBJ = 31;
-  public int JJTNOT = 32;
-  public int JJTLENGTH = 33;
-  public int JJTFCALL = 34;
+  public int JJTBODY = 10;
+  public int JJTMAIN = 11;
+  public int JJTPARAMETERS = 12;
+  public int JJTRETURN = 13;
+  public int JJTINDEX = 14;
+  public int JJTASSIGN = 15;
+  public int JJTCOND = 16;
+  public int JJTTHEN = 17;
+  public int JJTELSE = 18;
+  public int JJTIF = 19;
+  public int JJTDO = 20;
+  public int JJTWHILE = 21;
+  public int JJTAND = 22;
+  public int JJTLOWER = 23;
+  public int JJTPLUS = 24;
+  public int JJTMINUS = 25;
+  public int JJTTIMES = 26;
+  public int JJTDIVIDE = 27;
+  public int JJTTRUE = 28;
+  public int JJTFALSE = 29;
+  public int JJTTHIS = 30;
+  public int JJTNEWARRAY = 31;
+  public int JJTNEWOBJ = 32;
+  public int JJTNOT = 33;
+  public int JJTLENGTH = 34;
+  public int JJTFCALL = 35;
 
 
   public String[] jjtNodeName = {
@@ -49,8 +50,9 @@ public interface ParserTreeConstants
     "CLASS",
     "VAR",
     "METHOD",
-    "PARAMETERS",
     "BODY",
+    "MAIN",
+    "PARAMETERS",
     "RETURN",
     "INDEX",
     "ASSIGN",
@@ -76,4 +78,4 @@ public interface ParserTreeConstants
     "FCALL",
   };
 }
-/* JavaCC - OriginalChecksum=992c50c25b88dfda9241384bde94ec1a (do not edit this line) */
+/* JavaCC - OriginalChecksum=d08422468bfd7673cc622d01c9f98e13 (do not edit this line) */

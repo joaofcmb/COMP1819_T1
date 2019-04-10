@@ -78,8 +78,10 @@ TOKEN:
     | < DOT : "." >
     | < OPEN_BRACK : "[" >
     | < CLOSE_BRACK : "]" >
-    | < INT : "int" > 
+    | < VOID : "void" >
+    | < INT : "int" >
     | < INTARRAY : "int[]" >
+    | < STRINGARRAY : "String[]" >
     | < NOT : "!" >
     | < NEW :  "new" >
     | < THIS : "this" >
@@ -94,6 +96,8 @@ TOKEN:
     | < OPEN_BRACES : "{" >
     | < CLOSE_BRACES : "}" >
     | < PUBLIC : "public" >
+    | < STATIC : "static" >
+    | < MAIN : "main" >
     | < RETURN : "return" >
     | < EXTENDS : "extends" >
     | < CLASS : "class" >
@@ -147,9 +151,12 @@ void VarDeclaration() #VAR: {}
     Type() Id() <SEMI_COLON>
 }
 
-void MethodDeclaration() #METHOD: {}
+void MethodDeclaration(): {}
 {
-    <PUBLIC> Type() Id() <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> Body() <CLOSE_BRACES>
+    <PUBLIC> (
+        (Type() Id() <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> Body() <CLOSE_BRACES>) #METHOD
+        | (<STATIC> <VOID> <MAIN> <OPEN_PAREN> <STRINGARRAY> Id() <CLOSE_PAREN> <OPEN_BRACES> MethodBody() #BODY <CLOSE_BRACES>) #MAIN
+    )
 }
 
 void Params() #PARAMETERS: {}

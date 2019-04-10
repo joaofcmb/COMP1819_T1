@@ -5,7 +5,12 @@ class Test extends Base {
     int x;
     boolean check;
 
-    public int ComputeFac(int num, int[] redundant){
+    public static void main(String[] args) {
+        int arg;
+        out.println(new Base().ComputeFac(arg, new int[arg]));
+    }
+
+    public int ComputeFac(int num, int[] redundant) {
         int num_aux;
         boolean another_redundant;
 
