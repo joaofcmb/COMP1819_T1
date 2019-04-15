@@ -1,1 +1,1 @@
-javac -d ./out/production/Project ./src/parser/*.java ./src/semantic/*.java ./src/JMMCompiler.java
+javac -d ./out/production/Project ./src/parser/*.java ./src/semantic/*.java ./src/semantic/symbol/*.java ./src/JMMCompiler.java

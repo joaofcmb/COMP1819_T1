@@ -53,12 +53,12 @@ SKIP: {
 // Must ignore single and multi line comments
 SKIP: {
     < "//" (~["\r", "\n"])* >
-    | < "/*" > : ML_COMMENT_STATE
+    | "/*" : ML_COMMENT_STATE
 }
 
 <ML_COMMENT_STATE> SKIP :
 {
-    < "*/" > : DEFAULT
+    "*/" : DEFAULT
     | < ~[] >   
 }
 
@@ -124,7 +124,7 @@ void Type(): {}
 
 void TypeNoId(): {}
 {
-    (<INTARRAY>#INTARRAY | <INT>#INT | <BOOLEAN>#BOOLEAN )
+    <INTARRAY>#INTARRAY | <INT>#INT | <BOOLEAN>#BOOLEAN
 }
 
 void TypeId() #ID: {Token t;}

@@ -26,7 +26,6 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
             SimpleNode root = parser.Program();
             System.out.println ("Parser: File parsed successfully.");
 
-            root.dump(""); // Prints syntax tree
             return root;
         }
         catch(TokenMgrError e){

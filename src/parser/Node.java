@@ -20,6 +20,9 @@ interface Node {
   public void jjtSetParent(Node n);
   public Node jjtGetParent();
 
+  public void jjtSetValue(Object value);
+  public Object jjtGetValue();
+
   /** This method tells the node to add its argument to the node's
     list of children.  */
   public void jjtAddChild(Node n, int i);
