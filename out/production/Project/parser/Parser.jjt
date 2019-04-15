@@ -9,7 +9,7 @@ PARSER_BEGIN(Parser)
 public class Parser {
     public static void main(String[] args) throws ParseException {
         //Parser initialization
-        Parser parser;
+        parser.Parser parser;
 
         if (args.length != 1){
             System.out.println ("Usage: java Parser <file_directory>");
@@ -18,7 +18,7 @@ public class Parser {
         else {
             System.out.println("Parser: Reading file " + args[0] + " ..." );
             try {
-                parser = new Parser(new java.io.FileInputStream(args[0]));
+                parser = new parser.Parser(new java.io.FileInputStream(args[0]));
             }
             catch(java.io.FileNotFoundException e) {
                 System.out.println ("Parser: File " + args[0] + " not found.");
@@ -155,7 +155,7 @@ void MethodDeclaration(): {}
 {
     <PUBLIC> (
         (Type() Id() <OPEN_PAREN> Params() <CLOSE_PAREN> <OPEN_BRACES> Body() <CLOSE_BRACES>) #METHOD
-        | (<STATIC> <VOID> <MAIN> <OPEN_PAREN> <STRINGARRAY> Id() <CLOSE_PAREN> <OPEN_BRACES> MethodBody() #BODY <CLOSE_BRACES>) #MAIN
+        | (<STATIC> <VOID> <MAIN> <OPEN_PAREN> <STRINGARRAY> Id() <CLOSE_PAREN> <OPEN_BRACES> [MethodBody()] #BODY <CLOSE_BRACES>) #MAIN
     )
 }
 

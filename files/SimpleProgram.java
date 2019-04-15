@@ -10,7 +10,15 @@ class Test extends Base {
         out.println(new Base().ComputeFac(arg, new int[arg]));
     }
 
-    public int ComputeFac(int num, int[] redundant) {
+    public int computeFac(int num) {
+        return Test.ComputeFac(num, new int[3]);
+    }
+
+    public static void main(String[] args) {
+
+    }
+
+    public int computeFac(int num, int[] redundant) {
         int num_aux;
         boolean another_redundant;
 

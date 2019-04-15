@@ -28,4 +28,13 @@ class MethodSignature {
     public int hashCode() {
         return toString().hashCode();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        MethodSignature that = (MethodSignature) o;
+        return methodId.equals(that.methodId) && Arrays.equals(parameterTypes, that.parameterTypes);
+    }
 }

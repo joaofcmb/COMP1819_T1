@@ -2,27 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ac857157-4237-4531-ab58-c5cf2169cac7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/semantic/SemanticException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/semantic/symbol/ClassTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/semantic/symbol/MethodSignature.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/semantic/symbol/MethodTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/semantic/symbol/Symbol.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/semantic/symbol/SymbolTable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/semantic/symbol/Type.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compile.bat" beforeDir="false" afterPath="$PROJECT_DIR$/compile.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/jmm.bat" beforeDir="false" afterPath="$PROJECT_DIR$/jmm.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/JMMCompiler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/JMMCompiler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/Node.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/Node.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/SimpleProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/files/SimpleProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/JJTParserState.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/JJTParserState.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/ParseException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/ParseException.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Project/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/Parser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/Parser.jj" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/Parser.jj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Project/parser/Parser.jjt" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/Parser.jjt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/SimpleNode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/SimpleNode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/semantic/Semantic.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/semantic/Semantic.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/JMMCompiler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/JMMCompiler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/ParserTokenManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/ParserTokenManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/SimpleCharStream.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/SimpleCharStream.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/Token.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/TokenMgrError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/TokenMgrError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project/semantic/symbol/MethodSignature.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/semantic/symbol/MethodSignature.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Project/semantic/symbol/Type.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/semantic/symbol/Type.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/ParseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ParseException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Parser.jj" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.jj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/parser/Parser.jjt" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Parser.jjt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/semantic/Semantic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/semantic/Semantic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/ParserConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ParserConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/ParserTokenManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ParserTokenManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/ParserTreeConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/ParserTreeConstants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/SimpleCharStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/SimpleCharStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser/TokenMgrError.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/TokenMgrError.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/semantic/symbol/MethodSignature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/semantic/symbol/MethodSignature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/semantic/symbol/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/semantic/symbol/Type.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -37,13 +42,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/JMMCompiler.java">
+        <entry file="file://$PROJECT_DIR$/src/parser/Parser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="102">
+              <caret line="6" column="31" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -51,11 +53,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/semantic/Semantic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="49" lean-forward="true" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
+            <state relative-caret-position="102">
+              <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/JMMCompiler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
             </state>
           </provider>
         </entry>
@@ -63,11 +74,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/semantic/symbol/ClassTable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="535">
-              <caret line="60" column="46" selection-start-line="60" selection-start-column="46" selection-end-line="60" selection-end-column="46" />
+            <state relative-caret-position="314">
+              <caret line="33" column="66" selection-start-line="33" selection-start-column="66" selection-end-line="33" selection-end-column="66" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/semantic/symbol/MethodTable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
             </state>
           </provider>
         </entry>
@@ -75,11 +95,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/semantic/symbol/SymbolTable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="34">
+              <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -87,10 +104,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/semantic/symbol/Type.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="25" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
+            <state relative-caret-position="187">
+              <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#108#109#0" expanded="true" />
                 <element signature="e#134#135#0" expanded="true" />
                 <element signature="e#759#760#0" expanded="true" />
                 <element signature="e#780#781#0" expanded="true" />
@@ -100,25 +118,11 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/semantic/symbol/MethodTable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-              <folding>
-                <element signature="e#153#154#0" expanded="true" />
-                <element signature="e#182#183#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/semantic/symbol/MethodSignature.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="73" lean-forward="true" selection-start-line="18" selection-start-column="73" selection-end-line="18" selection-end-column="73" />
+            <state relative-caret-position="34">
+              <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
               <folding>
-                <element signature="imports" expanded="true" />
                 <element signature="e#764#765#0" expanded="true" />
                 <element signature="e#854#855#0" expanded="true" />
                 <element signature="e#614#615#0" expanded="true" />
@@ -131,8 +135,12 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/files/SimpleProgram.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="11" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="24" />
+            <state relative-caret-position="68">
+              <caret line="4" column="10" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+              <folding>
+                <element signature="e#252#253#0" expanded="true" />
+                <element signature="e#286#287#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -166,19 +174,20 @@
         <option value="$PROJECT_DIR$/compile.bat" />
         <option value="$PROJECT_DIR$/src/semantic/symbol/Symbol.java" />
         <option value="$PROJECT_DIR$/jmm.bat" />
-        <option value="$PROJECT_DIR$/src/parser/Parser.jjt" />
         <option value="$PROJECT_DIR$/src/parser/Node.java" />
         <option value="$PROJECT_DIR$/src/parser/SimpleNode.java" />
         <option value="$PROJECT_DIR$/src/semantic/SemanticException.java" />
         <option value="$PROJECT_DIR$/src/semantic/symbol/VariableTable.java" />
-        <option value="$PROJECT_DIR$/src/semantic/symbol/Type.java" />
-        <option value="$PROJECT_DIR$/src/parser/Parser.java" />
         <option value="$PROJECT_DIR$/src/JMMCompiler.java" />
-        <option value="$PROJECT_DIR$/src/semantic/symbol/SymbolTable.java" />
-        <option value="$PROJECT_DIR$/src/semantic/symbol/MethodTable.java" />
-        <option value="$PROJECT_DIR$/src/semantic/Semantic.java" />
-        <option value="$PROJECT_DIR$/src/semantic/symbol/MethodSignature.java" />
+        <option value="$PROJECT_DIR$/src/parser/Parser.jjt" />
+        <option value="$PROJECT_DIR$/src/parser/JJTParserState.java" />
         <option value="$PROJECT_DIR$/src/semantic/symbol/ClassTable.java" />
+        <option value="$PROJECT_DIR$/src/semantic/symbol/Type.java" />
+        <option value="$PROJECT_DIR$/src/semantic/symbol/SymbolTable.java" />
+        <option value="$PROJECT_DIR$/src/semantic/symbol/MethodSignature.java" />
+        <option value="$PROJECT_DIR$/src/semantic/symbol/MethodTable.java" />
+        <option value="$PROJECT_DIR$/src/parser/Parser.java" />
+        <option value="$PROJECT_DIR$/src/semantic/Semantic.java" />
         <option value="$PROJECT_DIR$/files/SimpleProgram.java" />
       </list>
     </option>
@@ -240,12 +249,6 @@
               <item name="COMP1819_G16" type="b2602c69:ProjectViewProjectNode" />
               <item name="Project" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="parser" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="COMP1819_G16" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Project" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="semantic" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -273,8 +276,9 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\Joao\Desktop\Uni\3ano\2-S\COMP\Project" />
       <recent name="C:\Users\Joao\Desktop\Uni\3ano\2-S\COMP\Project\src\parser" />
+      <recent name="C:\Users\Joao\Desktop\Uni\3ano\2-S\COMP\Project\src" />
+      <recent name="C:\Users\Joao\Desktop\Uni\3ano\2-S\COMP\Project" />
     </key>
     <key name="CreateClassDialog.RecentsKey">
       <recent name="semantic.symbol" />
@@ -317,12 +321,12 @@
       <workItem from="1554889469934" duration="659000" />
       <workItem from="1554902304472" duration="51000" />
       <workItem from="1555338960963" duration="3766000" />
-      <workItem from="1555342777156" duration="7621000" />
+      <workItem from="1555342777156" duration="9153000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12097000" />
+    <option name="totallyTimeSpent" value="13629000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -355,7 +359,7 @@
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="11" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32936078" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -384,13 +388,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="18" column="6" selection-start-line="18" selection-start-column="6" selection-end-line="18" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser/JJTParserState.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -458,41 +455,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser/SimpleNode.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="694">
-          <caret line="51" column="47" lean-forward="true" selection-start-line="51" selection-start-column="47" selection-end-line="51" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser/Parser.jjt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="156" column="13" selection-start-line="156" selection-start-column="9" selection-end-line="156" selection-end-column="13" />
-          <folding>
-            <element signature="e#1341#1379#0" expanded="true" />
-            <element signature="e#1427#1496#0" expanded="true" />
-            <element signature="e#1498#1563#0" expanded="true" />
-            <element signature="e#1599#2639#0" expanded="true" />
-            <element signature="n#!!block;n#Id#0;n#!!top" expanded="true" />
-            <element signature="e#2720#2746#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser/Parser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/semantic/symbol/Type.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="24" column="25" selection-start-line="24" selection-start-column="25" selection-end-line="24" selection-end-column="25" />
+        <state relative-caret-position="187">
+          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#108#109#0" expanded="true" />
             <element signature="e#134#135#0" expanded="true" />
             <element signature="e#759#760#0" expanded="true" />
             <element signature="e#780#781#0" expanded="true" />
@@ -500,41 +469,79 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/semantic/symbol/SymbolTable.java">
+    <entry file="file://$PROJECT_DIR$/src/parser/JJTParserState.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
+        <state relative-caret-position="34">
+          <caret line="4" column="26" selection-start-line="4" selection-start-column="26" selection-end-line="4" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parser/SimpleNode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="11" column="12" selection-start-line="11" selection-start-column="12" selection-end-line="11" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parser/Parser.jjt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="463">
+          <caret line="157" column="113" selection-start-line="157" selection-start-column="113" selection-end-line="157" selection-end-column="113" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#1341#1379#0" expanded="true" />
+            <element signature="e#1427#1496#0" expanded="true" />
+            <element signature="e#1498#1563#0" expanded="true" />
+            <element signature="e#1599#2639#0" expanded="true" />
+            <element signature="n#!!block;n#Id#0;n#!!top" expanded="true" />
+            <element signature="e#2720#2746#0" expanded="true" />
+            <element signature="e#3598#3611#2" expanded="true" />
+            <element signature="e#3647#3661#2" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/semantic/symbol/MethodTable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="18" selection-start-line="11" selection-start-column="18" selection-end-line="11" selection-end-column="18" />
-          <folding>
-            <element signature="e#153#154#0" expanded="true" />
-            <element signature="e#182#183#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="34">
+          <caret line="2" column="19" selection-start-line="2" selection-start-column="19" selection-end-line="2" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parser/Parser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="31" selection-start-line="6" selection-start-column="31" selection-end-line="6" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/JMMCompiler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="25" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="25" />
+        <state relative-caret-position="17">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/semantic/symbol/ClassTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="33" column="66" selection-start-line="33" selection-start-column="66" selection-end-line="33" selection-end-column="66" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/semantic/symbol/SymbolTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/semantic/Semantic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="49" lean-forward="true" selection-start-line="10" selection-start-column="49" selection-end-line="10" selection-end-column="49" />
+        <state relative-caret-position="102">
+          <caret line="6" column="41" selection-start-line="6" selection-start-column="41" selection-end-line="6" selection-end-column="41" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -543,10 +550,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/semantic/symbol/MethodSignature.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="73" lean-forward="true" selection-start-line="18" selection-start-column="73" selection-end-line="18" selection-end-column="73" />
+        <state relative-caret-position="34">
+          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
           <folding>
-            <element signature="imports" expanded="true" />
             <element signature="e#764#765#0" expanded="true" />
             <element signature="e#854#855#0" expanded="true" />
             <element signature="e#614#615#0" expanded="true" />
@@ -555,20 +561,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/semantic/symbol/ClassTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="60" column="46" selection-start-line="60" selection-start-column="46" selection-end-line="60" selection-end-column="46" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/files/SimpleProgram.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="11" selection-start-line="3" selection-start-column="11" selection-end-line="3" selection-end-column="24" />
+        <state relative-caret-position="68">
+          <caret line="4" column="10" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+          <folding>
+            <element signature="e#252#253#0" expanded="true" />
+            <element signature="e#286#287#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

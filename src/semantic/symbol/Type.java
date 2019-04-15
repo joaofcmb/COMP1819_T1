@@ -30,4 +30,13 @@ public class Type {
     public String toString() {
         return stringMap.get(typeId);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Type type = (Type) o;
+        return typeId == type.typeId;
+    }
 }
