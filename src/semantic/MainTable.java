@@ -1,7 +1,6 @@
-package semantic.symbol;
+package semantic;
 
 import parser.Node;
-import semantic.SemanticException;
 
 class MainTable extends FunctionTable {
     MainTable(Node methodNode, SymbolTable classAttributes) throws SemanticException {

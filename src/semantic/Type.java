@@ -1,4 +1,4 @@
-package semantic.symbol;
+package semantic;
 
 import parser.Node;
 import parser.ParserTreeConstants;

@@ -1,8 +1,7 @@
-package semantic.symbol;
+package semantic;
 
 import parser.Node;
 import parser.ParserTreeConstants;
-import semantic.SemanticException;
 
 class FunctionTable {
     private final Node methodNode;

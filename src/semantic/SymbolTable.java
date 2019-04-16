@@ -1,7 +1,6 @@
-package semantic.symbol;
+package semantic;
 
 import parser.Node;
-import semantic.SemanticException;
 
 import java.util.HashMap;
 import java.util.Map;

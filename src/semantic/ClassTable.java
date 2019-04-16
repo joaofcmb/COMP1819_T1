@@ -1,8 +1,7 @@
-package semantic.symbol;
+package semantic;
 
 import parser.Node;
 import parser.ParserTreeConstants;
-import semantic.SemanticException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,16 +14,16 @@ public class ClassTable {
     private final HashMap<MethodSignature, FunctionTable> methods = new HashMap<>();
     private FunctionTable mainMethod;
 
-    public ClassTable(Node root) throws SemanticException {
+    public ClassTable(Node classRoot) throws SemanticException {
         int iterator = 0;
 
-        this.classIdentifier = String.valueOf(root.jjtGetChild(iterator++).jjtGetValue());
+        this.classIdentifier = String.valueOf(classRoot.jjtGetChild(iterator++).jjtGetValue());
 
-        if (root.jjtGetChild(iterator).getId() == ParserTreeConstants.JJTID)
-            this.extendIdentifier = String.valueOf(root.jjtGetChild(iterator++).jjtGetValue());
+        if (classRoot.jjtGetChild(iterator).getId() == ParserTreeConstants.JJTID)
+            this.extendIdentifier = String.valueOf(classRoot.jjtGetChild(iterator++).jjtGetValue());
 
-        while (iterator < root.jjtGetNumChildren()) {
-            Node node = root.jjtGetChild(iterator++);
+        while (iterator < classRoot.jjtGetNumChildren()) {
+            Node node = classRoot.jjtGetChild(iterator++);
 
             switch(node.getId()) {
                 case ParserTreeConstants.JJTVAR:

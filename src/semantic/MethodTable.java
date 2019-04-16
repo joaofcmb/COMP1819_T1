@@ -1,7 +1,6 @@
-package semantic.symbol;
+package semantic;
 
 import parser.Node;
-import semantic.SemanticException;
 
 public class MethodTable extends FunctionTable {
     private final Type returnType;
