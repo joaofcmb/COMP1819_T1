@@ -11,6 +11,6 @@ public class JMMCompiler {
 
         // Symbol Table and Semantic Analysis
         StackIR ir = Semantic.analysis(root);
-
+        Semantic.printTable();
     }
 }

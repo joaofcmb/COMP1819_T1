@@ -9,12 +9,34 @@ import java.util.Map;
 class SymbolTable {
     private final HashMap<String, Type> symbols = new HashMap<>();
 
-    void addSymbol(Node symbolNode) throws SemanticException {
-        final String symbolId = String.valueOf(symbolNode.jjtGetChild(1).jjtGetValue());
+    void addDeclaration(Node declarationNode) throws SemanticException {
+        final String symbolId = String.valueOf(declarationNode.jjtGetChild(1).jjtGetValue());
 
-        if (symbols.containsKey(symbolId))  throw new SemanticException(); //TODO Complete Semantic Error (Variable/Attribute already exists)
+        // TODO Complete Semantic Error (Variable/Attribute already exists)
+        if (symbols.containsKey(symbolId))  throw new SemanticException();
 
-        symbols.put(symbolId, new Type(symbolNode.jjtGetChild(0)));
+        symbols.put(symbolId, new Type(declarationNode.jjtGetChild(0)));
+    }
+
+    public void addParameter(Node idNode) throws SemanticException {
+        addParameter(new Type(), idNode);
+    }
+
+    public void addParameter(Node typeNode, Node idNode) throws SemanticException {
+        addParameter(new Type(typeNode), idNode);
+    }
+
+    void addParameter(Type type, Node idNode) throws SemanticException {
+        final String symbolId = String.valueOf(idNode.jjtGetValue());
+
+        // TODO Complete Semantic Error (Variable/Attribute already exists) NOT TESTED
+        if (symbols.containsKey(symbolId))  throw new SemanticException();
+
+        symbols.put(symbolId, type);
+    }
+
+    boolean containsId(Node idNode) {
+        return symbols.containsKey(String.valueOf(idNode.jjtGetValue()));
     }
 
     @Override

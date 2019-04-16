@@ -12,8 +12,8 @@ public class ClassTable {
     private String extendIdentifier;
 
     private final SymbolTable attributes = new SymbolTable();
-    private final HashMap<MethodSignature, MethodTable> methods = new HashMap<>();
-    private MethodTable mainMethod;
+    private final HashMap<MethodSignature, FunctionTable> methods = new HashMap<>();
+    private FunctionTable mainMethod;
 
     public ClassTable(Node root) throws SemanticException {
         int iterator = 0;
@@ -28,19 +28,21 @@ public class ClassTable {
 
             switch(node.getId()) {
                 case ParserTreeConstants.JJTVAR:
-                    attributes.addSymbol(node);
+                    attributes.addDeclaration(node);
                     break;
                 case ParserTreeConstants.JJTMAIN:
-                    if (mainMethod != null) throw new SemanticException(); //TODO Complete Semantic Error (Duplicate main)
+                    //TODO Complete Semantic Error (Duplicate main)
+                    if (mainMethod != null) throw new SemanticException();
 
-                    mainMethod = new MethodTable(node);
+                    mainMethod = new MainTable(node, attributes);
                     break;
                 case ParserTreeConstants.JJTMETHOD:
                     MethodSignature methodSignature = new MethodSignature(node);
 
-                    if (methods.containsKey(methodSignature)) throw new SemanticException(); //TODO Complete Semantic Error (Method already exists)
+                    //TODO Complete Semantic Error (Method already exists)
+                    if (methods.containsKey(methodSignature)) throw new SemanticException();
 
-                    methods.put(methodSignature, new MethodTable(node));
+                    methods.put(methodSignature, new MethodTable(node, attributes));
                     break;
             }
         }

@@ -9,11 +9,14 @@ public class Semantic {
     public static StackIR analysis(SimpleNode root) {
         try {
             classTable = new ClassTable(root.jjtGetChild(0));
-            System.out.println(classTable);
         } catch (SemanticException e) {
             e.printStackTrace();
         }
 
         return null;
+    }
+
+    public static void printTable() {
+        System.out.println(classTable);
     }
 }
