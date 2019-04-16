@@ -7,7 +7,7 @@ options
 PARSER_BEGIN(Parser)
 
 public class Parser {
-    public static void main(String[] args) throws ParseException {
+    public static SimpleNode parse(String[] args) {
         //Parser initialization
         parser.Parser parser;
 
@@ -30,7 +30,7 @@ public class Parser {
             SimpleNode root = parser.Program();
             System.out.println ("Parser: File parsed successfully.");
 
-            root.dump(""); // Prints syntax tree
+            return root;
         }
         catch(TokenMgrError e){
             System.out.println ("Parser: Token error.");
@@ -39,7 +39,9 @@ public class Parser {
         catch(ParseException e){
             System.out.println ("Parser: Parsing error.");            
             System.out.println (e.getMessage());
-        }                 
+        }
+
+        return null;
     }
 }
 
@@ -176,8 +178,8 @@ void Return() #RETURN: {}
 
 void MethodBody(): {} 
 {   
-    VarDeclarationNoId() MethodBody()
-    | Id() (Id() #VAR(2) <SEMI_COLON> MethodBody() | [IdStatement()] <SEMI_COLON> Statements())
+    VarDeclarationNoId() [MethodBody()]
+    | Id() (Id() #VAR(2) <SEMI_COLON> [MethodBody()] | [IdStatement()] <SEMI_COLON> Statements())
     | NoIdStatement() Statements()
 }
 

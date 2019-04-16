@@ -18,18 +18,18 @@ class SymbolTable {
         symbols.put(symbolId, new Type(declarationNode.jjtGetChild(0)));
     }
 
-    public void addParameter(Node idNode) throws SemanticException {
+    void addParameter(Node idNode) throws SemanticException {
         addParameter(new Type(), idNode);
     }
 
-    public void addParameter(Node typeNode, Node idNode) throws SemanticException {
+    void addParameter(Node typeNode, Node idNode) throws SemanticException {
         addParameter(new Type(typeNode), idNode);
     }
 
-    void addParameter(Type type, Node idNode) throws SemanticException {
+    private void addParameter(Type type, Node idNode) throws SemanticException {
         final String symbolId = String.valueOf(idNode.jjtGetValue());
 
-        // TODO Complete Semantic Error (Variable/Attribute already exists) NOT TESTED
+        // TODO Complete Semantic Error (Variable/Attribute already exists)
         if (symbols.containsKey(symbolId))  throw new SemanticException();
 
         symbols.put(symbolId, type);

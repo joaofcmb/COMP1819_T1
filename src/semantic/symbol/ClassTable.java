@@ -39,7 +39,7 @@ public class ClassTable {
                 case ParserTreeConstants.JJTMETHOD:
                     MethodSignature methodSignature = new MethodSignature(node);
 
-                    //TODO Complete Semantic Error (Method already exists)
+                    //TODO Complete Semantic Error (Method Signature already exists)
                     if (methods.containsKey(methodSignature)) throw new SemanticException();
 
                     methods.put(methodSignature, new MethodTable(node, attributes));

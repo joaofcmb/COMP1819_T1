@@ -7,11 +7,11 @@
 
 PARSER_BEGIN(Parser)
 
-import parser.SimpleNode;public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@bgen(jjtree)*/
+public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@bgen(jjtree)*/
   protected static JJTParserState jjtree = new JJTParserState();
 
 /*@egen*/
-    public static void main(String[] args) throws ParseException {
+    public static SimpleNode parse(String[] args) {
         //Parser initialization
         parser.Parser parser;
 
@@ -34,7 +34,7 @@ import parser.SimpleNode;public class Parser/*@bgen(jjtree)*/implements ParserTr
             SimpleNode root = parser.Program();
             System.out.println ("Parser: File parsed successfully.");
 
-            root.dump(""); // Prints syntax tree
+            return root;
         }
         catch(TokenMgrError e){
             System.out.println ("Parser: Token error.");
@@ -43,7 +43,9 @@ import parser.SimpleNode;public class Parser/*@bgen(jjtree)*/implements ParserTr
         catch(ParseException e){
             System.out.println ("Parser: Parsing error.");            
             System.out.println (e.getMessage());
-        }                 
+        }
+
+        return null;
     }
 }
 
@@ -112,10 +114,10 @@ TOKEN:
 
 // Definition of Terminal Leafs
 void Id()    : {/*@bgen(jjtree) ID */
-                parser.SimpleNode jjtn000 = new SimpleNode(JJTID);
+                SimpleNode jjtn000 = new SimpleNode(JJTID);
                 boolean jjtc000 = true;
                 jjtree.openNodeScope(jjtn000);
-/*@egen*/Token t;}
+/*@egen*/parser.Token t;}
 {/*@bgen(jjtree) ID */
     try {
 /*@egen*/
@@ -512,7 +514,7 @@ void Return()        : {/*@bgen(jjtree) RETURN */
 
 void MethodBody(): {} 
 {   
-    VarDeclarationNoId() MethodBody()
+    VarDeclarationNoId() [MethodBody()]
     | Id() (/*@bgen(jjtree) #VAR( 2) */
             {
               SimpleNode jjtn001 = new SimpleNode(JJTVAR);
@@ -540,7 +542,7 @@ void MethodBody(): {}
                 jjtree.closeNodeScope(jjtn001,  2);
               }
             }
-/*@egen*/         <SEMI_COLON> MethodBody() | [IdStatement()] <SEMI_COLON> Statements())
+/*@egen*/         <SEMI_COLON> [MethodBody()] | [IdStatement()] <SEMI_COLON> Statements())
     | NoIdStatement() Statements()
 }
 

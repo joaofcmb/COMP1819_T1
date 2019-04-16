@@ -23,7 +23,7 @@ class FunctionTable {
         for (int i = 0; i < parameterNode.jjtGetNumChildren(); i+=2) {
             Node parameterId = parameterNode.jjtGetChild(i+1);
 
-            //TODO Complete Semantic Error (Id already exists within scope) NOT TESTED
+            //TODO Complete Semantic Error (Id already exists within scope)
             if (classAttributes.containsId(parameterId))    throw new SemanticException();
 
             parameters.addParameter(parameterNode.jjtGetChild(i), parameterId);
@@ -36,7 +36,7 @@ class FunctionTable {
         while (varNode.getId() == ParserTreeConstants.JJTVAR) {
             Node idNode = varNode.jjtGetChild(1);
 
-            //TODO Complete Semantic Error (Id already exists within scope) NOT TESTED
+            //TODO Complete Semantic Error (Id already exists within scope)
             if (classAttributes.containsId(idNode) || parameters.containsId(idNode)) throw new SemanticException();
 
             variables.addDeclaration(varNode);

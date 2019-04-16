@@ -25,9 +25,8 @@ public class Type {
 
     private final int typeId;
 
-    Type() {
-        typeId = STRINGARRAY;
-    }
+    Type() { typeId = STRINGARRAY; }
+
     Type(Node typeNode) {
         typeId = typeNode.getId();
     }
