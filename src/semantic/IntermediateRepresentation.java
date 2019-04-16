@@ -6,7 +6,7 @@ import parser.ParserTreeConstants;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClassTable {
+public class IntermediateRepresentation {
     private String classIdentifier;
     private String extendIdentifier;
 
@@ -14,7 +14,7 @@ public class ClassTable {
     private final HashMap<MethodSignature, FunctionTable> methods = new HashMap<>();
     private FunctionTable mainMethod;
 
-    public ClassTable(Node classRoot) throws SemanticException {
+    public IntermediateRepresentation(Node classRoot) throws SemanticException {
         int iterator = 0;
 
         this.classIdentifier = String.valueOf(classRoot.jjtGetChild(iterator++).jjtGetValue());
@@ -33,7 +33,7 @@ public class ClassTable {
                     //TODO Complete Semantic Error (Duplicate main)
                     if (mainMethod != null) throw new SemanticException();
 
-                    mainMethod = new MainTable(node, attributes);
+                    mainMethod = new MainTable(node, this);
                     break;
                 case ParserTreeConstants.JJTMETHOD:
                     MethodSignature methodSignature = new MethodSignature(node);
@@ -41,10 +41,16 @@ public class ClassTable {
                     //TODO Complete Semantic Error (Method Signature already exists)
                     if (methods.containsKey(methodSignature)) throw new SemanticException();
 
-                    methods.put(methodSignature, new MethodTable(node, attributes));
+                    methods.put(methodSignature, new MethodTable(node, this));
                     break;
             }
         }
+    }
+
+    void checkMethod(Type classType, String methodId, Type[] parameterTypes) throws SemanticException {
+        if (classType.equals(Type.idType(classIdentifier))
+                && methods.containsKey(MethodSignature.from(methodId, parameterTypes)))
+            throw new SemanticException(); //TODO Complete Semantic Error (Method Signature not found) NOT TESTED
     }
 
     @Override
@@ -71,5 +77,9 @@ public class ClassTable {
         }
 
         return sb.toString();
+    }
+
+    SymbolTable getAttributes() {
+        return attributes;
     }
 }

@@ -5,45 +5,79 @@ import parser.ParserTreeConstants;
 
 class FunctionTable {
     private final Node methodNode;
-    private final SymbolTable classAttributes;
+    private final IntermediateRepresentation classTable;
 
     final SymbolTable parameters = new SymbolTable();
     private final SymbolTable variables = new SymbolTable();
 
-    private int firstStatementNum;
+    private final IntermediateCode intermediateCode = new IntermediateCode();
 
 
-    FunctionTable(Node methodNode, SymbolTable classAttributes) throws SemanticException {
+    FunctionTable(Node methodNode, IntermediateRepresentation ir) {
         this.methodNode = methodNode;
-        this.classAttributes = classAttributes;
+        this.classTable = ir;
     }
 
-    void fillParameters(Node parameterNode) throws SemanticException {
-        for (int i = 0; i < parameterNode.jjtGetNumChildren(); i+=2) {
-            Node parameterId = parameterNode.jjtGetChild(i+1);
-
-            //TODO Complete Semantic Error (Id already exists within scope)
-            if (classAttributes.containsId(parameterId))    throw new SemanticException();
-
-            parameters.addParameter(parameterNode.jjtGetChild(i), parameterId);
-        }
-    }
-
-    void fillVariables(Node bodyNode) throws SemanticException {
+    private int fillVariables(Node bodyNode) throws SemanticException {
         int i = 0;
         Node varNode = bodyNode.jjtGetChild(i);
         while (varNode.getId() == ParserTreeConstants.JJTVAR) {
             Node idNode = varNode.jjtGetChild(1);
 
             //TODO Complete Semantic Error (Id already exists within scope)
-            if (classAttributes.containsId(idNode) || parameters.containsId(idNode)) throw new SemanticException();
+            if (classTable.getAttributes().containsId(idNode) || parameters.containsId(idNode))
+                throw new SemanticException();
 
             variables.addDeclaration(varNode);
 
             varNode = bodyNode.jjtGetChild(++i);
         }
 
-        this.firstStatementNum = i;
+        return i;
+    }
+
+    void analyseBody(Node bodyNode) throws SemanticException {
+        final int firstStatement = fillVariables(bodyNode);
+        analyseStatements(bodyNode, firstStatement);
+    }
+
+    private void analyseStatements(Node bodyNode, int i) throws SemanticException {
+        Node statementNode;
+        while (i < bodyNode.jjtGetNumChildren()) {
+            statementNode = bodyNode.jjtGetChild(i++);
+
+            switch(statementNode.getId()) {
+                case ParserTreeConstants.JJTASSIGN:
+                    final Type assignType = analyseExpression(statementNode.jjtGetChild(0));
+                    final Type expressionType = analyseExpression(statementNode.jjtGetChild(1));
+
+                    // TODO Complete Semantic Error (Invalid Assignment) NOT TESTED
+                    if (!assignType.equals(expressionType)) throw new SemanticException();
+                    break;
+                case ParserTreeConstants.JJTIF:
+                    break;
+                case ParserTreeConstants.JJTWHILE:
+                    break;
+                case ParserTreeConstants.JJTFCALL:
+                    final Type classType = analyseExpression(statementNode.jjtGetChild(0));
+                    final String methodId = String.valueOf(statementNode.jjtGetChild(1).jjtGetValue());
+                    final Type[] parameterTypes = analyseParameters(statementNode.jjtGetChild(2));
+
+                    classTable.checkMethod(classType, methodId, parameterTypes);
+                    break;
+                default:
+                    // TODO Complete Semantic Error (Invalid Statement) NOT TESTED
+                    throw new SemanticException();
+            }
+        }
+    }
+
+    private Type analyseExpression(Node classNode) {
+        return new Type(); // Temp
+    }
+
+    private Type[] analyseParameters(Node jjtGetChild) {
+        return new Type[]{new Type()}; // Temp
     }
 
     @Override

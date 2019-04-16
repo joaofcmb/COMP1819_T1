@@ -20,6 +20,9 @@ class Test extends Base {
 
         Test another_one;
         Base and_another_one;
+
+        redundant[0] = num;
+        num_aux = redundant.length;
         //num_aux = x + 5 * 4 / (2 + 3 / 4);
 
         //x = new Base().func((x - 1 + 3) * 4 + 3 / this.gimmeFive(), !check && false + new int[5].length);

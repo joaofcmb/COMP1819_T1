@@ -17,23 +17,34 @@ public class Type {
         tempMap.put(ParserTreeConstants.JJTINT, "INT");
         tempMap.put(ParserTreeConstants.JJTINTARRAY, "INTARRAY");
         tempMap.put(ParserTreeConstants.JJTBOOLEAN, "BOOLEAN");
-        tempMap.put(ParserTreeConstants.JJTID, "CLASS");
-        tempMap.put(STRINGARRAY, "STRINGARRAY");
 
         stringMap = Collections.unmodifiableMap(tempMap);
     }
 
     private final int typeId;
+    private final String typeName;
 
-    Type() { typeId = STRINGARRAY; }
+    static Type idType(String classIdentfier) {
+        return new Type(ParserTreeConstants.JJTID, classIdentfier);
+    }
+
+    private Type(int typeId, String typeName) {
+        this.typeId = typeId;
+        this.typeName = typeName;
+    }
+
+    Type() {
+        this(STRINGARRAY,"STRINGARRAY");
+    }
 
     Type(Node typeNode) {
         typeId = typeNode.getId();
+        typeName = stringMap.containsKey(typeId) ? stringMap.get(typeId) : String.valueOf(typeNode.jjtGetValue());
     }
 
     @Override
     public String toString() {
-        return stringMap.get(typeId);
+        return typeName;
     }
 
     @Override
@@ -42,6 +53,6 @@ public class Type {
         if (o == null || getClass() != o.getClass()) return false;
 
         Type type = (Type) o;
-        return typeId == type.typeId;
+        return typeId == type.typeId && typeName.equals(type.typeName);
     }
 }

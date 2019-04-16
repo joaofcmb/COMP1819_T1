@@ -8,6 +8,15 @@ class MethodSignature {
     private final String methodId;
     private final Type[] parameterTypes;
 
+    static MethodSignature from(String methodId, Type[] parameterTypes) {
+        return new MethodSignature(methodId, parameterTypes);
+    }
+
+    private MethodSignature(String methodId, Type[] parameterTypes) {
+        this.methodId = methodId;
+        this.parameterTypes = parameterTypes;
+    }
+
     MethodSignature(Node methodNode) {
         this.methodId = String.valueOf(methodNode.jjtGetChild(1).jjtGetValue());
 
