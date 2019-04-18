@@ -22,7 +22,7 @@ class Test extends Base {
         Base and_another_one;
 
         redundant[0] = num;
-        num_aux = redundant.length;
+        num_aux = new int[this.computeFac(num)].length;
         //num_aux = x + 5 * 4 / (2 + 3 / 4);
 
         //x = new Base().func((x - 1 + 3) * 4 + 3 / this.gimmeFive(), !check && false + new int[5].length);

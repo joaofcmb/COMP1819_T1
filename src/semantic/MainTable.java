@@ -4,7 +4,7 @@ import parser.Node;
 
 class MainTable extends FunctionTable {
     MainTable(Node methodNode, IntermediateRepresentation ir) throws SemanticException {
-        super(methodNode, ir);
+        super(ir);
 
         final Node parameterId = methodNode.jjtGetChild(0);
 

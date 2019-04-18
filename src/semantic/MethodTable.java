@@ -6,7 +6,7 @@ public class MethodTable extends FunctionTable {
     private final Type returnType;
 
     MethodTable(Node methodNode, IntermediateRepresentation ir) throws SemanticException {
-        super(methodNode, ir);
+        super(ir);
         this.returnType = new Type(methodNode.jjtGetChild(0));
 
         final Node parameterNode = methodNode.jjtGetChild(2);
@@ -21,6 +21,11 @@ public class MethodTable extends FunctionTable {
 
         analyseBody(methodNode.jjtGetChild(3));
     }
+
+    Type getReturnType() {
+        return returnType;
+    }
+
 
     @Override
     public String toString() {

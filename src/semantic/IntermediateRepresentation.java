@@ -11,7 +11,7 @@ public class IntermediateRepresentation {
     private String extendIdentifier;
 
     private final SymbolTable attributes = new SymbolTable();
-    private final HashMap<MethodSignature, FunctionTable> methods = new HashMap<>();
+    private final HashMap<MethodSignature, MethodTable> methods = new HashMap<>();
     private FunctionTable mainMethod;
 
     public IntermediateRepresentation(Node classRoot) throws SemanticException {
@@ -47,10 +47,16 @@ public class IntermediateRepresentation {
         }
     }
 
-    void checkMethod(Type classType, String methodId, Type[] parameterTypes) throws SemanticException {
-        if (classType.equals(Type.idType(classIdentifier))
-                && methods.containsKey(MethodSignature.from(methodId, parameterTypes)))
-            throw new SemanticException(); //TODO Complete Semantic Error (Method Signature not found) NOT TESTED
+    Type checkMethod(Type classType, String methodId, Type[] parameterTypes) throws SemanticException {
+        if (classType.equals(Type.ID(classIdentifier))) {
+            MethodSignature methodSignature = MethodSignature.from(methodId, parameterTypes);
+            if (methods.containsKey(methodSignature))
+                return methods.get(methodSignature).getReturnType();
+            else
+                throw new SemanticException(); //TODO Complete Semantic Error (Method Signature not found) NOT TESTED
+        }
+
+        return null; // Null type means it's not meant to be considered for the analysis.
     }
 
     @Override
@@ -77,6 +83,10 @@ public class IntermediateRepresentation {
         }
 
         return sb.toString();
+    }
+
+    String getIdentifier() {
+        return classIdentifier;
     }
 
     SymbolTable getAttributes() {

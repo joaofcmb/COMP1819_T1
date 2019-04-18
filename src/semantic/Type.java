@@ -24,8 +24,25 @@ public class Type {
     private final int typeId;
     private final String typeName;
 
-    static Type idType(String classIdentfier) {
-        return new Type(ParserTreeConstants.JJTID, classIdentfier);
+    static Type INT() {
+        return new Type(ParserTreeConstants.JJTINT);
+    }
+
+    static Type BOOLEAN() {
+        return new Type(ParserTreeConstants.JJTBOOLEAN);
+    }
+
+    static Type INTARRAY() {
+        return new Type(ParserTreeConstants.JJTINTARRAY);
+    }
+
+    static Type ID(String classIdentifier) {
+        return new Type(ParserTreeConstants.JJTID, classIdentifier);
+    }
+
+    private Type(int typeId) {
+        this.typeId = typeId;
+        this.typeName = stringMap.get(typeId);
     }
 
     private Type(int typeId, String typeName) {
@@ -40,6 +57,22 @@ public class Type {
     Type(Node typeNode) {
         typeId = typeNode.getId();
         typeName = stringMap.containsKey(typeId) ? stringMap.get(typeId) : String.valueOf(typeNode.jjtGetValue());
+    }
+
+    boolean isInt() {
+        return typeId == ParserTreeConstants.JJTINT;
+    }
+
+    boolean isIntArray() {
+        return typeId == ParserTreeConstants.JJTINTARRAY;
+    }
+
+    boolean isStringArray() {
+        return typeId == STRINGARRAY;
+    }
+
+    public boolean isBoolean() {
+        return typeId == ParserTreeConstants.JJTBOOLEAN;
     }
 
     @Override

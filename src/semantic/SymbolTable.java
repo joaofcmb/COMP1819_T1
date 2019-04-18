@@ -37,6 +37,9 @@ class SymbolTable {
     boolean containsId(Node idNode) {
         return symbols.containsKey(String.valueOf(idNode.jjtGetValue()));
     }
+    Type getId(Node idNode) {
+        return symbols.get(String.valueOf(idNode.jjtGetValue()));
+    }
 
     @Override
     public String toString() {
