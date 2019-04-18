@@ -3,6 +3,7 @@ package semantic;
 import parser.Node;
 import parser.ParserTreeConstants;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public class IntermediateRepresentation {
     private String extendIdentifier;
 
     private final SymbolTable attributes = new SymbolTable();
-    private final HashMap<MethodSignature, MethodTable> methods = new HashMap<>();
+    private final HashMap<MethodSignature, FunctionTable> methods = new HashMap<>();
     private FunctionTable mainMethod;
 
     public IntermediateRepresentation(Node classRoot) throws SemanticException {
@@ -45,6 +46,11 @@ public class IntermediateRepresentation {
                     break;
             }
         }
+
+        if (mainMethod != null)     mainMethod.analyseBody();
+
+        for (FunctionTable method : methods.values())
+            method.analyseBody();
     }
 
     Type checkMethod(Type classType, String methodId, Type[] parameterTypes) throws SemanticException {
@@ -53,8 +59,11 @@ public class IntermediateRepresentation {
             if (methods.containsKey(methodSignature))
                 return methods.get(methodSignature).getReturnType();
             else
-                throw new SemanticException(); //TODO Complete Semantic Error (Method Signature not found) NOT TESTED
+                throw new SemanticException(); //TODO Complete Semantic Error (Method Signature not found)
         }
+
+        System.out.println("Fudeu: " + methodId);
+        if (!classType.isId())  throw new SemanticException(); //TODO Complete Semantic Error (Invalid Type for calling method)
 
         return null; // Null type means it's not meant to be considered for the analysis.
     }

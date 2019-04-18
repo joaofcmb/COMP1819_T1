@@ -4,22 +4,35 @@ import parser.Node;
 import parser.ParserTreeConstants;
 
 class FunctionTable {
+    private final Node bodyNode;
+
     private final IntermediateRepresentation classTable;
 
-    final SymbolTable parameters = new SymbolTable();
+    private final SymbolTable parameters = new SymbolTable();
     private final SymbolTable variables = new SymbolTable();
+
+    private final Type returnType;
 
     private final IntermediateCode intermediateCode = new IntermediateCode();
 
 
-    FunctionTable(IntermediateRepresentation ir) {
+    FunctionTable(Node bodyNode, IntermediateRepresentation ir) {
+        this(bodyNode, ir, null);
+    }
+
+    FunctionTable(Node bodyNode, IntermediateRepresentation ir, Type returnType) {
+        this.bodyNode = bodyNode;
         this.classTable = ir;
+        this.returnType = returnType;
     }
 
     private int fillVariables(Node bodyNode) throws SemanticException {
         int i = 0;
-        Node varNode = bodyNode.jjtGetChild(i);
-        while (varNode.getId() == ParserTreeConstants.JJTVAR) {
+        while (i < bodyNode.jjtGetNumChildren()) {
+            Node varNode = bodyNode.jjtGetChild(i++);
+
+            if (varNode.getId() != ParserTreeConstants.JJTVAR)  return i - 1;
+
             Node idNode = varNode.jjtGetChild(1);
 
             //TODO Complete Semantic Error (Id already exists within scope)
@@ -27,14 +40,12 @@ class FunctionTable {
                 throw new SemanticException();
 
             variables.addDeclaration(varNode);
-
-            varNode = bodyNode.jjtGetChild(++i);
         }
 
         return i;
     }
 
-    void analyseBody(Node bodyNode) throws SemanticException {
+    void analyseBody() throws SemanticException {
         final int firstStatement = fillVariables(bodyNode);
         analyseStatements(bodyNode, firstStatement);
     }
@@ -49,14 +60,14 @@ class FunctionTable {
                     final Type assignType = analyseExpression(statementNode.jjtGetChild(0));
                     final Type expressionType = analyseExpression(statementNode.jjtGetChild(1));
 
-                    // TODO Complete Semantic Error (Invalid Assignment Types) NOT TESTED
+                    // TODO Complete Semantic Error (Invalid Assignment Types)
                     if (!assignType.equals(expressionType)) throw new SemanticException();
                     break;
                 case ParserTreeConstants.JJTIF:
                 case ParserTreeConstants.JJTWHILE:
-                    final Type conditionType = analyseExpression(statementNode.jjtGetChild(0));
+                    final Type conditionType = analyseExpression(statementNode.jjtGetChild(0).jjtGetChild(0));
 
-                    // TODO Complete Semantic Error (Condition not Boolean) NOT TESTED
+                    // TODO Complete Semantic Error (Condition not Boolean)
                     if (!conditionType.isBoolean()) throw new SemanticException();
 
                     analyseStatements(statementNode.jjtGetChild(1), 0);
@@ -71,8 +82,15 @@ class FunctionTable {
 
                     classTable.checkMethod(classType, methodId, parameterTypes);
                     break;
+                case ParserTreeConstants.JJTRETURN:
+                    final Type returnType = analyseExpression(statementNode.jjtGetChild(0));
+
+                    // TODO Complete Semantic Error (Invalid Return Type)
+                    if (!this.returnType.equals(returnType))    throw new SemanticException();
+
+                    break;
                 default:
-                    // TODO Complete Semantic Error (Invalid Statement) NOT TESTED
+                    // TODO Complete Semantic Error (Invalid Statement)
                     throw new SemanticException();
             }
         }
@@ -100,31 +118,31 @@ class FunctionTable {
                 // TODO Add String array functionality once it is better known how it is meant to be used
                 final Type arrayType = analyseExpression(expressionNode.jjtGetChild(0));
 
-                // TODO Complete Semantic Error (Trying to access index of non array) NOT TESTED
+                // TODO Complete Semantic Error (Trying to access index of non array)
                 if (!arrayType.isIntArray())    throw new SemanticException();
 
                 final Type indexType = analyseExpression(expressionNode.jjtGetChild(1));
 
-                // TODO Complete Semantic Error (array index not an integer) NOT TESTED
+                // TODO Complete Semantic Error (array index not an integer)
                 if (!indexType.isInt())         throw new SemanticException();
 
                 return Type.INT();
             case ParserTreeConstants.JJTLENGTH:
                 final Type targetType = analyseExpression(expressionNode.jjtGetChild(0));
 
-                // TODO Complete Semantic Error (Trying to access length of non array) NOT TESTED
+                // TODO Complete Semantic Error (Trying to access length of non array)
                 if (!targetType.isIntArray() && !targetType.isStringArray()) throw new SemanticException();
 
                 return Type.INT();
             case ParserTreeConstants.JJTAND:
                 final Type firstBool = analyseExpression(expressionNode.jjtGetChild(0));
 
-                // TODO Complete Semantic Error (Not a boolean) NOT TESTED
+                // TODO Complete Semantic Error (Not a boolean)
                 if (!firstBool.isBoolean())    throw new SemanticException();
 
                 final Type secondBool = analyseExpression(expressionNode.jjtGetChild(1));
 
-                // TODO Complete Semantic Error (Not a boolean) NOT TESTED
+                // TODO Complete Semantic Error (Not a boolean)
                 if (!secondBool.isBoolean())    throw new SemanticException();
 
                 return Type.BOOLEAN();
@@ -135,12 +153,12 @@ class FunctionTable {
             case ParserTreeConstants.JJTDIVIDE:
                 final Type firstOp = analyseExpression(expressionNode.jjtGetChild(0));
 
-                // TODO Complete Semantic Error (Invalid Operand Type) NOT TESTED
+                // TODO Complete Semantic Error (Invalid Operand Type)
                 if (!firstOp.isInt())    throw new SemanticException();
 
                 final Type secondOp = analyseExpression(expressionNode.jjtGetChild(1));
 
-                // TODO Complete Semantic Error (Invalid Operand Type) NOT TESTED
+                // TODO Complete Semantic Error (Invalid Operand Type)
                 if (!secondOp.isInt())    throw new SemanticException();
 
                 if (expressionNode.getId() == ParserTreeConstants.JJTLOWER)     return Type.BOOLEAN();
@@ -153,7 +171,7 @@ class FunctionTable {
                 else if (classTable.getAttributes().containsId(expressionNode))
                     return classTable.getAttributes().getId(expressionNode);
                 else
-                    throw new SemanticException(); // TODO Complete Semantic Error (Variable not found) NOT TESTED
+                    throw new SemanticException("Variable not Found: " + expressionNode.jjtGetValue()); // TODO Complete Semantic Error (Variable not found)
             case ParserTreeConstants.JJTINTEGER:
                 return Type.INT();
             case ParserTreeConstants.JJTNOT:
@@ -165,7 +183,7 @@ class FunctionTable {
             case ParserTreeConstants.JJTNEWARRAY:
                 final Type lengthType = analyseExpression(expressionNode.jjtGetChild(0));
 
-                // TODO Complete Semantic Error (Invalid Length) NOT TESTED
+                // TODO Complete Semantic Error (Invalid Length)
                 if (!lengthType.isInt())        throw new SemanticException();
 
                 return Type.INTARRAY();
@@ -175,6 +193,14 @@ class FunctionTable {
                 // TODO Complete Semantic Error (Invalid Expression)
                 throw new SemanticException();
         }
+    }
+
+    protected SymbolTable getParameters() {
+        return parameters;
+    }
+
+    Type getReturnType() {
+        return returnType;
     }
 
     @Override

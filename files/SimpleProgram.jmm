@@ -7,11 +7,10 @@ class Test extends Base {
 
     public static void main(String[] args) {
         int arg;
-        out.println(new Base().ComputeFac(arg, new int[arg]));
     }
 
     public int computeFac(int num) {
-        return Test.ComputeFac(num, new int[3]);
+        return this.computeFac(num, new int[3]);
     }
 
     public int computeFac(int num, int[] redundant) {
@@ -29,13 +28,13 @@ class Test extends Base {
         num_aux = x + 5;
         x = x + 3;
 
-        redundant[5].f();
+        // redundant[0].f();
 
-        Test.gimmeFive(x, redundant[this.gimmeFive()]);
+        this.computeFac(redundant[this.gimmeFive()]);
 
         //num_aux = x + 5 * 4 / (2 + 3 / 4);
         if (check && another_redundant)
-            num_aux = Test.gimmeFive();
+            num_aux = this.gimmeFive();
         else {
             //num_aux = x + 5 * 4 / (2 + 3 / 4);
             while (num < 1) {
@@ -44,11 +43,11 @@ class Test extends Base {
             }
 
             if (num < 1)
-                num_aux = redundant[5].gimmeFive();//num_aux = x + 5 * 4 / (2 + 3 / 4);
+                num_aux = this.gimmeFive();//num_aux = x + 5 * 4 / (2 + 3 / 4);
             else
                 num_aux = x + 5 * 4 / (2 + 3 / 4);
             
-            x = new Base().func((x + 3) * 4 + 3 / this.gimmeFive(), !check && false + new int[5].length);
+            //x = new Base().func((x + 3) * 4 + 3 / this.gimmeFive(), !check && false + new int[5].length);
         }
         
         //num_aux = x + 5 * 4 / (2 + 3 / 4);

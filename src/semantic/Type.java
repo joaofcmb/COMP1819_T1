@@ -75,6 +75,10 @@ public class Type {
         return typeId == ParserTreeConstants.JJTBOOLEAN;
     }
 
+    public boolean isId() {
+        return typeId == ParserTreeConstants.JJTID;
+    }
+
     @Override
     public String toString() {
         return typeName;
