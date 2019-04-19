@@ -48,6 +48,7 @@ class FunctionTable {
     void analyseBody() throws SemanticException {
         final int firstStatement = fillVariables(bodyNode);
         analyseStatements(bodyNode, firstStatement);
+        intermediateCode.generateFunctionCode(bodyNode, firstStatement);
     }
 
     private void analyseStatements(Node bodyNode, int i) throws SemanticException {
@@ -205,9 +206,11 @@ class FunctionTable {
 
     @Override
     public String toString() {
-        return "- PARAMETERS:" + System.lineSeparator() +
-                parameters + System.lineSeparator() +
-                "- LOCAL VARIABLES:" + System.lineSeparator() +
-                variables;
+        return "- PARAMETERS:" + System.lineSeparator()
+                + parameters + System.lineSeparator()
+                + "- LOCAL VARIABLES:" + System.lineSeparator()
+                + variables + System.lineSeparator()
+                + "- INTERMEDIATE CODE:" + System.lineSeparator()
+                + intermediateCode;
     }
 }

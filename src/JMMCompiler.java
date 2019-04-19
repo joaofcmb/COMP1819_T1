@@ -8,12 +8,12 @@ public class JMMCompiler {
         // Lexical and Syntactical Analysis
         SimpleNode root = Parser.parse(args);
         if (root == null)   return;
-        root.dump("");
+        // root.dump("");
 
         // Semantic Analysis and generation of IR (Symbol Table + Intermediate Code)
         try {
             IntermediateRepresentation ir = new IntermediateRepresentation(root.jjtGetChild(0));
-            // System.out.println(ir);
+            System.out.println(ir);
         } catch (SemanticException e) {
             e.printStackTrace();
         }
