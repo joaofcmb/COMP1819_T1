@@ -8,7 +8,7 @@ import java.util.LinkedList;
 class IntermediateCode {
     private LinkedList<IntermediateInstruction> instructions = new LinkedList<>();
 
-    void generateFunctionCode(Node bodyNode, int i) {
+    void generateFunctionCode(Node bodyNode, int i, LinkedList<Type> typeList) {
         Node statementNode;
         while (i < bodyNode.jjtGetNumChildren()) {
             statementNode = bodyNode.jjtGetChild(i++);
@@ -16,11 +16,12 @@ class IntermediateCode {
             final int id = statementNode.getId();
             switch(id) {
                 case ParserTreeConstants.JJTASSIGN:
-                    // TODO Array Assignment Code
+                    // TODO Array Assignment Code (Make sure to remove the restraint on the typeList in semantic analysis)
                     Node assignNode = statementNode.jjtGetChild(0);
                     if (assignNode.getId() == ParserTreeConstants.JJTID) {
-                        generateExpressionCode(statementNode.jjtGetChild(1));
-                        instructions.addLast(new IntermediateInstruction(id, String.valueOf(assignNode.jjtGetValue())));
+                        generateExpressionCode(statementNode.jjtGetChild(1), typeList);
+                        instructions.addLast(new IntermediateInstruction(id,
+                                String.valueOf(assignNode.jjtGetValue()), typeList.remove()));
                     }
                     break;
                 case ParserTreeConstants.JJTIF:
@@ -30,43 +31,46 @@ class IntermediateCode {
                     // TODO Generate ICode for WHILE construct
                     break;
                 case ParserTreeConstants.JJTFCALL:
-                    generateExpressionCode(statementNode.jjtGetChild(0));
+                    generateExpressionCode(statementNode.jjtGetChild(0), typeList);
 
                     Node parameterNode = statementNode.jjtGetChild(2);
                     for (int j = 0; j < parameterNode.jjtGetNumChildren(); j++)
-                        generateExpressionCode(parameterNode.jjtGetChild(j));
+                        generateExpressionCode(parameterNode.jjtGetChild(j), typeList);
 
-                    instructions.addLast(new IntermediateInstruction(id,
-                            String.valueOf(statementNode.jjtGetChild(1).jjtGetValue())));
+                    final String methodId = String.join("/", typeList.remove().toString(),
+                            String.valueOf(statementNode.jjtGetChild(1).jjtGetValue()));
+
+                    instructions.addLast(new IntermediateInstruction(id, methodId));
                     break;
                 case ParserTreeConstants.JJTRETURN:
-                    generateExpressionCode(statementNode.jjtGetChild(0));
-                    instructions.addLast(new IntermediateInstruction(id));
+                    generateExpressionCode(statementNode.jjtGetChild(0), typeList);
+                    instructions.addLast(new IntermediateInstruction(id, typeList.remove()));
                     break;
             }
         }
     }
 
-    private void generateExpressionCode(Node expressionNode) {
+    private void generateExpressionCode(Node expressionNode, LinkedList<Type> typeList) {
         LinkedList<IntermediateInstruction> expInstructions = new LinkedList<>();
 
-        generateExpressionCode(expressionNode, expInstructions);
+        generateExpressionCode(expressionNode, expInstructions, typeList);
 
         expInstructions.descendingIterator().forEachRemaining((inst) -> instructions.addLast(inst));
     }
 
-    private void generateExpressionCode(Node expressionNode, LinkedList<IntermediateInstruction> expInstructions) {
+    private void generateExpressionCode(Node expressionNode, LinkedList<IntermediateInstruction> expInstructions,
+                                        LinkedList<Type> typeList) {
         final int id = expressionNode.getId();
         switch(id) {
             case ParserTreeConstants.JJTFCALL:
                 expInstructions.addLast(new IntermediateInstruction(id,
-                        String.valueOf(expressionNode.jjtGetChild(1).jjtGetValue())));
+                        String.valueOf(expressionNode.jjtGetChild(1).jjtGetValue()), typeList.remove()));
 
-                generateExpressionCode(expressionNode.jjtGetChild(0));
+                generateExpressionCode(expressionNode.jjtGetChild(0), typeList);
 
                 Node parameterNode = expressionNode.jjtGetChild(2);
                 for (int i = 0; i < parameterNode.jjtGetNumChildren(); i++)
-                    generateExpressionCode(parameterNode.jjtGetChild(i));
+                    generateExpressionCode(parameterNode.jjtGetChild(i), typeList);
                 break;
             case ParserTreeConstants.JJTINDEX:
             case ParserTreeConstants.JJTPLUS:
@@ -74,8 +78,8 @@ class IntermediateCode {
             case ParserTreeConstants.JJTTIMES:
             case ParserTreeConstants.JJTDIVIDE:
                 expInstructions.addLast(new IntermediateInstruction(id));
-                generateExpressionCode(expressionNode.jjtGetChild(1), expInstructions);
-                generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions);
+                generateExpressionCode(expressionNode.jjtGetChild(1), expInstructions, typeList);
+                generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList);
                 break;
             case ParserTreeConstants.JJTID:
             case ParserTreeConstants.JJTINTEGER:
@@ -84,7 +88,7 @@ class IntermediateCode {
             case ParserTreeConstants.JJTLENGTH:
             case ParserTreeConstants.JJTNEWARRAY:
                 expInstructions.addLast(new IntermediateInstruction(id));
-                generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions);
+                generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList);
                 break;
             case ParserTreeConstants.JJTNEWOBJ:
                 expInstructions.addLast(new IntermediateInstruction(id,

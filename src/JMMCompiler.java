@@ -10,12 +10,14 @@ public class JMMCompiler {
         if (root == null)   return;
         // root.dump("");
 
-        // Semantic Analysis and generation of IR (Symbol Table + Intermediate Code)
+        // Semantic Analysis and generation of HIR (Symbol Table + Intermediate HL Code)
         try {
             IntermediateRepresentation ir = new IntermediateRepresentation(root.jjtGetChild(0));
             System.out.println(ir);
         } catch (SemanticException e) {
             e.printStackTrace();
         }
+
+
     }
 }
