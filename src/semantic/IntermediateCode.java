@@ -6,7 +6,12 @@ import parser.ParserTreeConstants;
 import java.util.LinkedList;
 
 class IntermediateCode {
+    private final FunctionTable functionTable;
     private LinkedList<IntermediateInstruction> instructions = new LinkedList<>();
+
+    public IntermediateCode(FunctionTable functionTable) {
+        this.functionTable = functionTable;
+    }
 
     void generateFunctionCode(Node bodyNode, int i, LinkedList<Type> typeList) {
         Node statementNode;
@@ -63,14 +68,16 @@ class IntermediateCode {
         final int id = expressionNode.getId();
         switch(id) {
             case ParserTreeConstants.JJTFCALL:
-                expInstructions.addLast(new IntermediateInstruction(id,
-                        String.valueOf(expressionNode.jjtGetChild(1).jjtGetValue()), typeList.remove()));
+                final String methodId = String.join("/", typeList.remove().toString(),
+                        String.valueOf(expressionNode.jjtGetChild(1).jjtGetValue()));
 
-                generateExpressionCode(expressionNode.jjtGetChild(0), typeList);
+                expInstructions.addLast(new IntermediateInstruction(id, methodId));
+
+                generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList);
 
                 Node parameterNode = expressionNode.jjtGetChild(2);
                 for (int i = 0; i < parameterNode.jjtGetNumChildren(); i++)
-                    generateExpressionCode(parameterNode.jjtGetChild(i), typeList);
+                    generateExpressionCode(parameterNode.jjtGetChild(i), expInstructions, typeList);
                 break;
             case ParserTreeConstants.JJTINDEX:
             case ParserTreeConstants.JJTPLUS:
@@ -82,6 +89,9 @@ class IntermediateCode {
                 generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList);
                 break;
             case ParserTreeConstants.JJTID:
+                expInstructions.addLast(new IntermediateInstruction(id,
+                        String.valueOf(expressionNode.jjtGetValue()), functionTable.getIdType(expressionNode)));
+                break;
             case ParserTreeConstants.JJTINTEGER:
                 expInstructions.addLast(new IntermediateInstruction(id, String.valueOf(expressionNode.jjtGetValue())));
                 break;

@@ -10,8 +10,11 @@ class IntermediateInstruction {
     private static final int ISTORE = -1;
     private static final int ASTORE = -2;
 
-    private static final int IRETURN = -3;
-    private static final int ARETURN = -4;
+    private static final int ILOAD = -3;
+    private static final int ALOAD = -4;
+
+    private static final int IRETURN = -5;
+    private static final int ARETURN = -6;
 
     private final static Map<Integer, String> stringMap;
 
@@ -19,9 +22,10 @@ class IntermediateInstruction {
         Map<Integer, String> tempMap = new HashMap<>();
 
         // LOAD
-        tempMap.put(ParserTreeConstants.JJTINTEGER,     "ldc");
-        tempMap.put(ParserTreeConstants.JJTID,          "LOAD");
+        tempMap.put(ILOAD,                              "iload");
+        tempMap.put(ALOAD,                              "aload");
         tempMap.put(ParserTreeConstants.JJTINDEX,       "ARRAYLOAD");
+        tempMap.put(ParserTreeConstants.JJTINTEGER,     "ldc");
 
         // STORE AND RETURN
         tempMap.put(ISTORE,                             "istore");
@@ -57,11 +61,6 @@ class IntermediateInstruction {
         this.value = value;
     }
 
-    IntermediateInstruction(int instructionId, String[] values) {
-        this.instructionId = instructionId;
-        this.value = String.join("|", values);
-    }
-
     IntermediateInstruction(int instructionId, Type type) {
         this(instructionId, null, type);
     }
@@ -71,6 +70,10 @@ class IntermediateInstruction {
             case ParserTreeConstants.JJTASSIGN:
                 if (type.isInt() || type.isBoolean())   this.instructionId = ISTORE;
                 else                                    this.instructionId = ASTORE;
+                break;
+            case ParserTreeConstants.JJTID:
+                if (type.isInt() || type.isBoolean())   this.instructionId = ILOAD;
+                else                                    this.instructionId = ALOAD;
                 break;
             case ParserTreeConstants.JJTRETURN:
                 if (type.isInt() || type.isBoolean())   this.instructionId = IRETURN;

@@ -3,7 +3,6 @@ package semantic;
 import parser.Node;
 import parser.ParserTreeConstants;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 class FunctionTable {
@@ -16,7 +15,7 @@ class FunctionTable {
 
     private final Type returnType;
 
-    private final IntermediateCode intermediateCode = new IntermediateCode();
+    private final IntermediateCode intermediateCode = new IntermediateCode(this);
 
 
     FunctionTable(Node bodyNode, IntermediateRepresentation ir) {
@@ -181,14 +180,13 @@ class FunctionTable {
                 if (expressionNode.getId() == ParserTreeConstants.JJTLOWER)     return Type.BOOLEAN();
                 else                                                            return Type.INT();
             case ParserTreeConstants.JJTID:
-                if (variables.containsId(expressionNode))
-                    return variables.getId(expressionNode);
-                else if (parameters.containsId(expressionNode))
-                    return parameters.getId(expressionNode);
-                else if (classTable.getAttributes().containsId(expressionNode))
-                    return classTable.getAttributes().getId(expressionNode);
-                else
-                    throw new SemanticException("Variable not Found: " + expressionNode.jjtGetValue()); // TODO Complete Semantic Error (Variable not found)
+                final Type idType = getIdType(expressionNode);
+
+                // TODO Complete Semantic Error (Variable not found)
+                if (idType == null)
+                    throw new SemanticException("Variable not Found: " + expressionNode.jjtGetValue());
+
+                return idType;
             case ParserTreeConstants.JJTINTEGER:
                 return Type.INT();
             case ParserTreeConstants.JJTNOT:
@@ -212,7 +210,18 @@ class FunctionTable {
         }
     }
 
-    protected SymbolTable getParameters() {
+    Type getIdType(Node expressionNode) {
+        if (variables.containsId(expressionNode))
+            return variables.getId(expressionNode);
+        else if (parameters.containsId(expressionNode))
+            return parameters.getId(expressionNode);
+        else if (classTable.getAttributes().containsId(expressionNode))
+            return classTable.getAttributes().getId(expressionNode);
+
+        return null;
+    }
+
+    SymbolTable getParameters() {
         return parameters;
     }
 

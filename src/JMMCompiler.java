@@ -8,7 +8,7 @@ public class JMMCompiler {
         // Lexical and Syntactical Analysis
         SimpleNode root = Parser.parse(args);
         if (root == null)   return;
-        // root.dump("");
+        //root.dump("");
 
         // Semantic Analysis and generation of HIR (Symbol Table + Intermediate HL Code)
         try {

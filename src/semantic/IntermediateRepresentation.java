@@ -3,7 +3,6 @@ package semantic;
 import parser.Node;
 import parser.ParserTreeConstants;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,10 +61,9 @@ public class IntermediateRepresentation {
                 throw new SemanticException(); //TODO Complete Semantic Error (Method Signature not found)
         }
 
-        System.out.println("Fudeu: " + methodId);
         if (!classType.isId())  throw new SemanticException(); //TODO Complete Semantic Error (Invalid Type for calling method)
 
-        return null; // Null type means it's not meant to be considered for the analysis.
+        return Type.UNKNOWN(); // Null type means it's not meant to be considered for the analysis.
     }
 
     @Override

@@ -6,6 +6,7 @@
 }
 
 PARSER_BEGIN(Parser)
+package parser;
 
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@bgen(jjtree)*/
   protected static JJTParserState jjtree = new JJTParserState();
@@ -17,7 +18,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@
 
         if (args.length != 1){
             System.out.println ("Usage: java Parser <file_directory>");
-            return;
+            return null;
         }
         else {
             System.out.println("Parser: Reading file " + args[0] + " ..." );
@@ -26,7 +27,7 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants/*@egen*/ {/*@
             }
             catch(java.io.FileNotFoundException e) {
                 System.out.println ("Parser: File " + args[0] + " not found.");
-                return;
+                return null;
             }
         }
 
@@ -117,7 +118,7 @@ void Id()    : {/*@bgen(jjtree) ID */
                 SimpleNode jjtn000 = new SimpleNode(JJTID);
                 boolean jjtc000 = true;
                 jjtree.openNodeScope(jjtn000);
-/*@egen*/parser.Token t;}
+/*@egen*/Token t;}
 {/*@bgen(jjtree) ID */
     try {
 /*@egen*/

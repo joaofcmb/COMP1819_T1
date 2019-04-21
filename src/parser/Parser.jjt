@@ -5,6 +5,7 @@ options
 }
 
 PARSER_BEGIN(Parser)
+package parser;
 
 public class Parser {
     public static SimpleNode parse(String[] args) {
@@ -13,7 +14,7 @@ public class Parser {
 
         if (args.length != 1){
             System.out.println ("Usage: java Parser <file_directory>");
-            return;
+            return null;
         }
         else {
             System.out.println("Parser: Reading file " + args[0] + " ..." );
@@ -22,7 +23,7 @@ public class Parser {
             }
             catch(java.io.FileNotFoundException e) {
                 System.out.println ("Parser: File " + args[0] + " not found.");
-                return;
+                return null;
             }
         }
 

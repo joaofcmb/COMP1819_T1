@@ -8,9 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Type {
-    private final static int STRINGARRAY = -1;
+    private static final int STRINGARRAY = -1;
+    private static final int UNKNOWN = -2;
 
     private final static Map<Integer, String> stringMap;
+
     static {
         Map<Integer, String> tempMap = new HashMap<>();
 
@@ -40,6 +42,10 @@ public class Type {
         return new Type(ParserTreeConstants.JJTID, classIdentifier);
     }
 
+    static Type UNKNOWN() {
+        return new Type(UNKNOWN, "unknown");
+    }
+
     private Type(int typeId) {
         this.typeId = typeId;
         this.typeName = stringMap.get(typeId);
@@ -59,24 +65,22 @@ public class Type {
         typeName = stringMap.containsKey(typeId) ? stringMap.get(typeId) : String.valueOf(typeNode.jjtGetValue());
     }
 
-    boolean isInt() {
-        return typeId == ParserTreeConstants.JJTINT;
-    }
+    boolean isInt() { return typeId == UNKNOWN || typeId == ParserTreeConstants.JJTINT; }
 
     boolean isIntArray() {
-        return typeId == ParserTreeConstants.JJTINTARRAY;
+        return typeId == UNKNOWN || typeId == ParserTreeConstants.JJTINTARRAY;
     }
 
     boolean isStringArray() {
-        return typeId == STRINGARRAY;
+        return typeId == UNKNOWN || typeId == STRINGARRAY;
     }
 
     public boolean isBoolean() {
-        return typeId == ParserTreeConstants.JJTBOOLEAN;
+        return typeId == UNKNOWN || typeId == ParserTreeConstants.JJTBOOLEAN;
     }
 
     public boolean isId() {
-        return typeId == ParserTreeConstants.JJTID;
+        return typeId == UNKNOWN || typeId == ParserTreeConstants.JJTID;
     }
 
     @Override
