@@ -5,14 +5,32 @@ import parser.ParserTreeConstants;
 
 import java.util.LinkedList;
 
+/**
+ * Class contaning a Function Body's Intermediate Code.
+ *
+ * It is a stack-based Intermediate Code, with most instructions being the same as JVM's.
+ *
+ * @see FunctionTable
+ */
 class IntermediateCode {
     private final FunctionTable functionTable;
     private LinkedList<IntermediateInstruction> instructions = new LinkedList<>();
 
-    public IntermediateCode(FunctionTable functionTable) {
+    /**
+     * Creates an Intermediate Code class for a Function
+     * @param functionTable Function Table, where the Intermediate Code belongs to
+     */
+    IntermediateCode(FunctionTable functionTable) {
         this.functionTable = functionTable;
     }
 
+    /**
+     * Generates the Intermediate Code for the Function
+     *
+     * @param bodyNode AST Root of the Function's body
+     * @param i Index of the first statement child in the provided node
+     * @param typeList List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Gen
+     */
     void generateFunctionCode(Node bodyNode, int i, LinkedList<Type> typeList) {
         Node statementNode;
         while (i < bodyNode.jjtGetNumChildren()) {
@@ -55,6 +73,15 @@ class IntermediateCode {
         }
     }
 
+    /**
+     * Generates the Intermediate Code of a full expression
+     *
+     * The tree is traversed using DFS and the resulting instruction list is inverted, resulting in a correct order of
+     * instructions, as mentioned in the classes.
+     *
+     * @param expressionNode AST Root containing the expression
+     * @param typeList List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Gen
+     */
     private void generateExpressionCode(Node expressionNode, LinkedList<Type> typeList) {
         LinkedList<IntermediateInstruction> expInstructions = new LinkedList<>();
 
@@ -63,6 +90,14 @@ class IntermediateCode {
         expInstructions.descendingIterator().forEachRemaining((inst) -> instructions.addLast(inst));
     }
 
+    /**
+     * Generates the Intermediate Code of a nested-expression (Recursion is done here, since the list is only inverted
+     * once after the whole expression is generated)
+     *
+     * @param expressionNode AST Root containing the expression
+     * @param expInstructions List of the already generated instructions of the whole expression
+     * @param typeList List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Gen
+     */
     private void generateExpressionCode(Node expressionNode, LinkedList<IntermediateInstruction> expInstructions,
                                         LinkedList<Type> typeList) {
         final int id = expressionNode.getId();

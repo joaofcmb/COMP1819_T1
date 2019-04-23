@@ -5,7 +5,17 @@ import parser.ParserTreeConstants;
 
 import java.util.LinkedList;
 
-class FunctionTable {
+/**
+ * Abstract Class containing all relevant information of a Function (Method or Main)
+ *
+ * Keeps its return type, Symbol Tables of its parameters and local variables, references to the AST Node containing
+ * the function body and the IR to which the function belongs to, and the function's Intermediate Code.
+ *
+ * @see IntermediateRepresentation
+ * @see SymbolTable
+ * @see IntermediateCode
+ */
+abstract class FunctionTable {
     private final Node bodyNode;
 
     private final IntermediateRepresentation classTable;
@@ -17,18 +27,39 @@ class FunctionTable {
 
     private final IntermediateCode intermediateCode = new IntermediateCode(this);
 
-
+    /**
+     * Constructor of the class, initializing the Function Table with its AST body Node and its belonging IR without a
+     * return type (Only case is Main)
+     *
+     * @param bodyNode AST Root of the Function body
+     * @param ir IntermediateRepresentation to which this Function Table belongs to
+     */
     FunctionTable(Node bodyNode, IntermediateRepresentation ir) {
         this(bodyNode, ir, null);
     }
 
+    /**
+     * Constructor of the class, initializing the Function Table with its AST body Node, its belonging IR and its
+     * Return Type
+     *
+     * @param bodyNode AST Root of the Function body
+     * @param ir IntermediateRepresentation to which this Function Table belongs to
+     * @param returnType Return Type of the Function
+     */
     FunctionTable(Node bodyNode, IntermediateRepresentation ir, Type returnType) {
         this.bodyNode = bodyNode;
         this.classTable = ir;
         this.returnType = returnType;
     }
 
-    private int fillVariables(Node bodyNode) throws SemanticException {
+    /**
+     * Iterates the Local Variable Declarations of the Function Body, adding them to the Symbol Table
+     *
+     * @return Index of the first statement child in the body node
+     *
+     * @throws SemanticException on Semantic Error (Conflicting Symbols)
+     */
+    private int fillVariables() throws SemanticException {
         int i = 0;
         while (i < bodyNode.jjtGetNumChildren()) {
             Node varNode = bodyNode.jjtGetChild(i++);
@@ -47,18 +78,33 @@ class FunctionTable {
         return i;
     }
 
-    void analyseBody() throws SemanticException {
-        final int firstStatement = fillVariables(bodyNode);
+    /**
+     * Analyses the body for Semantic Errors and, afterwards, generates Intermediate Code
+     *
+     * @throws SemanticException on Semantic Error
+     */
+    void analyseAndGenerateBody() throws SemanticException {
+        final int firstStatement = fillVariables();
         LinkedList<Type> typeList = analyseStatements(bodyNode, firstStatement);
         intermediateCode.generateFunctionCode(bodyNode, firstStatement, typeList);
     }
 
-    private LinkedList<Type> analyseStatements(Node bodyNode, int i) throws SemanticException {
+    /**
+     * Analyses a series of statements (compound statement or body statements)
+     *
+     * @param statementsNode AST Root containing the statements to be analysed
+     * @param i Index of the first statement child in the provided node
+     *
+     * @return List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Generation
+     *
+     * @throws SemanticException on Semantic Error
+     */
+    private LinkedList<Type> analyseStatements(Node statementsNode, int i) throws SemanticException {
         LinkedList<Type> typeList = new LinkedList<>();
 
         Node statementNode;
-        while (i < bodyNode.jjtGetNumChildren()) {
-            statementNode = bodyNode.jjtGetChild(i++);
+        while (i < statementsNode.jjtGetNumChildren()) {
+            statementNode = statementsNode.jjtGetChild(i++);
 
             switch(statementNode.getId()) {
                 case ParserTreeConstants.JJTASSIGN:
@@ -110,6 +156,16 @@ class FunctionTable {
         return typeList;
     }
 
+    /**
+     * Analyses the parameters from a function call
+     *
+     * @param parameterNode AST Root containing the parameters being called
+     * @param typeList List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Gen
+     *
+     * @return Types of each analysed parameter
+     *
+     * @throws SemanticException on Semantic Error
+     */
     private Type[] analyseParameters(Node parameterNode, LinkedList<Type> typeList) throws SemanticException {
         Type[] parameterTypes = new Type[parameterNode.jjtGetNumChildren()];
 
@@ -120,6 +176,16 @@ class FunctionTable {
         return parameterTypes;
     }
 
+    /**
+     * Analyses an expression
+     *
+     * @param expressionNode AST Root containing the expression
+     * @param typeList List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Gen
+     *
+     * @return Final Type of the expression
+     *
+     * @throws SemanticException on Semantic Error
+     */
     private Type analyseExpression(Node expressionNode, LinkedList<Type> typeList) throws SemanticException {
         switch(expressionNode.getId()) {
             case ParserTreeConstants.JJTFCALL:
@@ -210,13 +276,20 @@ class FunctionTable {
         }
     }
 
-    Type getIdType(Node expressionNode) {
-        if (variables.containsId(expressionNode))
-            return variables.getId(expressionNode);
-        else if (parameters.containsId(expressionNode))
-            return parameters.getId(expressionNode);
-        else if (classTable.getAttributes().containsId(expressionNode))
-            return classTable.getAttributes().getId(expressionNode);
+    /**
+     * Retrieves the Type, from a Symbol Table, of a certain variable being used
+     *
+     * @param idNode Node containing the Symbol Identifier
+     *
+     * @return Type of the Symbol, null if it does not exist in this class
+     */
+    Type getIdType(Node idNode) {
+        if (variables.containsId(idNode))
+            return variables.getId(idNode);
+        else if (parameters.containsId(idNode))
+            return parameters.getId(idNode);
+        else if (classTable.getAttributes().containsId(idNode))
+            return classTable.getAttributes().getId(idNode);
 
         return null;
     }
@@ -229,6 +302,9 @@ class FunctionTable {
         return returnType;
     }
 
+    /**
+     * @return Human readable format of the Function Table to be printed on the CLI
+     */
     @Override
     public String toString() {
         return "- PARAMETERS:" + System.lineSeparator()

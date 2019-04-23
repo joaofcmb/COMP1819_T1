@@ -7,6 +7,16 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class representing a Type
+ *
+ * It provides an abstraction of the Parser Constants, used during the Semantic Analysis and the
+ * Intermediate Code Generation
+ *
+ * @see FunctionTable
+ * @see IntermediateCode
+ * @see ParserTreeConstants
+ */
 public class Type {
     private static final int STRINGARRAY = -1;
     private static final int UNKNOWN = -2;
@@ -26,6 +36,7 @@ public class Type {
     private final int typeId;
     private final String typeName;
 
+    // Method Factories for Types
     static Type INT() {
         return new Type(ParserTreeConstants.JJTINT);
     }
@@ -36,6 +47,10 @@ public class Type {
 
     static Type INTARRAY() {
         return new Type(ParserTreeConstants.JJTINTARRAY);
+    }
+
+    static Type STRINGARRAY() {
+        return new Type(STRINGARRAY, "STRINGARRAY");
     }
 
     static Type ID(String classIdentifier) {
@@ -56,10 +71,11 @@ public class Type {
         this.typeName = typeName;
     }
 
-    Type() {
-        this(STRINGARRAY,"STRINGARRAY");
-    }
-
+    /**
+     * Creates a Type from a node representing a Type
+     *
+     * @param typeNode AST Node representing a Type
+     */
     Type(Node typeNode) {
         typeId = typeNode.getId();
         typeName = stringMap.containsKey(typeId) ? stringMap.get(typeId) : String.valueOf(typeNode.jjtGetValue());

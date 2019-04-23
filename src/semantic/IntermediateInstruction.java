@@ -6,6 +6,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class representing an Intermediate Instruction. It is Identified using the Constants defined in the Parser, as well
+ * as by some extra Identifiers where needed.
+ *
+ * @see IntermediateRepresentation
+ * @see ParserTreeConstants
+ */
 class IntermediateInstruction {
     private static final int ISTORE = -1;
     private static final int ASTORE = -2;
@@ -51,20 +58,43 @@ class IntermediateInstruction {
     private final int instructionId;
     private final String value;
 
+    /**
+     * Creates an Intermediate Instruction without any explicit parameter
+     *
+     * @param instructionId Instruction Identifier
+     */
     IntermediateInstruction(int instructionId) {
         this.instructionId = instructionId;
         this.value = null;
     }
 
+    /**
+     * Creates an Intermediate Instruction with an explicit parameter
+     *
+     * @param instructionId Instruction Identifier
+     * @param value Instruction Parameter
+     */
     IntermediateInstruction(int instructionId, String value) {
         this.instructionId = instructionId;
         this.value = value;
     }
 
+    /**
+     * Creates a Type specific Intermediate Instruction without any explicit paramter
+     *
+     * @param instructionId Instruction Identifier
+     * @param type Desired Type
+     */
     IntermediateInstruction(int instructionId, Type type) {
         this(instructionId, null, type);
     }
 
+    /**
+     * Creates a Type specific Intermediate Instruction with an explicit paramter
+     *
+     * @param instructionId Instruction Identifier
+     * @param type Desired Type
+     */
     IntermediateInstruction(int instructionId, String value, Type type) {
         switch (instructionId) {
             case ParserTreeConstants.JJTASSIGN:

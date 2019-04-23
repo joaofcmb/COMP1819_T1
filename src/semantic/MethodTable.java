@@ -2,7 +2,21 @@ package semantic;
 
 import parser.Node;
 
+/**
+ * Class containing all the relevant information of a method
+ *
+ * @see FunctionTable
+ */
 public class MethodTable extends FunctionTable {
+
+    /**
+     * Creates a Method Table, initializing its Base Attributes and filling its Symbol Tables
+     *
+     * @param methodNode AST Root containing the method
+     * @param ir IR of the class this method belongs to
+     *
+     * @throws SemanticException on Semantic Error (Conflicting Symbols)
+     */
     MethodTable(Node methodNode, IntermediateRepresentation ir) throws SemanticException {
         super(methodNode.jjtGetChild(3), ir, new Type(methodNode.jjtGetChild(0)));
 
@@ -13,7 +27,7 @@ public class MethodTable extends FunctionTable {
             //TODO Complete Semantic Error (Id already exists within scope)
             if (ir.getAttributes().containsId(parameterId))    throw new SemanticException();
 
-            super.getParameters().addParameter(parameterNode.jjtGetChild(i), parameterId);
+            getParameters().addParameter(parameterNode.jjtGetChild(i), parameterId);
         }
     }
 
