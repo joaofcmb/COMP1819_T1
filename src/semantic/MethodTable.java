@@ -33,7 +33,7 @@ public class MethodTable extends FunctionTable {
 
     @Override
     public String toString() {
-        return "- RETURN: " + getReturnType() + System.lineSeparator()
+        return "  RETURN: " + getReturnType() + System.lineSeparator()
                 + System.lineSeparator()
                 + super.toString();
     }

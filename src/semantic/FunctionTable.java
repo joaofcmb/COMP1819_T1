@@ -307,11 +307,11 @@ abstract class FunctionTable {
      */
     @Override
     public String toString() {
-        return "- PARAMETERS:" + System.lineSeparator()
+        return "  PARAMETERS:" + System.lineSeparator()
                 + parameters + System.lineSeparator()
-                + "- LOCAL VARIABLES:" + System.lineSeparator()
+                + "  LOCAL VARIABLES:" + System.lineSeparator()
                 + variables + System.lineSeparator()
-                + "- INTERMEDIATE CODE:" + System.lineSeparator()
+                + "  INTERMEDIATE CODE:" + System.lineSeparator()
                 + intermediateCode;
     }
 }

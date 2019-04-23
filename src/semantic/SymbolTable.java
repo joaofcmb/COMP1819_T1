@@ -79,7 +79,7 @@ class SymbolTable {
         final StringBuilder sb = new StringBuilder();
 
         for (Map.Entry<String, Type> symbol : symbols.entrySet()) {
-            sb.append("  ")
+            sb.append("   - ")
                     .append(symbol.getValue().toString())
                     .append(" ")
                     .append(symbol.getKey())

@@ -162,7 +162,7 @@ class IntermediateCode {
         StringBuilder sb = new StringBuilder();
 
         for (IntermediateInstruction instruction : instructions) {
-            sb.append("   -").append(instruction).append(System.lineSeparator());
+            sb.append("   - ").append(instruction).append(System.lineSeparator());
         }
 
         return sb.toString();
