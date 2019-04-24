@@ -1,0 +1,4 @@
+package generation;
+
+interface RegisterAllocator {
+}

@@ -3,23 +3,17 @@
 package parser;
 
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
-  protected static JJTParserState jjtree = new JJTParserState();public static SimpleNode parse(String[] args) {
+  protected static JJTParserState jjtree = new JJTParserState();public static SimpleNode parse(String fileName) {
         //Parser initialization
-        parser.Parser parser;
+        Parser parser;
 
-        if (args.length != 1){
-            System.out.println ("Usage: java Parser <file_directory>");
-            return null;
+        System.out.println("Parser: Reading file " + fileName + " ..." );
+        try {
+            parser = new parser.Parser(new java.io.FileInputStream(fileName));
         }
-        else {
-            System.out.println("Parser: Reading file " + args[0] + " ..." );
-            try {
-                parser = new parser.Parser(new java.io.FileInputStream(args[0]));
-            }
-            catch(java.io.FileNotFoundException e) {
-                System.out.println ("Parser: File " + args[0] + " not found.");
-                return null;
-            }
+        catch(java.io.FileNotFoundException e) {
+            System.out.println ("Parser: File " + fileName + " not found.");
+            return null;
         }
 
         try {

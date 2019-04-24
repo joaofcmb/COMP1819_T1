@@ -15,7 +15,7 @@ import java.util.LinkedList;
  * @see SymbolTable
  * @see IntermediateCode
  */
-abstract class FunctionTable {
+public abstract class FunctionTable {
     private final Node bodyNode;
 
     private final IntermediateRepresentation classTable;
@@ -260,7 +260,10 @@ abstract class FunctionTable {
             case ParserTreeConstants.JJTFALSE:
                 return Type.BOOLEAN();
             case ParserTreeConstants.JJTTHIS:
-                return Type.ID(classTable.getIdentifier());
+                // TODO Complete Semantic Error (Cannot get instance from static method (main))
+                if (this.returnType == null)    throw new SemanticException();
+
+                return Type.ID(classTable.getClassIdentifier());
             case ParserTreeConstants.JJTNEWARRAY:
                 final Type lengthType = analyseExpression(expressionNode.jjtGetChild(0), typeList);
 

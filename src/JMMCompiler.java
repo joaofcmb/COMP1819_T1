@@ -1,3 +1,5 @@
+import generation.CodeGenerator;
+import generation.NaiveRegisterAllocator;
 import parser.Parser;
 import parser.SimpleNode;
 import semantic.SemanticException;
@@ -45,19 +47,30 @@ public class JMMCompiler {
      * @param args Contains one command line argument, corresponding to the path of the file to compile
      */
     public static void main(String[] args) {
+        if (args.length != 1) {
+            System.out.println ("Usage: java Parser <file_path>");
+            return;
+        }
+        else if (!args[0].endsWith(".jmm")) {
+            System.out.println ("Invalid file \"" + args[0] + "\" (must have .jmm extension)");
+            return;
+        }
+
         // Lexical and Syntactical Analysis
-        SimpleNode root = Parser.parse(args);
+        SimpleNode root = Parser.parse(args[0]);
         if (root == null)   return;
         //root.dump("");
 
-        // Semantic Analysis and generation of HIR (Symbol Table + Intermediate HL Code)
         try {
+            // Semantic Analysis and generation of HIR (Symbol Table + Intermediate HL Code)
             IntermediateRepresentation ir = new IntermediateRepresentation(root.jjtGetChild(0));
             System.out.println(ir);
+
+            // Register Allocation and Code Generation
+            CodeGenerator codeGenerator = new CodeGenerator(ir, args[0].substring(0, args[0].length() - 4));
+            codeGenerator.generateFile();
         } catch (SemanticException e) {
             e.printStackTrace();
         }
-
-        // TODO Register Alocation (Naive for now) and Code Generation (Just functions and arithmetic for now)
     }
 }

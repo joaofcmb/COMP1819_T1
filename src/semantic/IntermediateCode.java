@@ -108,11 +108,11 @@ class IntermediateCode {
 
                 expInstructions.addLast(new IntermediateInstruction(id, methodId));
 
-                generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList);
-
                 Node parameterNode = expressionNode.jjtGetChild(2);
-                for (int i = 0; i < parameterNode.jjtGetNumChildren(); i++)
+                for (int i = parameterNode.jjtGetNumChildren() - 1; i >= 0; i--)
                     generateExpressionCode(parameterNode.jjtGetChild(i), expInstructions, typeList);
+
+                generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList);
                 break;
             case ParserTreeConstants.JJTINDEX:
             case ParserTreeConstants.JJTPLUS:
@@ -140,7 +140,7 @@ class IntermediateCode {
                         String.valueOf(expressionNode.jjtGetChild(0).jjtGetValue())));
                 break;
             case ParserTreeConstants.JJTTHIS:
-                //TODO figure out how to do dis
+                expInstructions.addLast(new IntermediateInstruction(id));
                 break;
 
             // TODO Generation of ICode for conditions

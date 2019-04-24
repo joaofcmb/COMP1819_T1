@@ -43,6 +43,7 @@ class IntermediateInstruction {
         // NEW, FCALL and LENGTH
         tempMap.put(ParserTreeConstants.JJTNEWARRAY,    "newarray int");
         tempMap.put(ParserTreeConstants.JJTNEWOBJ,      "new");
+        tempMap.put(ParserTreeConstants.JJTTHIS,        "aload_0");
         tempMap.put(ParserTreeConstants.JJTFCALL,       "invokevirtual");
         tempMap.put(ParserTreeConstants.JJTLENGTH,      "arraylength");
 

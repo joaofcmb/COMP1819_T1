@@ -32,7 +32,6 @@ public class Type {
 
         stringMap = Collections.unmodifiableMap(tempMap);
     }
-
     private final int typeId;
     private final String typeName;
 
@@ -111,5 +110,20 @@ public class Type {
 
         Type type = (Type) o;
         return typeId == type.typeId && typeName.equals(type.typeName);
+    }
+
+    String toDescriptor() {
+        switch(typeId) {
+            case ParserTreeConstants.JJTINT:
+                return "I";
+            case ParserTreeConstants.JJTBOOLEAN:
+                return "Z";
+            case ParserTreeConstants.JJTINTARRAY:
+                return "[I";
+            case ParserTreeConstants.JJTID:
+                return "L" + typeName + ";";
+            default:
+                return "";
+        }
     }
 }

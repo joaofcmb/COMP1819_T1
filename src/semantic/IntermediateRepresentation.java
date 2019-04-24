@@ -129,11 +129,23 @@ public class IntermediateRepresentation {
         return sb.toString();
     }
 
-    String getIdentifier() {
+    public String getClassIdentifier() {
         return classIdentifier;
+    }
+
+    public String getExtendIdentifier() {
+        return extendIdentifier;
     }
 
     SymbolTable getAttributes() {
         return attributes;
+    }
+
+    public Map<MethodSignature, FunctionTable> getMethods() {
+        return methods;
+    }
+
+    public FunctionTable getMain() {
+        return mainMethod;
     }
 }
