@@ -4,13 +4,14 @@ import parser.Node;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class containing Symbols, mapping their Identifier to their corresponding Type
  *
  * @see Type
  */
-class SymbolTable {
+public class SymbolTable {
     private final HashMap<String, Type> symbols = new HashMap<>();
 
     /**
@@ -69,6 +70,10 @@ class SymbolTable {
     }
     Type getId(Node idNode) {
         return symbols.get(String.valueOf(idNode.jjtGetValue()));
+    }
+
+    public Set<Map.Entry<String, Type>> entrySet() {
+        return symbols.entrySet();
     }
 
     /**

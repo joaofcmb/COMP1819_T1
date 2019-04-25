@@ -3,6 +3,7 @@ package semantic;
 import parser.Node;
 import parser.ParserTreeConstants;
 
+import java.util.Collections;
 import java.util.LinkedList;
 
 /**
@@ -26,6 +27,8 @@ public abstract class FunctionTable {
     private final Type returnType;
 
     private final IntermediateCode intermediateCode = new IntermediateCode(this);
+    private final LinkedList<Type> typeList = new LinkedList<>();
+    private final LinkedList<MethodSignature> methodList = new LinkedList<>();
 
     /**
      * Constructor of the class, initializing the Function Table with its AST body Node and its belonging IR without a
@@ -85,8 +88,8 @@ public abstract class FunctionTable {
      */
     void analyseAndGenerateBody() throws SemanticException {
         final int firstStatement = fillVariables();
-        LinkedList<Type> typeList = analyseStatements(bodyNode, firstStatement);
-        intermediateCode.generateFunctionCode(bodyNode, firstStatement, typeList);
+        analyseStatements(bodyNode, firstStatement);
+        intermediateCode.generateFunctionCode(bodyNode, firstStatement, typeList, methodList);
     }
 
     /**
@@ -99,28 +102,29 @@ public abstract class FunctionTable {
      *
      * @throws SemanticException on Semantic Error
      */
-    private LinkedList<Type> analyseStatements(Node statementsNode, int i) throws SemanticException {
-        LinkedList<Type> typeList = new LinkedList<>();
-
+    private void analyseStatements(Node statementsNode, int i) throws SemanticException {
         Node statementNode;
         while (i < statementsNode.jjtGetNumChildren()) {
             statementNode = statementsNode.jjtGetChild(i++);
 
             switch(statementNode.getId()) {
                 case ParserTreeConstants.JJTASSIGN:
-                    final Type assignType = analyseExpression(statementNode.jjtGetChild(0), typeList);
-                    final Type expressionType = analyseExpression(statementNode.jjtGetChild(1), typeList);
+                    // TODO If Forward chaining doesnt work (Cannot infer assign type and use it on expression type),
+                    //  check if the expression type can be deduced and use it to deduce the assignType.
+                    final Type assignType = analyseExpression(statementNode.jjtGetChild(0), typeList, Type.UNKNOWN());
+                    final Type expressionType = analyseExpression(statementNode.jjtGetChild(1), typeList, assignType);
 
                     // TODO Complete Semantic Error (Invalid Assignment Types)
                     if (!assignType.equals(expressionType)) throw new SemanticException();
 
-                    // TODO Remove restriction for array assignments
+                    // TODO Remove restriction for array assignments (being ignored ATM)
                     if (statementNode.jjtGetChild(0).getId() == ParserTreeConstants.JJTID)
                         typeList.add(assignType);
                     break;
                 case ParserTreeConstants.JJTIF:
                 case ParserTreeConstants.JJTWHILE:
-                    final Type conditionType = analyseExpression(statementNode.jjtGetChild(0).jjtGetChild(0), typeList);
+                    final Type conditionType = analyseExpression(statementNode.jjtGetChild(0).jjtGetChild(0),
+                            typeList, Type.BOOLEAN());
 
                     // TODO Complete Semantic Error (Condition not Boolean)
                     if (!conditionType.isBoolean()) throw new SemanticException();
@@ -131,16 +135,21 @@ public abstract class FunctionTable {
                         analyseStatements(statementNode.jjtGetChild(2), 0);
                     break;
                 case ParserTreeConstants.JJTFCALL:
-                    final Type classType = analyseExpression(statementNode.jjtGetChild(0), typeList);
+                    // TODO If Backward Chaining of desired types doesn't work (i.e. Unknown return type used
+                    //  as a parameter to a method), attempt to use Forward Chaining (Using the same example, check if any
+                    //  known method fits the first method being called and, from there, deduce the unknown return type
+                    //  being called as a parameter).
+                    final Type classType = analyseExpression(statementNode.jjtGetChild(0), typeList, Type.UNKNOWN());
                     final String methodId = String.valueOf(statementNode.jjtGetChild(1).jjtGetValue());
                     final Type[] parameterTypes = analyseParameters(statementNode.jjtGetChild(2), typeList);
 
-                    classTable.checkMethod(classType, methodId, parameterTypes);
-
+                    MethodSignature methodSignature = classTable.checkMethod(classType, methodId, parameterTypes);
                     typeList.add(classType);
+                    methodList.add(methodSignature);
+
                     break;
                 case ParserTreeConstants.JJTRETURN:
-                    final Type returnType = analyseExpression(statementNode.jjtGetChild(0), typeList);
+                    final Type returnType = analyseExpression(statementNode.jjtGetChild(0), typeList, this.returnType);
 
                     // TODO Complete Semantic Error (Invalid Return Type)
                     if (!this.returnType.equals(returnType))    throw new SemanticException();
@@ -152,8 +161,6 @@ public abstract class FunctionTable {
                     throw new SemanticException();
             }
         }
-
-        return typeList;
     }
 
     /**
@@ -170,7 +177,7 @@ public abstract class FunctionTable {
         Type[] parameterTypes = new Type[parameterNode.jjtGetNumChildren()];
 
         for (int i = 0; i < parameterTypes.length; i++) {
-            parameterTypes[i] = analyseExpression(parameterNode.jjtGetChild(i), typeList);
+            parameterTypes[i] = analyseExpression(parameterNode.jjtGetChild(i), typeList, Type.UNKNOWN());
         }
 
         return parameterTypes;
@@ -181,48 +188,68 @@ public abstract class FunctionTable {
      *
      * @param expressionNode AST Root containing the expression
      * @param typeList List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Gen
+     * @param desiredType Desired Type for this expression. Used to infer return types of unknown methods
      *
      * @return Final Type of the expression
      *
      * @throws SemanticException on Semantic Error
      */
-    private Type analyseExpression(Node expressionNode, LinkedList<Type> typeList) throws SemanticException {
+    private Type analyseExpression(Node expressionNode, LinkedList<Type> typeList, Type desiredType)
+            throws SemanticException {
         switch(expressionNode.getId()) {
             case ParserTreeConstants.JJTFCALL:
-                final Type classType = analyseExpression(expressionNode.jjtGetChild(0), typeList);
+                final int typeIndex = typeList.size(), methodIndex = methodList.size();
+
+                final Type classType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.UNKNOWN());
                 final String methodId = String.valueOf(expressionNode.jjtGetChild(1).jjtGetValue());
                 final Type[] parameterTypes = analyseParameters(expressionNode.jjtGetChild(2), typeList);
 
-                typeList.add(classType);
+                MethodSignature methodSignature = classTable.checkMethod(classType, methodId, parameterTypes);
 
-                return classTable.checkMethod(classType, methodId, parameterTypes);
+                // Deduce the return type of unknown methods
+                if (methodSignature.getReturnType() == null) {
+                    // TODO Complete Error (Could not infer return type of unknown method)
+                    if (desiredType.equals(Type.UNKNOWN())) throw new SemanticException();
+
+                    methodSignature.setReturnType(desiredType);
+                }
+
+                typeList.add(classType);
+                methodList.add(methodSignature);
+
+                // When generating stack based intermediate code, the traversal order of parameters is reversed
+                Collections.reverse(typeList.subList(typeIndex, typeList.size()));
+                Collections.reverse(methodList.subList(methodIndex, methodList.size()));
+
+                return methodSignature.getReturnType();
             case ParserTreeConstants.JJTINDEX:
-                final Type indexType = analyseExpression(expressionNode.jjtGetChild(1), typeList);
+                final Type indexType = analyseExpression(expressionNode.jjtGetChild(1), typeList, Type.INT());
 
                 // TODO Complete Semantic Error (array index not an integer)
                 if (!indexType.isInt())         throw new SemanticException();
 
+                // TODO Use the current desired type to deduce desired type of arrayType
                 // TODO Add String array functionality once it is better known how it is meant to be used
-                final Type arrayType = analyseExpression(expressionNode.jjtGetChild(0), typeList);
+                final Type arrayType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.UNKNOWN());
 
                 // TODO Complete Semantic Error (Trying to access index of non array)
                 if (!arrayType.isIntArray())    throw new SemanticException();
 
                 return Type.INT();
             case ParserTreeConstants.JJTLENGTH:
-                final Type targetType = analyseExpression(expressionNode.jjtGetChild(0), typeList);
+                final Type targetType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.UNKNOWN());
 
                 // TODO Complete Semantic Error (Trying to access length of non array)
                 if (!targetType.isIntArray() && !targetType.isStringArray()) throw new SemanticException();
 
                 return Type.INT();
             case ParserTreeConstants.JJTAND:
-                final Type firstBool = analyseExpression(expressionNode.jjtGetChild(0), typeList);
+                final Type firstBool = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.BOOLEAN());
 
                 // TODO Complete Semantic Error (Not a boolean)
                 if (!firstBool.isBoolean())    throw new SemanticException();
 
-                final Type secondBool = analyseExpression(expressionNode.jjtGetChild(1), typeList);
+                final Type secondBool = analyseExpression(expressionNode.jjtGetChild(1), typeList, Type.BOOLEAN());
 
                 // TODO Complete Semantic Error (Not a boolean)
                 if (!secondBool.isBoolean())    throw new SemanticException();
@@ -233,12 +260,12 @@ public abstract class FunctionTable {
             case ParserTreeConstants.JJTMINUS:
             case ParserTreeConstants.JJTTIMES:
             case ParserTreeConstants.JJTDIVIDE:
-                final Type secondOp = analyseExpression(expressionNode.jjtGetChild(1), typeList);
+                final Type secondOp = analyseExpression(expressionNode.jjtGetChild(1), typeList, Type.INT());
 
                 // TODO Complete Semantic Error (Invalid Operand Type)
                 if (!secondOp.isInt())    throw new SemanticException();
 
-                final Type firstOp = analyseExpression(expressionNode.jjtGetChild(0), typeList);
+                final Type firstOp = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.INT());
 
                 // TODO Complete Semantic Error (Invalid Operand Type)
                 if (!firstOp.isInt())    throw new SemanticException();
@@ -265,7 +292,7 @@ public abstract class FunctionTable {
 
                 return Type.ID(classTable.getClassIdentifier());
             case ParserTreeConstants.JJTNEWARRAY:
-                final Type lengthType = analyseExpression(expressionNode.jjtGetChild(0), typeList);
+                final Type lengthType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.INT());
 
                 // TODO Complete Semantic Error (Invalid Length)
                 if (!lengthType.isInt())        throw new SemanticException();

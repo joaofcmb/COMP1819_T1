@@ -11,7 +11,7 @@ import java.util.Arrays;
  * therefore, for Method Overloading
  */
 public class MethodSignature {
-    private final Type returnType;
+    private Type returnType;
     private final String methodId;
     private final Type[] parameterTypes;
 
@@ -69,6 +69,14 @@ public class MethodSignature {
 
         MethodSignature that = (MethodSignature) o;
         return methodId.equals(that.methodId) && Arrays.equals(parameterTypes, that.parameterTypes);
+    }
+
+    void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
+    Type getReturnType() {
+        return returnType;
     }
 
     /**

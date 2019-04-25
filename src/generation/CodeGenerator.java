@@ -3,6 +3,7 @@ package generation;
 import semantic.FunctionTable;
 import semantic.IntermediateRepresentation;
 import semantic.MethodSignature;
+import semantic.Type;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -30,21 +31,26 @@ public class CodeGenerator {
             pw.println(".super " + superClass);
 
             pw.println(".method public <init>()V");
-            pw.println("aload_0");
-            pw.println("invokenonvirtual " + superClass + "<init>()V");
-            pw.println("return");
+            pw.println("\taload_0");
+            pw.println("\tinvokenonvirtual " + superClass + "<init>()V");
+            pw.println("\treturn");
+            pw.println(".end method" + System.lineSeparator());
+
+            for (Map.Entry<String, Type> fieldEntry : ir.getAttributes().entrySet()) {
+                pw.println(".field public " + fieldEntry.getKey() + " " + fieldEntry.getValue().toDescriptor());
+            }
 
             FunctionTable main = ir.getMain();
             if (main != null) {
-                pw.println(".method public main([Ljava/lang/String;)V");
-                generateMethod(main, 0);
+                pw.println(System.lineSeparator() + ".method public main([Ljava/lang/String;)V");
+                generateMethod(pw, main, 0);
                 pw.println(".end method");
             }
 
             for (Map.Entry<MethodSignature, FunctionTable> methodEntry : ir.getMethods().entrySet()) {
-                pw.println(".method public " + methodEntry.getKey().toDescriptor(fileClass));
-                generateMethod(methodEntry.getValue(), 1);
-                pw.println(".end method");
+                pw.println(System.lineSeparator() + ".method public " + methodEntry.getKey().toDescriptor(fileClass));
+                generateMethod(pw, methodEntry.getValue(), 1);
+                pw.println(".end method" + System.lineSeparator());
             }
         }
         catch (IOException e) {
@@ -52,7 +58,10 @@ public class CodeGenerator {
         }
     }
 
-    private void generateMethod(FunctionTable method, int localVarStart) {
+    private void generateMethod(PrintWriter pw, FunctionTable method, int localVarStart) {
+        registerAllocator.allocate(method, localVarStart);
+        pw.println(registerAllocator); // Print the stack and local limits
+
 
     }
 }

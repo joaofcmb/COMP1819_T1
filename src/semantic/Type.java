@@ -112,7 +112,7 @@ public class Type {
         return typeId == type.typeId && typeName.equals(type.typeName);
     }
 
-    String toDescriptor() {
+    public String toDescriptor() {
         switch(typeId) {
             case ParserTreeConstants.JJTINT:
                 return "I";

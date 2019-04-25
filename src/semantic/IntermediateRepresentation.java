@@ -86,18 +86,21 @@ public class IntermediateRepresentation {
      *
      * @throws SemanticException on Semantic Error (Invalid Class Type or Method not found)
      */
-    Type checkMethod(Type classType, String methodId, Type[] parameterTypes) throws SemanticException {
+    MethodSignature checkMethod(Type classType, String methodId, Type[] parameterTypes) throws SemanticException {
+        MethodSignature methodSignature = MethodSignature.from(methodId, parameterTypes);
+
         if (classType.equals(Type.ID(classIdentifier))) {
-            MethodSignature methodSignature = MethodSignature.from(methodId, parameterTypes);
-            if (methods.containsKey(methodSignature))
-                return methods.get(methodSignature).getReturnType();
+            if (methods.containsKey(methodSignature)) {
+                methodSignature.setReturnType(methods.get(methodSignature).getReturnType());
+                return methodSignature;
+            }
             else
                 throw new SemanticException(); //TODO Complete Semantic Error (Method Signature not found)
         }
 
         if (!classType.isId())  throw new SemanticException(); //TODO Complete Semantic Error (Invalid Type for calling method)
 
-        return Type.UNKNOWN(); // Null type means it's not meant to be considered for the analysis.
+        return methodSignature;
     }
 
     /**
@@ -137,7 +140,7 @@ public class IntermediateRepresentation {
         return extendIdentifier;
     }
 
-    SymbolTable getAttributes() {
+    public SymbolTable getAttributes() {
         return attributes;
     }
 
