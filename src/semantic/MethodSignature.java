@@ -85,7 +85,7 @@ public class MethodSignature {
      * @return The Descriptor of the method with this method signature
      */
     public String toDescriptor(String classId) {
-        StringBuilder sb = new StringBuilder(classId + "/" + methodId + "(");
+        StringBuilder sb = new StringBuilder((classId == null ? "" : classId + "/") + methodId + "(");
 
         for (Type parameter : parameterTypes)
             sb.append(parameter.toDescriptor());

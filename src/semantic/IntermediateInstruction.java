@@ -155,4 +155,45 @@ public class IntermediateInstruction {
     public String toString() {
         return stringMap.get(instructionId) + " " + (value == null ? "" : value);
     }
+
+    public int stackSlots() {
+        switch(instructionId) {
+            case ISTORE:
+            case ASTORE:
+            case IRETURN:
+            case ARETURN:
+            case ParserTreeConstants.JJTINDEX:
+            case ParserTreeConstants.JJTPLUS:
+            case ParserTreeConstants.JJTMINUS:
+            case ParserTreeConstants.JJTTIMES:
+            case ParserTreeConstants.JJTDIVIDE:
+                return -1;
+            case ILOAD:
+            case ALOAD:
+            case ParserTreeConstants.JJTINTEGER:
+            case ParserTreeConstants.JJTTHIS:
+            case ParserTreeConstants.JJTNEWOBJ:
+                return 1;
+            case INVOKESTATIC:
+            case INVOKEVIRTUAL:
+                int stackSlots = 0;
+                if (value.endsWith("V"))    stackSlots++;
+
+                String parameters = value.split("[()]")[1];
+                for (int i = 0; i < parameters.length(); i++) {
+                    char c = parameters.charAt(0);
+
+                    if (c == '[')   continue;
+                    else if (c == 'L') {
+                        while (parameters.charAt(++i) != ';');
+                    }
+
+                    stackSlots--;
+                }
+
+                return stackSlots;
+            default:
+                return 0;
+        }
+    }
 }

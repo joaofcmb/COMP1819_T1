@@ -143,8 +143,11 @@ class IntermediateCode {
                 generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList, methodList);
                 break;
             case ParserTreeConstants.JJTNEWOBJ:
+                String value = String.valueOf(expressionNode.jjtGetChild(0).jjtGetValue());
                 expInstructions.addLast(new IntermediateInstruction(id,
-                        String.valueOf(expressionNode.jjtGetChild(0).jjtGetValue())));
+                        value + System.lineSeparator()
+                                + "\tdup" + System.lineSeparator()
+                                + "\tinvokespecial " + value + "/<init>()V"));
                 break;
             case ParserTreeConstants.JJTTHIS:
                 expInstructions.addLast(new IntermediateInstruction(id));

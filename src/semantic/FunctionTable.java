@@ -136,10 +136,10 @@ public abstract class FunctionTable {
                         analyseStatements(statementNode.jjtGetChild(2), 0);
                     break;
                 case ParserTreeConstants.JJTFCALL:
-                    // TODO If Backward Chaining of desired types doesn't work (i.e. Unknown return type used
-                    //  as a parameter to a method), attempt to use Forward Chaining (Using the same example, check if any
-                    //  known method fits the first method being called and, from there, deduce the unknown return type
-                    //  being called as a parameter).
+                    // TODO If Backward Chaining of type deduction doesn't work (i.e. Unknown return type used
+                    //  as a parameter to a method), attempt to use Forward Chaining (Using the same example, check if
+                    //  any known method fits the first method being called and, from there, deduce the unknown return
+                    //  type being called as a parameter).
                     Node classNode = statementNode.jjtGetChild(0);
                     Type classType;
                     if (classNode.getId() == ParserTreeConstants.JJTID)
@@ -150,6 +150,10 @@ public abstract class FunctionTable {
                     final Type[] parameterTypes = analyseParameters(statementNode.jjtGetChild(2), typeList);
 
                     MethodSignature methodSignature = classTable.checkMethod(classType, methodId, parameterTypes);
+
+                    // Deduce the return type of unknown methods
+                    if (methodSignature.getReturnType() == null)
+                        methodSignature.setReturnType(Type.VOID());
 
                     typeList.add(classType);
                     methodList.add(methodSignature);

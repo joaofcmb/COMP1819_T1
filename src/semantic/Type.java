@@ -20,7 +20,8 @@ import java.util.Map;
 public class Type {
     private static final int STRINGARRAY = -1;
     private static final int CLASS = -2;
-    private static final int UNKNOWN = -3;
+    private static final int VOID = -3;
+    private static final int UNKNOWN = -4;
 
     private final static Map<Integer, String> stringMap;
 
@@ -28,8 +29,10 @@ public class Type {
         Map<Integer, String> tempMap = new HashMap<>();
 
         tempMap.put(ParserTreeConstants.JJTINT, "INT");
-        tempMap.put(ParserTreeConstants.JJTINTARRAY, "INTARRAY");
         tempMap.put(ParserTreeConstants.JJTBOOLEAN, "BOOLEAN");
+        tempMap.put(ParserTreeConstants.JJTINTARRAY, "INTARRAY");
+        tempMap.put(STRINGARRAY, "STRINGARRAY");
+        tempMap.put(VOID, "VOID");
 
         stringMap = Collections.unmodifiableMap(tempMap);
     }
@@ -50,7 +53,7 @@ public class Type {
     }
 
     static Type STRINGARRAY() {
-        return new Type(STRINGARRAY, "STRINGARRAY");
+        return new Type(STRINGARRAY);
     }
 
     static Type ID(String classIdentifier) {
@@ -59,6 +62,10 @@ public class Type {
 
     static Type CLASS(String classIdentifier) {
         return new Type(CLASS, classIdentifier);
+    }
+
+    static Type VOID() {
+        return new Type(VOID);
     }
 
     static Type UNKNOWN() {
@@ -137,6 +144,8 @@ public class Type {
                 return "[I";
             case ParserTreeConstants.JJTID:
                 return "L" + typeName + ";";
+            case VOID:
+                return "V";
             default:
                 return "";
         }

@@ -1,6 +1,7 @@
 package generation;
 
 import semantic.FunctionTable;
+import semantic.IntermediateInstruction;
 import semantic.IntermediateRepresentation;
 import semantic.MethodSignature;
 import semantic.Type;
@@ -36,19 +37,20 @@ public class CodeGenerator {
 
             pw.println(System.lineSeparator() + ".method public <init>()V");
             pw.println("\taload_0");
-            pw.println("\tinvokenonvirtual " + superClass + "<init>()V");
+            pw.println("\tinvokenonvirtual " + superClass + "/<init>()V");
             pw.println("\treturn");
             pw.println(".end method");
 
             FunctionTable main = ir.getMain();
             if (main != null) {
-                pw.println(System.lineSeparator() + ".method public main([Ljava/lang/String;)V");
+                pw.println(System.lineSeparator() + ".method public static main([Ljava/lang/String;)V");
                 generateMethod(pw, main, 0);
+                pw.println("return");
                 pw.println(".end method");
             }
 
             for (Map.Entry<MethodSignature, FunctionTable> methodEntry : ir.getMethods().entrySet()) {
-                pw.println(System.lineSeparator() + ".method public " + methodEntry.getKey().toDescriptor(fileClass));
+                pw.println(System.lineSeparator() + ".method public " + methodEntry.getKey().toDescriptor(null));
                 generateMethod(pw, methodEntry.getValue(), 1);
                 pw.println(".end method");
             }
@@ -59,9 +61,22 @@ public class CodeGenerator {
     }
 
     private void generateMethod(PrintWriter pw, FunctionTable method, int paramStart) {
-        //pw.println(".limit stack ");
+        pw.println(".limit stack " + stackSlots(method));
         pw.println(".limit locals " +  registerAllocator.allocate(method, paramStart));
 
         pw.print(method.methodCode());
+    }
+
+    private int stackSlots(FunctionTable method) {
+        int stackSlots = 0, maxStackSlots = 0;
+
+        for (IntermediateInstruction instruction : method.getIntermediateInstructions()) {
+            stackSlots += instruction.stackSlots();
+
+            if (stackSlots > maxStackSlots)
+                maxStackSlots = stackSlots;
+        }
+
+        return maxStackSlots;
     }
 }
