@@ -2,6 +2,7 @@ options
 {
     NODE_DEFAULT_VOID = true;
     LOOKAHEAD = 1;
+    TRACK_TOKENS = true;
 }
 
 PARSER_BEGIN(Parser)

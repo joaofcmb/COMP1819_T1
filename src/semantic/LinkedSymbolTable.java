@@ -38,8 +38,8 @@ public class LinkedSymbolTable extends SymbolTable {
     private void addParameter(Type type, Node idNode) throws SemanticException {
         final String symbolId = String.valueOf(idNode.jjtGetValue());
 
-        // TODO Complete Semantic Error (Variable/Attribute already exists)
-        if (symbols.containsKey(symbolId))  throw new SemanticException();
+        if (symbols.containsKey(symbolId))
+            throw new SemanticException(idNode, "Invalid parameter identifier (Conflicting Identifiers)");
 
         symbols.put(symbolId, type);
     }

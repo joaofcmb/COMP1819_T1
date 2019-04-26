@@ -71,7 +71,7 @@ public class JMMCompiler {
             codeGenerator.generateFile();
             System.out.println("Class file generated successfully.");
         } catch (SemanticException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }

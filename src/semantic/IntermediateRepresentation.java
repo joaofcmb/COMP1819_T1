@@ -52,16 +52,15 @@ public class IntermediateRepresentation {
                     attributes.addDeclaration(node);
                     break;
                 case ParserTreeConstants.JJTMAIN:
-                    //TODO Complete Semantic Error (Duplicate main)
-                    if (mainMethod != null) throw new SemanticException();
+                    if (mainMethod != null) throw new SemanticException(node, "Duplicate main method declaration");
 
                     mainMethod = new MainTable(node, this);
                     break;
                 case ParserTreeConstants.JJTMETHOD:
                     MethodSignature methodSignature = new MethodSignature(node);
 
-                    //TODO Complete Semantic Error (Method Signature already exists)
-                    if (methods.containsKey(methodSignature)) throw new SemanticException();
+                    if (methods.containsKey(methodSignature)) throw new SemanticException(node,
+                            "Duplicate method declaration");
 
                     methods.put(methodSignature, new MethodTable(node, this));
                     break;
@@ -86,7 +85,8 @@ public class IntermediateRepresentation {
      *
      * @throws SemanticException on Semantic Error (Invalid Class Type or Method not found)
      */
-    MethodSignature checkMethod(Type classType, String methodId, Type[] parameterTypes) throws SemanticException {
+    MethodSignature checkMethod(Node node, Type classType, String methodId,
+                                Type[] parameterTypes) throws SemanticException {
         MethodSignature methodSignature = MethodSignature.from(methodId, parameterTypes);
 
         if (classType.equals(Type.ID(classIdentifier))) {
@@ -95,10 +95,11 @@ public class IntermediateRepresentation {
                 return methodSignature;
             }
             else
-                throw new SemanticException(); //TODO Complete Semantic Error (Method Signature not found)
+                throw new SemanticException(node, "Invocated method of " + classIdentifier + " not found");
         }
 
-        if (!classType.isId() && !classType.isClass())  throw new SemanticException(); //TODO Complete Semantic Error (Invalid Type for calling method)
+        if (!classType.isId() && !classType.isClass())
+            throw new SemanticException(node, "Invalid invocation reference (" + classType + ") of method");
 
         return methodSignature;
     }

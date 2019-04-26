@@ -24,8 +24,9 @@ public class MethodTable extends FunctionTable {
         for (int i = 0; i < parameterNode.jjtGetNumChildren(); i+=2) {
             Node parameterId = parameterNode.jjtGetChild(i+1);
 
-            //TODO Complete Semantic Error (Id already exists within scope)
-            if (ir.getAttributes().containsId(parameterId))    throw new SemanticException();
+            if (ir.getAttributes().containsId(parameterId))
+                throw new SemanticException(parameterId,
+                        "Invalid parameter Identifier (Conflicting with class attributes)");
 
             getParameters().addParameter(parameterNode.jjtGetChild(i), parameterId);
         }

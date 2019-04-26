@@ -32,8 +32,8 @@ public class SymbolTable {
     void addDeclaration(Node declarationNode) throws SemanticException {
         final String symbolId = String.valueOf(declarationNode.jjtGetChild(1).jjtGetValue());
 
-        // TODO Complete Semantic Error (Variable/Attribute already exists)
-        if (symbols.containsKey(symbolId))  throw new SemanticException();
+        if (symbols.containsKey(symbolId))
+            throw new SemanticException(declarationNode.jjtGetChild(1), "Invalid Identifier (Conflicting Identifiers)");
 
         symbols.put(symbolId, new Type(declarationNode.jjtGetChild(0)));
     }

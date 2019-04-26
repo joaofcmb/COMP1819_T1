@@ -5,7 +5,8 @@ package parser;
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected static JJTParserState jjtree = new JJTParserState();public static SimpleNode parse(String fileName) {
         //Parser initialization
-        Parser parser;
+        parser.Parser parser;
+
 
         System.out.println("Parser: Reading file " + fileName + " ..." );
         try {
@@ -38,15 +39,18 @@ public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConsta
   static final public void Id() throws ParseException {/*@bgen(jjtree) ID */
                 SimpleNode jjtn000 = new SimpleNode(JJTID);
                 boolean jjtc000 = true;
-                jjtree.openNodeScope(jjtn000);Token t;
+                jjtree.openNodeScope(jjtn000);
+                jjtn000.jjtSetFirstToken(getToken(1));Token t;
     try {
       t = jj_consume_token(IDENTIFIER);
 jjtree.closeNodeScope(jjtn000, true);
                      jjtc000 = false;
+                     jjtn000.jjtSetLastToken(getToken(0));
 jjtn000.value = t.image;
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
   }
@@ -54,15 +58,18 @@ if (jjtc000) {
   static final public void Integer() throws ParseException {/*@bgen(jjtree) INTEGER */
                           SimpleNode jjtn000 = new SimpleNode(JJTINTEGER);
                           boolean jjtc000 = true;
-                          jjtree.openNodeScope(jjtn000);Token t;
+                          jjtree.openNodeScope(jjtn000);
+                          jjtn000.jjtSetFirstToken(getToken(1));Token t;
     try {
       t = jj_consume_token(INTEGER_LITERAL);
 jjtree.closeNodeScope(jjtn000, true);
                           jjtc000 = false;
+                          jjtn000.jjtSetLastToken(getToken(0));
 jjtn000.value = t.image;
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
   }
@@ -92,11 +99,13 @@ if (jjtc000) {
 SimpleNode jjtn001 = new SimpleNode(JJTINTARRAY);
       boolean jjtc001 = true;
       jjtree.openNodeScope(jjtn001);
+      jjtn001.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(INTARRAY);
       } finally {
 if (jjtc001) {
         jjtree.closeNodeScope(jjtn001, true);
+        jjtn001.jjtSetLastToken(getToken(0));
       }
       }
       break;
@@ -105,11 +114,13 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTINT);
                             boolean jjtc002 = true;
                             jjtree.openNodeScope(jjtn002);
+                            jjtn002.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(INT);
       } finally {
 if (jjtc002) {
                               jjtree.closeNodeScope(jjtn002, true);
+                              jjtn002.jjtSetLastToken(getToken(0));
                             }
       }
       break;
@@ -118,11 +129,13 @@ if (jjtc002) {
 SimpleNode jjtn003 = new SimpleNode(JJTBOOLEAN);
                                         boolean jjtc003 = true;
                                         jjtree.openNodeScope(jjtn003);
+                                        jjtn003.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(BOOLEAN);
       } finally {
 if (jjtc003) {
                                           jjtree.closeNodeScope(jjtn003, true);
+                                          jjtn003.jjtSetLastToken(getToken(0));
                                         }
       }
       break;
@@ -137,15 +150,18 @@ if (jjtc003) {
   static final public void TypeId() throws ParseException {/*@bgen(jjtree) ID */
                     SimpleNode jjtn000 = new SimpleNode(JJTID);
                     boolean jjtc000 = true;
-                    jjtree.openNodeScope(jjtn000);Token t;
+                    jjtree.openNodeScope(jjtn000);
+                    jjtn000.jjtSetFirstToken(getToken(1));Token t;
     try {
       t = jj_consume_token(IDENTIFIER);
 jjtree.closeNodeScope(jjtn000, true);
                      jjtc000 = false;
+                     jjtn000.jjtSetLastToken(getToken(0));
 jjtn000.value = t.image;
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
   }
@@ -155,11 +171,13 @@ if (jjtc000) {
   SimpleNode jjtn000 = new SimpleNode(JJTPROGRAM);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
     try {
       ClassDeclaration();
       jj_consume_token(0);
 jjtree.closeNodeScope(jjtn000, true);
                                jjtc000 = false;
+                               jjtn000.jjtSetLastToken(getToken(0));
 {if ("" != null) return jjtn000;}
     } catch (Throwable jjte000) {
 if (jjtc000) {
@@ -178,6 +196,7 @@ if (jjtc000) {
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
     throw new Error("Missing return statement in function");
@@ -187,6 +206,7 @@ if (jjtc000) {
   SimpleNode jjtn000 = new SimpleNode(JJTCLASS);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
     try {
       jj_consume_token(CLASS);
       Id();
@@ -248,6 +268,7 @@ if (jjtc000) {
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
   }
@@ -256,6 +277,7 @@ if (jjtc000) {
   SimpleNode jjtn000 = new SimpleNode(JJTVAR);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
     try {
       Type();
       Id();
@@ -277,6 +299,7 @@ if (jjtc000) {
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
   }
@@ -291,6 +314,7 @@ if (jjtc000) {
 SimpleNode jjtn001 = new SimpleNode(JJTMETHOD);
           boolean jjtc001 = true;
           jjtree.openNodeScope(jjtn001);
+          jjtn001.jjtSetFirstToken(getToken(1));
       try {
         Type();
         Id();
@@ -317,6 +341,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
             jjtree.closeNodeScope(jjtn001, true);
+            jjtn001.jjtSetLastToken(getToken(0));
           }
       }
       break;
@@ -325,6 +350,7 @@ if (jjtc001) {
 SimpleNode jjtn003 = new SimpleNode(JJTMAIN);
             boolean jjtc003 = true;
             jjtree.openNodeScope(jjtn003);
+            jjtn003.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(STATIC);
         jj_consume_token(VOID);
@@ -337,6 +363,7 @@ SimpleNode jjtn003 = new SimpleNode(JJTMAIN);
 SimpleNode jjtn002 = new SimpleNode(JJTBODY);
                                                                                                 boolean jjtc002 = true;
                                                                                                 jjtree.openNodeScope(jjtn002);
+                                                                                                jjtn002.jjtSetFirstToken(getToken(1));
         try {
           switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
           case OPEN_PAREN:
@@ -377,6 +404,7 @@ if (jjtc002) {
         } finally {
 if (jjtc002) {
                                                                                                   jjtree.closeNodeScope(jjtn002, true);
+                                                                                                  jjtn002.jjtSetLastToken(getToken(0));
                                                                                                 }
         }
         jj_consume_token(CLOSE_BRACES);
@@ -397,6 +425,7 @@ if (jjtc003) {
       } finally {
 if (jjtc003) {
               jjtree.closeNodeScope(jjtn003, true);
+              jjtn003.jjtSetLastToken(getToken(0));
             }
       }
       break;
@@ -412,6 +441,7 @@ if (jjtc003) {
   SimpleNode jjtn000 = new SimpleNode(JJTPARAMETERS);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
     try {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case INT:
@@ -458,6 +488,7 @@ if (jjtc000) {
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
   }
@@ -466,6 +497,7 @@ if (jjtc000) {
   SimpleNode jjtn000 = new SimpleNode(JJTBODY);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
     try {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case OPEN_PAREN:
@@ -507,6 +539,7 @@ if (jjtc000) {
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
   }
@@ -515,6 +548,7 @@ if (jjtc000) {
   SimpleNode jjtn000 = new SimpleNode(JJTRETURN);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
     try {
       jj_consume_token(RETURN);
       FullExpression();
@@ -536,6 +570,7 @@ if (jjtc000) {
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
   }
@@ -577,6 +612,7 @@ if (jjtc000) {
 SimpleNode jjtn001 = new SimpleNode(JJTVAR);
               boolean jjtc001 = true;
               jjtree.openNodeScope(jjtn001);
+              jjtn001.jjtSetFirstToken(getToken(1));
         try {
           Id();
         } catch (Throwable jjte001) {
@@ -596,6 +632,7 @@ if (jjtc001) {
         } finally {
 if (jjtc001) {
                 jjtree.closeNodeScope(jjtn001,  2);
+                jjtn001.jjtSetLastToken(getToken(0));
               }
         }
         jj_consume_token(SEMI_COLON);
@@ -682,6 +719,7 @@ if (jjtc001) {
   SimpleNode jjtn000 = new SimpleNode(JJTVAR);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
     try {
       TypeNoId();
       Id();
@@ -703,6 +741,7 @@ if (jjtc000) {
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
   }
@@ -787,6 +826,7 @@ if (jjtc000) {
 SimpleNode jjtn001 = new SimpleNode(JJTINDEX);
                      boolean jjtc001 = true;
                      jjtree.openNodeScope(jjtn001);
+                     jjtn001.jjtSetFirstToken(getToken(1));
       try {
         FullExpression();
       } catch (Throwable jjte001) {
@@ -806,6 +846,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
                        jjtree.closeNodeScope(jjtn001,  2);
+                       jjtn001.jjtSetLastToken(getToken(0));
                      }
       }
       jj_consume_token(CLOSE_BRACK);
@@ -819,6 +860,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTASSIGN);
                                                                          boolean jjtc002 = true;
                                                                          jjtree.openNodeScope(jjtn002);
+                                                                         jjtn002.jjtSetFirstToken(getToken(1));
           try {
             FullExpression();
           } catch (Throwable jjte002) {
@@ -838,6 +880,7 @@ if (jjtc002) {
           } finally {
 if (jjtc002) {
                                                                            jjtree.closeNodeScope(jjtn002,  2);
+                                                                           jjtn002.jjtSetLastToken(getToken(0));
                                                                          }
           }
           break;
@@ -865,6 +908,7 @@ if (jjtc002) {
 SimpleNode jjtn003 = new SimpleNode(JJTASSIGN);
                  boolean jjtc003 = true;
                  jjtree.openNodeScope(jjtn003);
+                 jjtn003.jjtSetFirstToken(getToken(1));
       try {
         FullExpression();
       } catch (Throwable jjte003) {
@@ -884,6 +928,7 @@ if (jjtc003) {
       } finally {
 if (jjtc003) {
                    jjtree.closeNodeScope(jjtn003,  2);
+                   jjtn003.jjtSetLastToken(getToken(0));
                  }
       }
       break;
@@ -907,12 +952,14 @@ if (jjtc003) {
 SimpleNode jjtn004 = new SimpleNode(JJTIF);
         boolean jjtc004 = true;
         jjtree.openNodeScope(jjtn004);
+        jjtn004.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(IF);
         jj_consume_token(OPEN_PAREN);
 SimpleNode jjtn001 = new SimpleNode(JJTCOND);
                            boolean jjtc001 = true;
                            jjtree.openNodeScope(jjtn001);
+                           jjtn001.jjtSetFirstToken(getToken(1));
         try {
           FullExpression();
         } catch (Throwable jjte001) {
@@ -932,12 +979,14 @@ if (jjtc001) {
         } finally {
 if (jjtc001) {
                              jjtree.closeNodeScope(jjtn001, true);
+                             jjtn001.jjtSetLastToken(getToken(0));
                            }
         }
         jj_consume_token(CLOSE_PAREN);
 SimpleNode jjtn002 = new SimpleNode(JJTTHEN);
                                                                 boolean jjtc002 = true;
                                                                 jjtree.openNodeScope(jjtn002);
+                                                                jjtn002.jjtSetFirstToken(getToken(1));
         try {
           Statement();
         } catch (Throwable jjte002) {
@@ -957,12 +1006,14 @@ if (jjtc002) {
         } finally {
 if (jjtc002) {
                                                                   jjtree.closeNodeScope(jjtn002, true);
+                                                                  jjtn002.jjtSetLastToken(getToken(0));
                                                                 }
         }
         jj_consume_token(ELSE);
 SimpleNode jjtn003 = new SimpleNode(JJTELSE);
                                                                                          boolean jjtc003 = true;
                                                                                          jjtree.openNodeScope(jjtn003);
+                                                                                         jjtn003.jjtSetFirstToken(getToken(1));
         try {
           Statement();
         } catch (Throwable jjte003) {
@@ -982,6 +1033,7 @@ if (jjtc003) {
         } finally {
 if (jjtc003) {
                                                                                            jjtree.closeNodeScope(jjtn003, true);
+                                                                                           jjtn003.jjtSetLastToken(getToken(0));
                                                                                          }
         }
       } catch (Throwable jjte004) {
@@ -1001,6 +1053,7 @@ if (jjtc004) {
       } finally {
 if (jjtc004) {
           jjtree.closeNodeScope(jjtn004,  3);
+          jjtn004.jjtSetLastToken(getToken(0));
         }
       }
       break;
@@ -1009,6 +1062,7 @@ if (jjtc004) {
 SimpleNode jjtn007 = new SimpleNode(JJTWHILE);
         boolean jjtc007 = true;
         jjtree.openNodeScope(jjtn007);
+        jjtn007.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(WHILE);
         try {
@@ -1016,6 +1070,7 @@ SimpleNode jjtn007 = new SimpleNode(JJTWHILE);
 SimpleNode jjtn005 = new SimpleNode(JJTCOND);
                            boolean jjtc005 = true;
                            jjtree.openNodeScope(jjtn005);
+                           jjtn005.jjtSetFirstToken(getToken(1));
           try {
             FullExpression();
           } catch (Throwable jjte005) {
@@ -1035,6 +1090,7 @@ if (jjtc005) {
           } finally {
 if (jjtc005) {
                              jjtree.closeNodeScope(jjtn005, true);
+                             jjtn005.jjtSetLastToken(getToken(0));
                            }
           }
           jj_consume_token(CLOSE_PAREN);
@@ -1052,6 +1108,7 @@ error = true;
 SimpleNode jjtn006 = new SimpleNode(JJTDO);
           boolean jjtc006 = true;
           jjtree.openNodeScope(jjtn006);
+          jjtn006.jjtSetFirstToken(getToken(1));
         try {
           Statement();
         } catch (Throwable jjte006) {
@@ -1071,6 +1128,7 @@ if (jjtc006) {
         } finally {
 if (jjtc006) {
             jjtree.closeNodeScope(jjtn006, true);
+            jjtn006.jjtSetLastToken(getToken(0));
           }
         }
       } catch (Throwable jjte007) {
@@ -1090,6 +1148,7 @@ if (jjtc007) {
       } finally {
 if (jjtc007) {
           jjtree.closeNodeScope(jjtn007,  error ? 1 : 2);
+          jjtn007.jjtSetLastToken(getToken(0));
         }
       }
       break;
@@ -1129,6 +1188,7 @@ if (jjtc007) {
 SimpleNode jjtn001 = new SimpleNode(JJTAND);
                                                                 boolean jjtc001 = true;
                                                                 jjtree.openNodeScope(jjtn001);
+                                                                jjtn001.jjtSetFirstToken(getToken(1));
       try {
         CompExpression();
       } catch (Throwable jjte001) {
@@ -1148,6 +1208,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
                                                                   jjtree.closeNodeScope(jjtn001,  2);
+                                                                  jjtn001.jjtSetLastToken(getToken(0));
                                                                 }
       }
     }
@@ -1170,6 +1231,7 @@ if (jjtc001) {
 SimpleNode jjtn001 = new SimpleNode(JJTAND);
                                                                     boolean jjtc001 = true;
                                                                     jjtree.openNodeScope(jjtn001);
+                                                                    jjtn001.jjtSetFirstToken(getToken(1));
       try {
         CompExpression();
       } catch (Throwable jjte001) {
@@ -1189,6 +1251,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
                                                                       jjtree.closeNodeScope(jjtn001,  2);
+                                                                      jjtn001.jjtSetLastToken(getToken(0));
                                                                     }
       }
     }
@@ -1201,6 +1264,7 @@ if (jjtc001) {
 SimpleNode jjtn001 = new SimpleNode(JJTAND);
                                                boolean jjtc001 = true;
                                                jjtree.openNodeScope(jjtn001);
+                                               jjtn001.jjtSetFirstToken(getToken(1));
       try {
         CompExpression();
       } catch (Throwable jjte001) {
@@ -1220,6 +1284,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
                                                  jjtree.closeNodeScope(jjtn001,  2);
+                                                 jjtn001.jjtSetLastToken(getToken(0));
                                                }
       }
       break;
@@ -1251,6 +1316,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTAND);
                                                                                                           boolean jjtc002 = true;
                                                                                                           jjtree.openNodeScope(jjtn002);
+                                                                                                          jjtn002.jjtSetFirstToken(getToken(1));
       try {
         CompExpression();
       } catch (Throwable jjte002) {
@@ -1270,6 +1336,7 @@ if (jjtc002) {
       } finally {
 if (jjtc002) {
                                                                                                             jjtree.closeNodeScope(jjtn002,  2);
+                                                                                                            jjtn002.jjtSetLastToken(getToken(0));
                                                                                                           }
       }
     }
@@ -1292,6 +1359,7 @@ if (jjtc002) {
 SimpleNode jjtn001 = new SimpleNode(JJTAND);
                                                                         boolean jjtc001 = true;
                                                                         jjtree.openNodeScope(jjtn001);
+                                                                        jjtn001.jjtSetFirstToken(getToken(1));
       try {
         CompExpression();
       } catch (Throwable jjte001) {
@@ -1311,6 +1379,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
                                                                           jjtree.closeNodeScope(jjtn001,  2);
+                                                                          jjtn001.jjtSetLastToken(getToken(0));
                                                                         }
       }
     }
@@ -1333,6 +1402,7 @@ if (jjtc001) {
 SimpleNode jjtn001 = new SimpleNode(JJTLOWER);
                                                               boolean jjtc001 = true;
                                                               jjtree.openNodeScope(jjtn001);
+                                                              jjtn001.jjtSetFirstToken(getToken(1));
       try {
         Expression();
       } catch (Throwable jjte001) {
@@ -1352,6 +1422,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
                                                                 jjtree.closeNodeScope(jjtn001,  2);
+                                                                jjtn001.jjtSetLastToken(getToken(0));
                                                               }
       }
     }
@@ -1374,6 +1445,7 @@ if (jjtc001) {
 SimpleNode jjtn001 = new SimpleNode(JJTLOWER);
                                                                   boolean jjtc001 = true;
                                                                   jjtree.openNodeScope(jjtn001);
+                                                                  jjtn001.jjtSetFirstToken(getToken(1));
       try {
         Expression();
       } catch (Throwable jjte001) {
@@ -1393,6 +1465,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
                                                                     jjtree.closeNodeScope(jjtn001,  2);
+                                                                    jjtn001.jjtSetLastToken(getToken(0));
                                                                   }
       }
     }
@@ -1405,6 +1478,7 @@ if (jjtc001) {
 SimpleNode jjtn001 = new SimpleNode(JJTLOWER);
                                                  boolean jjtc001 = true;
                                                  jjtree.openNodeScope(jjtn001);
+                                                 jjtn001.jjtSetFirstToken(getToken(1));
       try {
         Expression();
       } catch (Throwable jjte001) {
@@ -1424,6 +1498,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
                                                    jjtree.closeNodeScope(jjtn001,  2);
+                                                   jjtn001.jjtSetLastToken(getToken(0));
                                                  }
       }
       break;
@@ -1454,6 +1529,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTLOWER);
                                                                                                         boolean jjtc002 = true;
                                                                                                         jjtree.openNodeScope(jjtn002);
+                                                                                                        jjtn002.jjtSetFirstToken(getToken(1));
       try {
         Expression();
       } catch (Throwable jjte002) {
@@ -1473,6 +1549,7 @@ if (jjtc002) {
       } finally {
 if (jjtc002) {
                                                                                                           jjtree.closeNodeScope(jjtn002,  2);
+                                                                                                          jjtn002.jjtSetLastToken(getToken(0));
                                                                                                         }
       }
     }
@@ -1495,6 +1572,7 @@ if (jjtc002) {
 SimpleNode jjtn001 = new SimpleNode(JJTLOWER);
                                                                       boolean jjtc001 = true;
                                                                       jjtree.openNodeScope(jjtn001);
+                                                                      jjtn001.jjtSetFirstToken(getToken(1));
       try {
         Expression();
       } catch (Throwable jjte001) {
@@ -1514,6 +1592,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
                                                                         jjtree.closeNodeScope(jjtn001,  2);
+                                                                        jjtn001.jjtSetLastToken(getToken(0));
                                                                       }
       }
     }
@@ -1539,6 +1618,7 @@ if (jjtc001) {
 SimpleNode jjtn001 = new SimpleNode(JJTPLUS);
                                                        boolean jjtc001 = true;
                                                        jjtree.openNodeScope(jjtn001);
+                                                       jjtn001.jjtSetFirstToken(getToken(1));
         try {
           Term();
         } catch (Throwable jjte001) {
@@ -1558,6 +1638,7 @@ if (jjtc001) {
         } finally {
 if (jjtc001) {
                                                          jjtree.closeNodeScope(jjtn001,  2);
+                                                         jjtn001.jjtSetLastToken(getToken(0));
                                                        }
         }
         break;
@@ -1567,6 +1648,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTMINUS);
                                                                                  boolean jjtc002 = true;
                                                                                  jjtree.openNodeScope(jjtn002);
+                                                                                 jjtn002.jjtSetFirstToken(getToken(1));
         try {
           Term();
         } catch (Throwable jjte002) {
@@ -1586,6 +1668,7 @@ if (jjtc002) {
         } finally {
 if (jjtc002) {
                                                                                    jjtree.closeNodeScope(jjtn002,  2);
+                                                                                   jjtn002.jjtSetLastToken(getToken(0));
                                                                                  }
         }
         break;
@@ -1618,6 +1701,7 @@ if (jjtc002) {
 SimpleNode jjtn001 = new SimpleNode(JJTPLUS);
                                                            boolean jjtc001 = true;
                                                            jjtree.openNodeScope(jjtn001);
+                                                           jjtn001.jjtSetFirstToken(getToken(1));
         try {
           Term();
         } catch (Throwable jjte001) {
@@ -1637,6 +1721,7 @@ if (jjtc001) {
         } finally {
 if (jjtc001) {
                                                              jjtree.closeNodeScope(jjtn001,  2);
+                                                             jjtn001.jjtSetLastToken(getToken(0));
                                                            }
         }
         break;
@@ -1646,6 +1731,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTMINUS);
                                                                                      boolean jjtc002 = true;
                                                                                      jjtree.openNodeScope(jjtn002);
+                                                                                     jjtn002.jjtSetFirstToken(getToken(1));
         try {
           Term();
         } catch (Throwable jjte002) {
@@ -1665,6 +1751,7 @@ if (jjtc002) {
         } finally {
 if (jjtc002) {
                                                                                        jjtree.closeNodeScope(jjtn002,  2);
+                                                                                       jjtn002.jjtSetLastToken(getToken(0));
                                                                                      }
         }
         break;
@@ -1687,6 +1774,7 @@ if (jjtc002) {
 SimpleNode jjtn001 = new SimpleNode(JJTPLUS);
                                                  boolean jjtc001 = true;
                                                  jjtree.openNodeScope(jjtn001);
+                                                 jjtn001.jjtSetFirstToken(getToken(1));
         try {
           Term();
         } catch (Throwable jjte001) {
@@ -1706,6 +1794,7 @@ if (jjtc001) {
         } finally {
 if (jjtc001) {
                                                    jjtree.closeNodeScope(jjtn001,  2);
+                                                   jjtn001.jjtSetLastToken(getToken(0));
                                                  }
         }
         break;
@@ -1715,6 +1804,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTMINUS);
                                                                            boolean jjtc002 = true;
                                                                            jjtree.openNodeScope(jjtn002);
+                                                                           jjtn002.jjtSetFirstToken(getToken(1));
         try {
           Term();
         } catch (Throwable jjte002) {
@@ -1734,6 +1824,7 @@ if (jjtc002) {
         } finally {
 if (jjtc002) {
                                                                              jjtree.closeNodeScope(jjtn002,  2);
+                                                                             jjtn002.jjtSetLastToken(getToken(0));
                                                                            }
         }
         break;
@@ -1772,6 +1863,7 @@ if (jjtc002) {
 SimpleNode jjtn003 = new SimpleNode(JJTPLUS);
                                                 boolean jjtc003 = true;
                                                 jjtree.openNodeScope(jjtn003);
+                                                jjtn003.jjtSetFirstToken(getToken(1));
         try {
           Term();
         } catch (Throwable jjte003) {
@@ -1791,6 +1883,7 @@ if (jjtc003) {
         } finally {
 if (jjtc003) {
                                                   jjtree.closeNodeScope(jjtn003,  2);
+                                                  jjtn003.jjtSetLastToken(getToken(0));
                                                 }
         }
         break;
@@ -1800,6 +1893,7 @@ if (jjtc003) {
 SimpleNode jjtn004 = new SimpleNode(JJTMINUS);
                                                                           boolean jjtc004 = true;
                                                                           jjtree.openNodeScope(jjtn004);
+                                                                          jjtn004.jjtSetFirstToken(getToken(1));
         try {
           Term();
         } catch (Throwable jjte004) {
@@ -1819,6 +1913,7 @@ if (jjtc004) {
         } finally {
 if (jjtc004) {
                                                                             jjtree.closeNodeScope(jjtn004,  2);
+                                                                            jjtn004.jjtSetLastToken(getToken(0));
                                                                           }
         }
         break;
@@ -1851,6 +1946,7 @@ if (jjtc004) {
 SimpleNode jjtn001 = new SimpleNode(JJTPLUS);
                                                                boolean jjtc001 = true;
                                                                jjtree.openNodeScope(jjtn001);
+                                                               jjtn001.jjtSetFirstToken(getToken(1));
         try {
           Term();
         } catch (Throwable jjte001) {
@@ -1870,6 +1966,7 @@ if (jjtc001) {
         } finally {
 if (jjtc001) {
                                                                  jjtree.closeNodeScope(jjtn001,  2);
+                                                                 jjtn001.jjtSetLastToken(getToken(0));
                                                                }
         }
         break;
@@ -1879,6 +1976,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTMINUS);
                                                                                          boolean jjtc002 = true;
                                                                                          jjtree.openNodeScope(jjtn002);
+                                                                                         jjtn002.jjtSetFirstToken(getToken(1));
         try {
           Term();
         } catch (Throwable jjte002) {
@@ -1898,6 +1996,7 @@ if (jjtc002) {
         } finally {
 if (jjtc002) {
                                                                                            jjtree.closeNodeScope(jjtn002,  2);
+                                                                                           jjtn002.jjtSetLastToken(getToken(0));
                                                                                          }
         }
         break;
@@ -1930,6 +2029,7 @@ if (jjtc002) {
 SimpleNode jjtn001 = new SimpleNode(JJTTIMES);
                                                       boolean jjtc001 = true;
                                                       jjtree.openNodeScope(jjtn001);
+                                                      jjtn001.jjtSetFirstToken(getToken(1));
         try {
           Factor();
         } catch (Throwable jjte001) {
@@ -1949,6 +2049,7 @@ if (jjtc001) {
         } finally {
 if (jjtc001) {
                                                         jjtree.closeNodeScope(jjtn001,  2);
+                                                        jjtn001.jjtSetLastToken(getToken(0));
                                                       }
         }
         break;
@@ -1958,6 +2059,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTDIVIDE);
                                                                                     boolean jjtc002 = true;
                                                                                     jjtree.openNodeScope(jjtn002);
+                                                                                    jjtn002.jjtSetFirstToken(getToken(1));
         try {
           Factor();
         } catch (Throwable jjte002) {
@@ -1977,6 +2079,7 @@ if (jjtc002) {
         } finally {
 if (jjtc002) {
                                                                                       jjtree.closeNodeScope(jjtn002,  2);
+                                                                                      jjtn002.jjtSetLastToken(getToken(0));
                                                                                     }
         }
         break;
@@ -2009,6 +2112,7 @@ if (jjtc002) {
 SimpleNode jjtn001 = new SimpleNode(JJTTIMES);
                                                           boolean jjtc001 = true;
                                                           jjtree.openNodeScope(jjtn001);
+                                                          jjtn001.jjtSetFirstToken(getToken(1));
         try {
           Factor();
         } catch (Throwable jjte001) {
@@ -2028,6 +2132,7 @@ if (jjtc001) {
         } finally {
 if (jjtc001) {
                                                             jjtree.closeNodeScope(jjtn001,  2);
+                                                            jjtn001.jjtSetLastToken(getToken(0));
                                                           }
         }
         break;
@@ -2037,6 +2142,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTDIVIDE);
                                                                                         boolean jjtc002 = true;
                                                                                         jjtree.openNodeScope(jjtn002);
+                                                                                        jjtn002.jjtSetFirstToken(getToken(1));
         try {
           Factor();
         } catch (Throwable jjte002) {
@@ -2056,6 +2162,7 @@ if (jjtc002) {
         } finally {
 if (jjtc002) {
                                                                                           jjtree.closeNodeScope(jjtn002,  2);
+                                                                                          jjtn002.jjtSetLastToken(getToken(0));
                                                                                         }
         }
         break;
@@ -2096,6 +2203,7 @@ if (jjtc002) {
 SimpleNode jjtn001 = new SimpleNode(JJTTIMES);
                                                                                    boolean jjtc001 = true;
                                                                                    jjtree.openNodeScope(jjtn001);
+                                                                                   jjtn001.jjtSetFirstToken(getToken(1));
           try {
             Factor();
           } catch (Throwable jjte001) {
@@ -2115,6 +2223,7 @@ if (jjtc001) {
           } finally {
 if (jjtc001) {
                                                                                      jjtree.closeNodeScope(jjtn001,  2);
+                                                                                     jjtn001.jjtSetLastToken(getToken(0));
                                                                                    }
           }
           break;
@@ -2124,6 +2233,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTDIVIDE);
                                                                                                                  boolean jjtc002 = true;
                                                                                                                  jjtree.openNodeScope(jjtn002);
+                                                                                                                 jjtn002.jjtSetFirstToken(getToken(1));
           try {
             Factor();
           } catch (Throwable jjte002) {
@@ -2143,6 +2253,7 @@ if (jjtc002) {
           } finally {
 if (jjtc002) {
                                                                                                                    jjtree.closeNodeScope(jjtn002,  2);
+                                                                                                                   jjtn002.jjtSetLastToken(getToken(0));
                                                                                                                  }
           }
           break;
@@ -2189,6 +2300,7 @@ if (jjtc002) {
 SimpleNode jjtn001 = new SimpleNode(JJTTIMES);
                                                              boolean jjtc001 = true;
                                                              jjtree.openNodeScope(jjtn001);
+                                                             jjtn001.jjtSetFirstToken(getToken(1));
         try {
           Factor();
         } catch (Throwable jjte001) {
@@ -2208,6 +2320,7 @@ if (jjtc001) {
         } finally {
 if (jjtc001) {
                                                                jjtree.closeNodeScope(jjtn001,  2);
+                                                               jjtn001.jjtSetLastToken(getToken(0));
                                                              }
         }
         break;
@@ -2217,6 +2330,7 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTDIVIDE);
                                                                                            boolean jjtc002 = true;
                                                                                            jjtree.openNodeScope(jjtn002);
+                                                                                           jjtn002.jjtSetFirstToken(getToken(1));
         try {
           Factor();
         } catch (Throwable jjte002) {
@@ -2236,6 +2350,7 @@ if (jjtc002) {
         } finally {
 if (jjtc002) {
                                                                                              jjtree.closeNodeScope(jjtn002,  2);
+                                                                                             jjtn002.jjtSetLastToken(getToken(0));
                                                                                            }
         }
         break;
@@ -2287,11 +2402,13 @@ if (jjtc002) {
 SimpleNode jjtn001 = new SimpleNode(JJTTRUE);
         boolean jjtc001 = true;
         jjtree.openNodeScope(jjtn001);
+        jjtn001.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(TRUE);
       } finally {
 if (jjtc001) {
           jjtree.closeNodeScope(jjtn001, true);
+          jjtn001.jjtSetLastToken(getToken(0));
         }
       }
       break;
@@ -2300,11 +2417,13 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTFALSE);
         boolean jjtc002 = true;
         jjtree.openNodeScope(jjtn002);
+        jjtn002.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(FALSE);
       } finally {
 if (jjtc002) {
           jjtree.closeNodeScope(jjtn002, true);
+          jjtn002.jjtSetLastToken(getToken(0));
         }
       }
       break;
@@ -2313,11 +2432,13 @@ if (jjtc002) {
 SimpleNode jjtn003 = new SimpleNode(JJTTHIS);
         boolean jjtc003 = true;
         jjtree.openNodeScope(jjtn003);
+        jjtn003.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(THIS);
       } finally {
 if (jjtc003) {
           jjtree.closeNodeScope(jjtn003, true);
+          jjtn003.jjtSetLastToken(getToken(0));
         }
       }
       break;
@@ -2331,6 +2452,7 @@ if (jjtc003) {
 SimpleNode jjtn004 = new SimpleNode(JJTNEWARRAY);
                                   boolean jjtc004 = true;
                                   jjtree.openNodeScope(jjtn004);
+                                  jjtn004.jjtSetFirstToken(getToken(1));
         try {
           FullExpression();
         } catch (Throwable jjte004) {
@@ -2350,6 +2472,7 @@ if (jjtc004) {
         } finally {
 if (jjtc004) {
                                     jjtree.closeNodeScope(jjtn004, true);
+                                    jjtn004.jjtSetLastToken(getToken(0));
                                   }
         }
         jj_consume_token(CLOSE_BRACK);
@@ -2359,6 +2482,7 @@ if (jjtc004) {
 SimpleNode jjtn005 = new SimpleNode(JJTNEWOBJ);
                                                                              boolean jjtc005 = true;
                                                                              jjtree.openNodeScope(jjtn005);
+                                                                             jjtn005.jjtSetFirstToken(getToken(1));
         try {
           Id();
         } catch (Throwable jjte005) {
@@ -2378,6 +2502,7 @@ if (jjtc005) {
         } finally {
 if (jjtc005) {
                                                                                jjtree.closeNodeScope(jjtn005, true);
+                                                                               jjtn005.jjtSetLastToken(getToken(0));
                                                                              }
         }
         jj_consume_token(OPEN_PAREN);
@@ -2396,6 +2521,7 @@ if (jjtc005) {
 SimpleNode jjtn006 = new SimpleNode(JJTNOT);
               boolean jjtc006 = true;
               jjtree.openNodeScope(jjtn006);
+              jjtn006.jjtSetFirstToken(getToken(1));
       try {
         Factor();
       } catch (Throwable jjte006) {
@@ -2415,6 +2541,7 @@ if (jjtc006) {
       } finally {
 if (jjtc006) {
                 jjtree.closeNodeScope(jjtn006, true);
+                jjtn006.jjtSetLastToken(getToken(0));
               }
       }
       break;
@@ -2457,6 +2584,7 @@ if (jjtc006) {
 SimpleNode jjtn001 = new SimpleNode(JJTINDEX);
                      boolean jjtc001 = true;
                      jjtree.openNodeScope(jjtn001);
+                     jjtn001.jjtSetFirstToken(getToken(1));
       try {
         FullExpression();
       } catch (Throwable jjte001) {
@@ -2476,6 +2604,7 @@ if (jjtc001) {
       } finally {
 if (jjtc001) {
                        jjtree.closeNodeScope(jjtn001,  2);
+                       jjtn001.jjtSetLastToken(getToken(0));
                      }
       }
       jj_consume_token(CLOSE_BRACK);
@@ -2495,11 +2624,13 @@ if (jjtc001) {
 SimpleNode jjtn001 = new SimpleNode(JJTLENGTH);
              boolean jjtc001 = true;
              jjtree.openNodeScope(jjtn001);
+             jjtn001.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(LENGTH);
       } finally {
 if (jjtc001) {
                jjtree.closeNodeScope(jjtn001,  1);
+               jjtn001.jjtSetLastToken(getToken(0));
              }
       }
       break;
@@ -2511,11 +2642,13 @@ if (jjtc001) {
 SimpleNode jjtn002 = new SimpleNode(JJTFCALL);
                                                                           boolean jjtc002 = true;
                                                                           jjtree.openNodeScope(jjtn002);
+                                                                          jjtn002.jjtSetFirstToken(getToken(1));
       try {
         jj_consume_token(CLOSE_PAREN);
       } finally {
 if (jjtc002) {
                                                                             jjtree.closeNodeScope(jjtn002,  3);
+                                                                            jjtn002.jjtSetLastToken(getToken(0));
                                                                           }
       }
       break;
@@ -2531,6 +2664,7 @@ if (jjtc002) {
   SimpleNode jjtn000 = new SimpleNode(JJTPARAMETERS);
   boolean jjtc000 = true;
   jjtree.openNodeScope(jjtn000);
+  jjtn000.jjtSetFirstToken(getToken(1));
     try {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case OPEN_PAREN:
@@ -2579,6 +2713,7 @@ if (jjtc000) {
     } finally {
 if (jjtc000) {
         jjtree.closeNodeScope(jjtn000, true);
+        jjtn000.jjtSetLastToken(getToken(0));
       }
     }
   }

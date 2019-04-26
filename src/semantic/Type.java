@@ -28,11 +28,11 @@ public class Type {
     static {
         Map<Integer, String> tempMap = new HashMap<>();
 
-        tempMap.put(ParserTreeConstants.JJTINT, "INT");
-        tempMap.put(ParserTreeConstants.JJTBOOLEAN, "BOOLEAN");
-        tempMap.put(ParserTreeConstants.JJTINTARRAY, "INTARRAY");
-        tempMap.put(STRINGARRAY, "STRINGARRAY");
-        tempMap.put(VOID, "VOID");
+        tempMap.put(ParserTreeConstants.JJTINT, "int");
+        tempMap.put(ParserTreeConstants.JJTBOOLEAN, "boolean");
+        tempMap.put(ParserTreeConstants.JJTINTARRAY, "int[]");
+        tempMap.put(STRINGARRAY, "String[]");
+        tempMap.put(VOID, "void");
 
         stringMap = Collections.unmodifiableMap(tempMap);
     }

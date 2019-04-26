@@ -21,8 +21,9 @@ class MainTable extends FunctionTable {
 
         final Node parameterId = mainNode.jjtGetChild(0);
 
-        // TODO Complete Semantic Error (Id already exists within scope)
-        if (ir.getAttributes().containsId(parameterId))    throw new SemanticException();
+        if (ir.getAttributes().containsId(parameterId))
+            throw new SemanticException(parameterId, "Invalid parameter id (Conflicting types with class atributes)");
+
         getParameters().addParameter(parameterId);
     }
 }
