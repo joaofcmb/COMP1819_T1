@@ -3,7 +3,6 @@ package semantic;
 import parser.Node;
 import parser.ParserTreeConstants;
 
-import java.util.Collections;
 import java.util.LinkedList;
 
 /**
@@ -61,8 +60,9 @@ class IntermediateCode {
                     for (int j = 0; j < parameterNode.jjtGetNumChildren(); j++)
                         generateExpressionCode(parameterNode.jjtGetChild(j), typeList, methodList);
 
-                    instructions.addLast(new IntermediateInstruction(id,
-                            methodList.remove().toDescriptor(typeList.remove().toString())));
+                    final Type classType = typeList.remove();
+                    instructions.addLast(new IntermediateInstruction(classType,
+                            methodList.remove().toDescriptor(classType.toString())));
                     break;
                 case ParserTreeConstants.JJTRETURN:
                     generateExpressionCode(statementNode.jjtGetChild(0), typeList, methodList);
@@ -101,11 +101,12 @@ class IntermediateCode {
      */
     private void generateExpressionCode(Node expressionNode, LinkedList<IntermediateInstruction> expInstructions,
                                         LinkedList<Type> typeList, LinkedList<MethodSignature> methodList) {
-        final int id = expressionNode.getId(), initialSize = expInstructions.size();
+        final int id = expressionNode.getId();
         switch(id) {
             case ParserTreeConstants.JJTFCALL:
-                expInstructions.addLast(new IntermediateInstruction(id,
-                        methodList.remove().toDescriptor(typeList.remove().toString())));
+                final Type classType = typeList.remove();
+                expInstructions.addLast(new IntermediateInstruction(classType,
+                        methodList.remove().toDescriptor(classType.toString())));
 
                 Node parameterNode = expressionNode.jjtGetChild(2);
                 for (int i = parameterNode.jjtGetNumChildren() - 1; i >= 0; i--)
@@ -124,8 +125,14 @@ class IntermediateCode {
                 break;
             case ParserTreeConstants.JJTID:
                 // TODO Determine if it's a field or not
+
+                final Type idType = functionTable.getIdType(expressionNode);
+
+                // Single case where this can happen is when it's a class reference for static method invocation
+                if (idType == null)  break;
+
                 expInstructions.addLast(new IntermediateInstruction(id,
-                        String.valueOf(expressionNode.jjtGetValue()), functionTable.getIdType(expressionNode)));
+                        String.valueOf(expressionNode.jjtGetValue()), idType));
                 break;
             case ParserTreeConstants.JJTINTEGER:
                 expInstructions.addLast(new IntermediateInstruction(id, String.valueOf(expressionNode.jjtGetValue())));
@@ -157,12 +164,16 @@ class IntermediateCode {
         }
     }
 
+    LinkedList<IntermediateInstruction> getInstructions() {
+        return instructions;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
         for (IntermediateInstruction instruction : instructions) {
-            sb.append("   - ").append(instruction).append(System.lineSeparator());
+            sb.append("\t").append(instruction).append(System.lineSeparator());
         }
 
         return sb.toString();

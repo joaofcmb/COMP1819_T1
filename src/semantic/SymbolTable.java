@@ -12,7 +12,15 @@ import java.util.Set;
  * @see Type
  */
 public class SymbolTable {
-    private final HashMap<String, Type> symbols = new HashMap<>();
+    final HashMap<String, Type> symbols;
+
+    SymbolTable() {
+        symbols = new HashMap<>();
+    }
+
+    SymbolTable(HashMap<String, Type> symbols) {
+        this.symbols = symbols;
+    }
 
     /**
      * Adds a Symbol to the table from a given Declaration Node
@@ -28,34 +36,6 @@ public class SymbolTable {
         if (symbols.containsKey(symbolId))  throw new SemanticException();
 
         symbols.put(symbolId, new Type(declarationNode.jjtGetChild(0)));
-    }
-
-    // Uses default Type (String[], used only on main)
-    void addParameter(Node idNode) throws SemanticException {
-        addParameter(Type.STRINGARRAY(), idNode);
-    }
-
-    // Usual format for adding parameters, creating a type from the given Type Node from the AST
-    void addParameter(Node typeNode, Node idNode) throws SemanticException {
-        addParameter(new Type(typeNode), idNode);
-    }
-
-
-    /**
-     * Adds a Symbol to the table given a pair of Type and Id (Parameter Format on the AST)
-     *
-     * @param type Type of the Parameter
-     * @param idNode AST Node containing the Parameter Identifier
-     *
-     * @throws SemanticException on Semantic Error
-     */
-    private void addParameter(Type type, Node idNode) throws SemanticException {
-        final String symbolId = String.valueOf(idNode.jjtGetValue());
-
-        // TODO Complete Semantic Error (Variable/Attribute already exists)
-        if (symbols.containsKey(symbolId))  throw new SemanticException();
-
-        symbols.put(symbolId, type);
     }
 
     /**

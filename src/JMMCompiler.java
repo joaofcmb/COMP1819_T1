@@ -69,6 +69,7 @@ public class JMMCompiler {
             // Register Allocation and Code Generation
             CodeGenerator codeGenerator = new CodeGenerator(ir, args[0].substring(0, args[0].length() - 4));
             codeGenerator.generateFile();
+            System.out.println("Class file generated successfully.");
         } catch (SemanticException e) {
             e.printStackTrace();
         }

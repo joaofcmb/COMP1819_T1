@@ -21,7 +21,7 @@ public abstract class FunctionTable {
 
     private final IntermediateRepresentation classTable;
 
-    private final SymbolTable parameters = new SymbolTable();
+    private final LinkedSymbolTable parameters = new LinkedSymbolTable();
     private final SymbolTable variables = new SymbolTable();
 
     private final Type returnType;
@@ -108,6 +108,7 @@ public abstract class FunctionTable {
             statementNode = statementsNode.jjtGetChild(i++);
 
             switch(statementNode.getId()) {
+                // TODO Analyse Local variable assignment before usage
                 case ParserTreeConstants.JJTASSIGN:
                     // TODO If Forward chaining doesnt work (Cannot infer assign type and use it on expression type),
                     //  check if the expression type can be deduced and use it to deduce the assignType.
@@ -139,11 +140,17 @@ public abstract class FunctionTable {
                     //  as a parameter to a method), attempt to use Forward Chaining (Using the same example, check if any
                     //  known method fits the first method being called and, from there, deduce the unknown return type
                     //  being called as a parameter).
-                    final Type classType = analyseExpression(statementNode.jjtGetChild(0), typeList, Type.UNKNOWN());
+                    Node classNode = statementNode.jjtGetChild(0);
+                    Type classType;
+                    if (classNode.getId() == ParserTreeConstants.JJTID)
+                        classType = Type.CLASS(String.valueOf(classNode.jjtGetValue()));
+                    else
+                        classType = analyseExpression(statementNode.jjtGetChild(0), typeList, Type.UNKNOWN());
                     final String methodId = String.valueOf(statementNode.jjtGetChild(1).jjtGetValue());
                     final Type[] parameterTypes = analyseParameters(statementNode.jjtGetChild(2), typeList);
 
                     MethodSignature methodSignature = classTable.checkMethod(classType, methodId, parameterTypes);
+
                     typeList.add(classType);
                     methodList.add(methodSignature);
 
@@ -200,7 +207,13 @@ public abstract class FunctionTable {
             case ParserTreeConstants.JJTFCALL:
                 final int typeIndex = typeList.size(), methodIndex = methodList.size();
 
-                final Type classType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.UNKNOWN());
+                final Node classNode = expressionNode.jjtGetChild(0);
+                Type classType;
+                if (classNode.getId() == ParserTreeConstants.JJTID)
+                    classType = Type.CLASS(String.valueOf(classNode.jjtGetValue()));
+                else
+                    classType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.UNKNOWN());
+
                 final String methodId = String.valueOf(expressionNode.jjtGetChild(1).jjtGetValue());
                 final Type[] parameterTypes = analyseParameters(expressionNode.jjtGetChild(2), typeList);
 
@@ -209,7 +222,7 @@ public abstract class FunctionTable {
                 // Deduce the return type of unknown methods
                 if (methodSignature.getReturnType() == null) {
                     // TODO Complete Error (Could not infer return type of unknown method)
-                    if (desiredType.equals(Type.UNKNOWN())) throw new SemanticException();
+                    if (!desiredType.isUnknown()) throw new SemanticException();
 
                     methodSignature.setReturnType(desiredType);
                 }
@@ -324,7 +337,7 @@ public abstract class FunctionTable {
         return null;
     }
 
-    SymbolTable getParameters() {
+    public LinkedSymbolTable getParameters() {
         return parameters;
     }
 
@@ -343,5 +356,13 @@ public abstract class FunctionTable {
                 + variables + System.lineSeparator()
                 + "  INTERMEDIATE CODE:" + System.lineSeparator()
                 + intermediateCode;
+    }
+
+    public LinkedList<IntermediateInstruction> getIntermediateInstructions() {
+        return intermediateCode.getInstructions();
+    }
+
+    public String methodCode() {
+        return intermediateCode.toString();
     }
 }

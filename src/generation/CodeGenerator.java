@@ -28,17 +28,17 @@ public class CodeGenerator {
             final String superClass = ir.getExtendIdentifier() != null ? ir.getExtendIdentifier() : "java/lang/Object";
 
             pw.println(".class public " + fileClass);
-            pw.println(".super " + superClass);
-
-            pw.println(".method public <init>()V");
-            pw.println("\taload_0");
-            pw.println("\tinvokenonvirtual " + superClass + "<init>()V");
-            pw.println("\treturn");
-            pw.println(".end method" + System.lineSeparator());
+            pw.println(".super " + superClass + System.lineSeparator());
 
             for (Map.Entry<String, Type> fieldEntry : ir.getAttributes().entrySet()) {
                 pw.println(".field public " + fieldEntry.getKey() + " " + fieldEntry.getValue().toDescriptor());
             }
+
+            pw.println(System.lineSeparator() + ".method public <init>()V");
+            pw.println("\taload_0");
+            pw.println("\tinvokenonvirtual " + superClass + "<init>()V");
+            pw.println("\treturn");
+            pw.println(".end method");
 
             FunctionTable main = ir.getMain();
             if (main != null) {
@@ -50,7 +50,7 @@ public class CodeGenerator {
             for (Map.Entry<MethodSignature, FunctionTable> methodEntry : ir.getMethods().entrySet()) {
                 pw.println(System.lineSeparator() + ".method public " + methodEntry.getKey().toDescriptor(fileClass));
                 generateMethod(pw, methodEntry.getValue(), 1);
-                pw.println(".end method" + System.lineSeparator());
+                pw.println(".end method");
             }
         }
         catch (IOException e) {
@@ -58,10 +58,10 @@ public class CodeGenerator {
         }
     }
 
-    private void generateMethod(PrintWriter pw, FunctionTable method, int localVarStart) {
-        registerAllocator.allocate(method, localVarStart);
-        pw.println(registerAllocator); // Print the stack and local limits
+    private void generateMethod(PrintWriter pw, FunctionTable method, int paramStart) {
+        //pw.println(".limit stack ");
+        pw.println(".limit locals " +  registerAllocator.allocate(method, paramStart));
 
-
+        pw.print(method.methodCode());
     }
 }

@@ -98,7 +98,7 @@ public class IntermediateRepresentation {
                 throw new SemanticException(); //TODO Complete Semantic Error (Method Signature not found)
         }
 
-        if (!classType.isId())  throw new SemanticException(); //TODO Complete Semantic Error (Invalid Type for calling method)
+        if (!classType.isId() && !classType.isClass())  throw new SemanticException(); //TODO Complete Semantic Error (Invalid Type for calling method)
 
         return methodSignature;
     }

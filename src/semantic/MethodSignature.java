@@ -90,7 +90,9 @@ public class MethodSignature {
         for (Type parameter : parameterTypes)
             sb.append(parameter.toDescriptor());
 
-        sb.append(")").append(returnType.toDescriptor());
+        sb.append(")");
+
+        if (returnType != null) sb.append(returnType.toDescriptor());
 
         return sb.toString();
     }

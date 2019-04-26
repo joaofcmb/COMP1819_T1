@@ -13,17 +13,22 @@ import java.util.Map;
  * @see IntermediateRepresentation
  * @see ParserTreeConstants
  */
-class IntermediateInstruction {
+public class IntermediateInstruction {
     private static final int ISTORE = -1;
     private static final int ASTORE = -2;
 
     private static final int ILOAD = -3;
     private static final int ALOAD = -4;
 
-    private static final int IRETURN = -5;
-    private static final int ARETURN = -6;
+    private static final int INVOKEVIRTUAL = -5;
+    private static final int INVOKESTATIC  = -6;
+
+    private static final int IRETURN = -7;
+    private static final int ARETURN = -8;
+
 
     private final static Map<Integer, String> stringMap;
+
 
     static {
         Map<Integer, String> tempMap = new HashMap<>();
@@ -44,7 +49,8 @@ class IntermediateInstruction {
         tempMap.put(ParserTreeConstants.JJTNEWARRAY,    "newarray int");
         tempMap.put(ParserTreeConstants.JJTNEWOBJ,      "new");
         tempMap.put(ParserTreeConstants.JJTTHIS,        "aload_0");
-        tempMap.put(ParserTreeConstants.JJTFCALL,       "invokevirtual");
+        tempMap.put(INVOKEVIRTUAL,                      "invokevirtual");
+        tempMap.put(INVOKESTATIC,                       "invokestatic");
         tempMap.put(ParserTreeConstants.JJTLENGTH,      "arraylength");
 
         // ARITHMETIC
@@ -57,7 +63,7 @@ class IntermediateInstruction {
     }
 
     private final int instructionId;
-    private final String value;
+    private String value;
 
     /**
      * Creates an Intermediate Instruction without any explicit parameter
@@ -115,6 +121,34 @@ class IntermediateInstruction {
         }
 
         this.value = value;
+    }
+
+    /**
+     * Creates a Function Call Instruction
+     *
+     * @param classType Type of the class
+     * @param value Instruction Parameter
+     */
+    IntermediateInstruction(Type classType, String value) {
+        if (classType.isId())   this.instructionId = INVOKEVIRTUAL;
+        else                    this.instructionId = INVOKESTATIC;
+
+        this.value = value;
+    }
+
+    /**
+     * @return Whether the Intermediate Instruction is using a local variable or not (Loads and Stores)
+     */
+    public boolean isLocal() {
+        return instructionId == ILOAD || instructionId == ALOAD || instructionId == ISTORE || instructionId == ASTORE;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setVarNum(int value) {
+        this.value = String.valueOf(value);
     }
 
     @Override
