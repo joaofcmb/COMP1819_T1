@@ -21,6 +21,8 @@ public class IntermediateRepresentation {
      * @see MethodSignature
      * @see FunctionTable
      */
+
+    // TODO Error on classIdentifier different from file name?
     private String classIdentifier;
     private String extendIdentifier;
 
@@ -96,7 +98,7 @@ public class IntermediateRepresentation {
                 return methodSignature;
             }
             else
-                throw new SemanticException(node, "Invocated method of " + classIdentifier + " not found");
+                throw new SemanticException(node, "Invoked method of " + classIdentifier + " not found");
         }
 
         if (!classType.isId() && !classType.isClass())

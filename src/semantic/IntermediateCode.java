@@ -121,9 +121,10 @@ class IntermediateCode {
                 generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList, methodList);
                 break;
             case ParserTreeConstants.JJTINDEX:
-                expInstructions.addLast(new IntermediateInstruction(id, typeList.remove()));
+                expInstructions.add(new IntermediateInstruction(id, (Type) expressionNode.jjtGetValue()));
                 generateExpressionCode(expressionNode.jjtGetChild(1), expInstructions, typeList, methodList);
                 generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList, methodList);
+                break;
             case ParserTreeConstants.JJTPLUS:
             case ParserTreeConstants.JJTMINUS:
             case ParserTreeConstants.JJTTIMES:

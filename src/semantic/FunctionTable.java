@@ -254,10 +254,10 @@ public abstract class FunctionTable {
                 final Type arrayType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.UNKNOWN());
 
                 if (arrayType.isIntArray()) {
-                    typeList.add(Type.INT());
+                    expressionNode.jjtSetValue(Type.INT());
                     return Type.INT();
                 } else if (arrayType.isStringArray()) {
-                    typeList.add(Type.STRING());
+                    expressionNode.jjtSetValue(Type.STRING());
                     return Type.STRING();
                 } else
                     throw new SemanticException(expressionNode.jjtGetChild(0), "Trying to access index of non array");
