@@ -39,12 +39,18 @@ class IntermediateCode {
             final int id = statementNode.getId();
             switch(id) {
                 case ParserTreeConstants.JJTASSIGN:
-                    // TODO Array Assignment Code (Make sure to remove the restraint on the typeList in semantic analysis)
                     Node assignNode = statementNode.jjtGetChild(0);
+
                     if (assignNode.getId() == ParserTreeConstants.JJTID) {
                         generateExpressionCode(statementNode.jjtGetChild(1), typeList, methodList);
                         instructions.addLast(new IntermediateInstruction(id,
                                 String.valueOf(assignNode.jjtGetValue()), typeList.remove()));
+                    }
+                    else {
+                        generateExpressionCode(statementNode.jjtGetChild(0).jjtGetChild(0), typeList, methodList);
+                        generateExpressionCode(statementNode.jjtGetChild(0).jjtGetChild(1), typeList, methodList);
+                        generateExpressionCode(statementNode.jjtGetChild(1), typeList, methodList);
+                        instructions.addLast(new IntermediateInstruction(id, typeList.remove()));
                     }
                     break;
                 case ParserTreeConstants.JJTIF:
@@ -115,6 +121,9 @@ class IntermediateCode {
                 generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList, methodList);
                 break;
             case ParserTreeConstants.JJTINDEX:
+                expInstructions.addLast(new IntermediateInstruction(id, typeList.remove()));
+                generateExpressionCode(expressionNode.jjtGetChild(1), expInstructions, typeList, methodList);
+                generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList, methodList);
             case ParserTreeConstants.JJTPLUS:
             case ParserTreeConstants.JJTMINUS:
             case ParserTreeConstants.JJTTIMES:

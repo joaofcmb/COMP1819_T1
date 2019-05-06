@@ -52,15 +52,16 @@ public class IntermediateRepresentation {
                     attributes.addDeclaration(node);
                     break;
                 case ParserTreeConstants.JJTMAIN:
-                    if (mainMethod != null) throw new SemanticException(node, "Duplicate main method declaration");
+                    if (mainMethod != null)
+                        throw new SemanticException(node, "Duplicate main method declaration");
 
                     mainMethod = new MainTable(node, this);
                     break;
                 case ParserTreeConstants.JJTMETHOD:
                     MethodSignature methodSignature = new MethodSignature(node);
 
-                    if (methods.containsKey(methodSignature)) throw new SemanticException(node,
-                            "Duplicate method declaration");
+                    if (methods.containsKey(methodSignature))
+                        throw new SemanticException(node, "Duplicate method declaration");
 
                     methods.put(methodSignature, new MethodTable(node, this));
                     break;

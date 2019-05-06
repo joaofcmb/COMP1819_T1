@@ -17,18 +17,23 @@ public class IntermediateInstruction {
     private static final int ISTORE = -1;
     private static final int ASTORE = -2;
 
-    private static final int ILOAD = -3;
-    private static final int ALOAD = -4;
+    private static final int IASTORE = -3;
+    private static final int AASTORE = -4;
 
-    private static final int INVOKEVIRTUAL = -5;
-    private static final int INVOKESTATIC  = -6;
+    private static final int ILOAD = -5;
+    private static final int ALOAD = -6;
 
-    private static final int IRETURN = -7;
-    private static final int ARETURN = -8;
+    private static final int IALOAD = -7;
+    private static final int AALOAD = -8;
+
+    private static final int INVOKEVIRTUAL = -9;
+    private static final int INVOKESTATIC  = -10;
+
+    private static final int IRETURN = -11;
+    private static final int ARETURN = -12;
 
 
     private final static Map<Integer, String> stringMap;
-
 
     static {
         Map<Integer, String> tempMap = new HashMap<>();
@@ -36,12 +41,15 @@ public class IntermediateInstruction {
         // LOAD
         tempMap.put(ILOAD,                              "iload");
         tempMap.put(ALOAD,                              "aload");
-        tempMap.put(ParserTreeConstants.JJTINDEX,       "ARRAYLOAD");
+        tempMap.put(IALOAD,                             "iaload");
+        tempMap.put(AALOAD,                             "aaload");
         tempMap.put(ParserTreeConstants.JJTINTEGER,     "ldc");
 
         // STORE AND RETURN
         tempMap.put(ISTORE,                             "istore");
         tempMap.put(ASTORE,                             "astore");
+        tempMap.put(IASTORE,                            "iastore");
+        tempMap.put(AASTORE,                            "aastore");
         tempMap.put(IRETURN,                            "ireturn");
         tempMap.put(ARETURN,                            "areturn");
 
@@ -105,16 +113,26 @@ public class IntermediateInstruction {
     IntermediateInstruction(int instructionId, String value, Type type) {
         switch (instructionId) {
             case ParserTreeConstants.JJTASSIGN:
-                if (type.isInt() || type.isBoolean())   this.instructionId = ISTORE;
-                else                                    this.instructionId = ASTORE;
+                if (value == null) {
+                    if (type.isInt())                       this.instructionId = IASTORE;
+                    else                                    this.instructionId = AASTORE;
+                }
+                else {
+                    if (type.isInt() || type.isBoolean())   this.instructionId = ISTORE;
+                    else                                    this.instructionId = ASTORE;
+                }
                 break;
             case ParserTreeConstants.JJTID:
-                if (type.isInt() || type.isBoolean())   this.instructionId = ILOAD;
-                else                                    this.instructionId = ALOAD;
+                if (type.isInt() || type.isBoolean())       this.instructionId = ILOAD;
+                else                                        this.instructionId = ALOAD;
+                break;
+            case ParserTreeConstants.JJTINDEX:
+                if (type.isInt())                           this.instructionId = IALOAD;
+                else                                        this.instructionId = AALOAD;
                 break;
             case ParserTreeConstants.JJTRETURN:
-                if (type.isInt() || type.isBoolean())   this.instructionId = IRETURN;
-                else                                    this.instructionId = ARETURN;
+                if (type.isInt() || type.isBoolean())       this.instructionId = IRETURN;
+                else                                        this.instructionId = ARETURN;
                 break;
             default:
                 this.instructionId = instructionId;

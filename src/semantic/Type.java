@@ -18,10 +18,11 @@ import java.util.Map;
  * @see ParserTreeConstants
  */
 public class Type {
-    private static final int STRINGARRAY = -1;
-    private static final int CLASS = -2;
-    private static final int VOID = -3;
-    private static final int UNKNOWN = -4;
+    private static final int STRING = -1;
+    private static final int STRINGARRAY = -2;
+    private static final int CLASS = -3;
+    private static final int VOID = -4;
+    private static final int UNKNOWN = -5;
 
     private final static Map<Integer, String> stringMap;
 
@@ -30,6 +31,7 @@ public class Type {
 
         tempMap.put(ParserTreeConstants.JJTINT, "int");
         tempMap.put(ParserTreeConstants.JJTBOOLEAN, "boolean");
+        tempMap.put(STRING, "String");
         tempMap.put(ParserTreeConstants.JJTINTARRAY, "int[]");
         tempMap.put(STRINGARRAY, "String[]");
         tempMap.put(VOID, "void");
@@ -47,6 +49,8 @@ public class Type {
     static Type BOOLEAN() {
         return new Type(ParserTreeConstants.JJTBOOLEAN);
     }
+
+    static Type STRING() { return new Type(STRING); }
 
     static Type INTARRAY() {
         return new Type(ParserTreeConstants.JJTINTARRAY);

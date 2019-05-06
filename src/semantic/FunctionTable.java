@@ -102,6 +102,7 @@ public abstract class FunctionTable {
      * @throws SemanticException on Semantic Error
      */
     private void analyseStatements(Node statementsNode, int i) throws SemanticException {
+        // TODO Block statements being processed?
         Node statementNode;
         while (i < statementsNode.jjtGetNumChildren()) {
             statementNode = statementsNode.jjtGetChild(i++);
@@ -118,9 +119,7 @@ public abstract class FunctionTable {
                         throw new SemanticException(statementNode,
                                 "Invalid assignment of " + expressionType + " to variable of type " + assignType);
 
-                    // TODO Remove restriction for array assignments (being ignored ATM)
-                    if (statementNode.jjtGetChild(0).getId() == ParserTreeConstants.JJTID)
-                        typeList.add(assignType);
+                    typeList.add(assignType);
                     break;
                 case ParserTreeConstants.JJTIF:
                 case ParserTreeConstants.JJTWHILE:
@@ -249,16 +248,19 @@ public abstract class FunctionTable {
 
                 if (!indexType.isInt())
                     throw new SemanticException(expressionNode.jjtGetChild(1),
-                            "Invalid index expression type, expecting int instead of " + indexType);
+                            "Invalid index, must be an integer instead of " + indexType);
 
                 // TODO Use the current desired type to deduce desired type of arrayType
-                // TODO Add String array functionality once it is better known how it is meant to be used
                 final Type arrayType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.UNKNOWN());
 
-                // TODO Complete Semantic Error (Trying to access index of non array)
-                if (!arrayType.isIntArray())    throw new SemanticException();
-
-                return Type.INT();
+                if (arrayType.isIntArray()) {
+                    typeList.add(Type.INT());
+                    return Type.INT();
+                } else if (arrayType.isStringArray()) {
+                    typeList.add(Type.STRING());
+                    return Type.STRING();
+                } else
+                    throw new SemanticException(expressionNode.jjtGetChild(0), "Trying to access index of non array");
             case ParserTreeConstants.JJTLENGTH:
                 final Type targetType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.UNKNOWN());
 
