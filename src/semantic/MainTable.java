@@ -8,7 +8,6 @@ import parser.Node;
  * @see FunctionTable
  */
 class MainTable extends FunctionTable {
-    // TODO Remove conflicts of main variables with class variables (Since it's static there is no conflict), also cannot access fields
     /**
      * Creates a Table for the Main function, initializing its Base Attributes and filling its Symbol Tables
      *
@@ -21,9 +20,6 @@ class MainTable extends FunctionTable {
         super(mainNode.jjtGetChild(1), ir);
 
         final Node parameterId = mainNode.jjtGetChild(0);
-
-        if (ir.getAttributes().containsId(parameterId))
-            throw new SemanticException(parameterId, "Invalid parameter id (Conflicting types with class atributes)");
 
         getParameters().addParameter(parameterId);
     }

@@ -71,7 +71,7 @@ public abstract class FunctionTable {
 
             Node idNode = varNode.jjtGetChild(1);
 
-            if (classTable.getAttributes().containsId(idNode) || parameters.containsId(idNode))
+            if (parameters.containsId(idNode) || (returnType == null && isClassField(idNode)))
                 throw new SemanticException(idNode, "Redefinition of variable (Conflicting Ids within scope)");
 
             variables.addDeclaration(varNode);
@@ -212,6 +212,7 @@ public abstract class FunctionTable {
                 final int typeIndex = typeList.size(), methodIndex = methodList.size();
 
                 final Node classNode = expressionNode.jjtGetChild(0);
+
                 Type classType;
                 if (classNode.getId() == ParserTreeConstants.JJTID && getIdType(classNode) == null)
                     classType = Type.CLASS(String.valueOf(classNode.jjtGetValue()));
@@ -303,7 +304,7 @@ public abstract class FunctionTable {
             case ParserTreeConstants.JJTID:
                 final Type idType = getIdType(expressionNode);
 
-                if (idType == null)
+                if (idType == null || (returnType == null && isClassField(expressionNode)))
                     throw new SemanticException(expressionNode,
                             "Variable " + expressionNode.jjtGetValue() + " not found");
 

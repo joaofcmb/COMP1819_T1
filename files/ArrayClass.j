@@ -55,6 +55,10 @@
 	aload 2
 	invokevirtual ArrayClass/calc([I[I)I
 	invokestatic io/println(I)V
+	aload 0
+	ldc 0
+	aaload 
+	invokestatic io/println(Ljava/lang/String;)V
 	return
 .end method
 

@@ -15,5 +15,7 @@ class ArrayClass {
         y[y[0]] = (x[0] + y[0]) * 2;
 
         io.println(new ArrayClass().calc(x, y));
+
+        io.println(args[0]);
     }
 }

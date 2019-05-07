@@ -148,6 +148,8 @@ public class Type {
                 return "[I";
             case ParserTreeConstants.JJTID:
                 return "L" + typeName + ";";
+            case STRING:
+                return "Ljava/lang/String;";
             case VOID:
                 return "V";
             default:
