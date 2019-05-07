@@ -42,9 +42,18 @@ class IntermediateCode {
                     Node assignNode = statementNode.jjtGetChild(0);
 
                     if (assignNode.getId() == ParserTreeConstants.JJTID) {
-                        generateExpressionCode(statementNode.jjtGetChild(1), typeList, methodList);
-                        instructions.addLast(new IntermediateInstruction(id,
-                                String.valueOf(assignNode.jjtGetValue()), typeList.remove()));
+                        if (functionTable.isClassField(assignNode)) {
+                            instructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTTHIS));
+                            generateExpressionCode(statementNode.jjtGetChild(1), typeList, methodList);
+                            instructions.addLast(new IntermediateInstruction(id,
+                                    functionTable.getClassIdentifier() +  "/" + assignNode.jjtGetValue(),
+                                    typeList.remove()));
+                        }
+                        else {
+                            generateExpressionCode(statementNode.jjtGetChild(1), typeList, methodList);
+                            instructions.addLast(new IntermediateInstruction(id,
+                                    String.valueOf(assignNode.jjtGetValue()), typeList.remove()));
+                        }
                     }
                     else {
                         generateExpressionCode(statementNode.jjtGetChild(0).jjtGetChild(0), typeList, methodList);
@@ -134,15 +143,20 @@ class IntermediateCode {
                 generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList, methodList);
                 break;
             case ParserTreeConstants.JJTID:
-                // TODO Determine if it's a field or not
-
                 final Type idType = functionTable.getIdType(expressionNode);
 
                 // Single case where this can happen is when it's a class reference for static method invocation
                 if (idType == null)  break;
 
-                expInstructions.addLast(new IntermediateInstruction(id,
-                        String.valueOf(expressionNode.jjtGetValue()), idType));
+                if (functionTable.isClassField(expressionNode)) {
+                    expInstructions.addLast(new IntermediateInstruction(id,
+                            functionTable.getClassIdentifier() +  "/" + expressionNode.jjtGetValue(), idType));
+                    expInstructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTTHIS));
+                }
+                else {
+                    expInstructions.addLast(new IntermediateInstruction(id,
+                            String.valueOf(expressionNode.jjtGetValue()), idType));
+                }
                 break;
             case ParserTreeConstants.JJTINTEGER:
                 expInstructions.addLast(new IntermediateInstruction(id, String.valueOf(expressionNode.jjtGetValue())));

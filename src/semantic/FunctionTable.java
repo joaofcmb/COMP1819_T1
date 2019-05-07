@@ -102,13 +102,11 @@ public abstract class FunctionTable {
      * @throws SemanticException on Semantic Error
      */
     private void analyseStatements(Node statementsNode, int i) throws SemanticException {
-        // TODO Block statements being processed?
         Node statementNode;
         while (i < statementsNode.jjtGetNumChildren()) {
             statementNode = statementsNode.jjtGetChild(i++);
 
             switch(statementNode.getId()) {
-                // TODO Analyse Local variable assignment before usage
                 case ParserTreeConstants.JJTASSIGN:
                     // TODO If Forward chaining doesnt work (Cannot infer assign type and use it on expression type),
                     //  check if the expression type can be deduced and use it to deduce the assignType.
@@ -215,7 +213,7 @@ public abstract class FunctionTable {
 
                 final Node classNode = expressionNode.jjtGetChild(0);
                 Type classType;
-                if (classNode.getId() == ParserTreeConstants.JJTID)
+                if (classNode.getId() == ParserTreeConstants.JJTID && getIdType(classNode) == null)
                     classType = Type.CLASS(String.valueOf(classNode.jjtGetValue()));
                 else
                     classType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.UNKNOWN());
@@ -345,14 +343,15 @@ public abstract class FunctionTable {
      * @return Type of the Symbol, null if it does not exist in this class
      */
     Type getIdType(Node idNode) {
-        if (variables.containsId(idNode))
-            return variables.getId(idNode);
-        else if (parameters.containsId(idNode))
-            return parameters.getId(idNode);
-        else if (classTable.getAttributes().containsId(idNode))
-            return classTable.getAttributes().getId(idNode);
+        if (variables.containsId(idNode))           return variables.getId(idNode);
+        else if (parameters.containsId(idNode))     return parameters.getId(idNode);
+        else if (isClassField(idNode))              return classTable.getAttributes().getId(idNode);
 
         return null;
+    }
+
+    boolean isClassField(Node idNode) {
+        return classTable.getAttributes().containsId(idNode);
     }
 
     public LinkedSymbolTable getParameters() {
@@ -361,6 +360,10 @@ public abstract class FunctionTable {
 
     Type getReturnType() {
         return returnType;
+    }
+
+    String getClassIdentifier() {
+        return classTable.getClassIdentifier();
     }
 
     /**

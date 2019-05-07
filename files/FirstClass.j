@@ -24,7 +24,7 @@
 	iload 2
 	invokevirtual FirstClass/calc(II)I
 	invokestatic io/println(I)V
-return
+	return
 .end method
 
 .method public calc(II)I

@@ -1,0 +1,22 @@
+class FieldClass {
+    int x;
+    int y;
+
+    public int set(int xx, int yy) {
+        x = xx; y = yy;
+        return 1;
+    }
+
+    public int calc() {
+        return y * x / 3;
+    }
+
+    public static void main(String[] args) {
+        FieldClass fc;
+        int set;
+
+        fc = new FieldClass();
+        set = fc.set(4, 6);
+        io.println(fc.calc());
+    }
+}

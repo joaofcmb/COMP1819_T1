@@ -22,6 +22,7 @@ public class IntermediateRepresentation {
      * @see FunctionTable
      */
 
+    // TODO Deal with Inheritance (Methods and Fields)
     // TODO Error on classIdentifier different from file name?
     private String classIdentifier;
     private String extendIdentifier;

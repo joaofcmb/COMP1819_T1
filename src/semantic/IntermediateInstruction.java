@@ -20,17 +20,20 @@ public class IntermediateInstruction {
     private static final int IASTORE = -3;
     private static final int AASTORE = -4;
 
-    private static final int ILOAD = -5;
-    private static final int ALOAD = -6;
+    private static final int GETFIELD = -5;
+    private static final int PUTFIELD = -6;
 
-    private static final int IALOAD = -7;
-    private static final int AALOAD = -8;
+    private static final int ILOAD = -7;
+    private static final int ALOAD = -8;
 
-    private static final int INVOKEVIRTUAL = -9;
-    private static final int INVOKESTATIC  = -10;
+    private static final int IALOAD = -9;
+    private static final int AALOAD = -10;
 
-    private static final int IRETURN = -11;
-    private static final int ARETURN = -12;
+    private static final int INVOKEVIRTUAL = -11;
+    private static final int INVOKESTATIC  = -12;
+
+    private static final int IRETURN = -13;
+    private static final int ARETURN = -14;
 
 
     private final static Map<Integer, String> stringMap;
@@ -45,7 +48,7 @@ public class IntermediateInstruction {
         tempMap.put(AALOAD,                             "aaload");
         tempMap.put(ParserTreeConstants.JJTINTEGER,     "ldc");
 
-        // STORE AND RETURN
+        // STORE and RETURN
         tempMap.put(ISTORE,                             "istore");
         tempMap.put(ASTORE,                             "astore");
         tempMap.put(IASTORE,                            "iastore");
@@ -53,12 +56,16 @@ public class IntermediateInstruction {
         tempMap.put(IRETURN,                            "ireturn");
         tempMap.put(ARETURN,                            "areturn");
 
-        // NEW, FCALL and LENGTH
+        // FIELDS and FCALL
+        tempMap.put(GETFIELD,                           "getfield");
+        tempMap.put(PUTFIELD,                           "putfield");
+        tempMap.put(INVOKEVIRTUAL,                      "invokevirtual");
+        tempMap.put(INVOKESTATIC,                       "invokestatic");
+
+        // NEW and LENGTH
         tempMap.put(ParserTreeConstants.JJTNEWARRAY,    "newarray int");
         tempMap.put(ParserTreeConstants.JJTNEWOBJ,      "new");
         tempMap.put(ParserTreeConstants.JJTTHIS,        "aload_0");
-        tempMap.put(INVOKEVIRTUAL,                      "invokevirtual");
-        tempMap.put(INVOKESTATIC,                       "invokestatic");
         tempMap.put(ParserTreeConstants.JJTLENGTH,      "arraylength");
 
         // ARITHMETIC
@@ -114,25 +121,33 @@ public class IntermediateInstruction {
         switch (instructionId) {
             case ParserTreeConstants.JJTASSIGN:
                 if (value == null) {
-                    if (type.isInt())                       this.instructionId = IASTORE;
-                    else                                    this.instructionId = AASTORE;
+                    if (type.isInt())                           this.instructionId = IASTORE;
+                    else                                        this.instructionId = AASTORE;
                 }
                 else {
-                    if (type.isInt() || type.isBoolean())   this.instructionId = ISTORE;
-                    else                                    this.instructionId = ASTORE;
+                    if (value.contains("/")) {
+                        this.instructionId = PUTFIELD;
+                        value += " " + type.toDescriptor();
+                    }
+                    else if (type.isInt() || type.isBoolean())  this.instructionId = ISTORE;
+                    else                                        this.instructionId = ASTORE;
                 }
                 break;
             case ParserTreeConstants.JJTID:
-                if (type.isInt() || type.isBoolean())       this.instructionId = ILOAD;
-                else                                        this.instructionId = ALOAD;
+                if (value.contains("/")) {
+                    this.instructionId = GETFIELD;
+                    value += " " + type.toDescriptor();
+                }
+                else if (type.isInt() || type.isBoolean())      this.instructionId = ILOAD;
+                else                                            this.instructionId = ALOAD;
                 break;
             case ParserTreeConstants.JJTINDEX:
-                if (type.isInt())                           this.instructionId = IALOAD;
-                else                                        this.instructionId = AALOAD;
+                if (type.isInt())                               this.instructionId = IALOAD;
+                else                                            this.instructionId = AALOAD;
                 break;
             case ParserTreeConstants.JJTRETURN:
-                if (type.isInt() || type.isBoolean())       this.instructionId = IRETURN;
-                else                                        this.instructionId = ARETURN;
+                if (type.isInt() || type.isBoolean())           this.instructionId = IRETURN;
+                else                                            this.instructionId = ARETURN;
                 break;
             default:
                 this.instructionId = instructionId;
@@ -180,6 +195,9 @@ public class IntermediateInstruction {
             case ASTORE:
             case IRETURN:
             case ARETURN:
+            case PUTFIELD:
+            case IALOAD:
+            case AALOAD:
             case ParserTreeConstants.JJTINDEX:
             case ParserTreeConstants.JJTPLUS:
             case ParserTreeConstants.JJTMINUS:
@@ -188,25 +206,33 @@ public class IntermediateInstruction {
                 return -1;
             case ILOAD:
             case ALOAD:
+            case GETFIELD:
             case ParserTreeConstants.JJTINTEGER:
             case ParserTreeConstants.JJTTHIS:
             case ParserTreeConstants.JJTNEWOBJ:
                 return 1;
+            case IASTORE:
+            case AASTORE:
+                return -3;
             case INVOKESTATIC:
             case INVOKEVIRTUAL:
-                int stackSlots = 0;
-                if (value.endsWith("V"))    stackSlots++;
+                int stackSlots = 1;
+                if (value.endsWith("V"))    stackSlots--;
 
-                String parameters = value.split("[()]")[1];
-                for (int i = 0; i < parameters.length(); i++) {
-                    char c = parameters.charAt(0);
+                String[] splitValue = value.split("[()]");
 
-                    if (c == '[')   continue;
-                    else if (c == 'L') {
-                        while (parameters.charAt(++i) != ';');
+                if (splitValue.length > 1) {
+                    String parameters = splitValue[1];
+                    for (int i = 0; i < parameters.length(); i++) {
+                        char c = parameters.charAt(0);
+
+                        if (c == '[')   continue;
+                        else if (c == 'L') {
+                            while (parameters.charAt(++i) != ';');
+                        }
+
+                        stackSlots--;
                     }
-
-                    stackSlots--;
                 }
 
                 return stackSlots;

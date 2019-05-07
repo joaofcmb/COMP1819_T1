@@ -93,6 +93,7 @@ public class MethodSignature {
         sb.append(")");
 
         if (returnType != null) sb.append(returnType.toDescriptor());
+        // TODO Use inferred returnType from semantic analysis to fill the null returnType, otherwise code generation fails
 
         return sb.toString();
     }

@@ -9,7 +9,7 @@
 .end method
 
 .method public static main([Ljava/lang/String;)V
-.limit stack 16
+.limit stack 5
 .limit locals 3
 	ldc 1
 	newarray int 
@@ -55,11 +55,11 @@
 	aload 2
 	invokevirtual ArrayClass/calc([I[I)I
 	invokestatic io/println(I)V
-return
+	return
 .end method
 
 .method public calc([I[I)I
-.limit stack 4
+.limit stack 3
 .limit locals 3
 	aload 2
 	arraylength 

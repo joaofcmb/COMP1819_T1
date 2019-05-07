@@ -45,7 +45,7 @@ public class CodeGenerator {
             if (main != null) {
                 pw.println(System.lineSeparator() + ".method public static main([Ljava/lang/String;)V");
                 generateMethod(pw, main, 0);
-                pw.println("return");
+                pw.println("\treturn");
                 pw.println(".end method");
             }
 
