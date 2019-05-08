@@ -9,8 +9,8 @@
 .end method
 
 .method public static main([Ljava/lang/String;)V
-.limit stack 16
-.limit locals 1
+.limit stack 20
+.limit locals 2
 	iconst_0 
 	ifgt L2
 	ldc 1
@@ -105,5 +105,39 @@
 	L1:
 	ldc 7
 	invokestatic io/println(I)V
+	ldc 0
+	istore 1
+	goto L14
+	L15:
+	ldc 8
+	iload 1
+	iadd 
+	invokestatic io/println(I)V
+	iload 1
+	ldc 1
+	iadd 
+	istore 1
+	L14:
+	ldc 4
+	ldc 2
+	imul 
+	ldc 9
+	if_icmpge L17
+	ldc 2
+	ldc 3
+	if_icmpge L18
+	iconst_1 
+	ifeq L18
+	goto L17
+	L18:
+	goto L16
+	L17:
+	iload 1
+	ldc 5
+	if_icmpge L16
+	iconst_0 
+	ifgt L16
+	goto L15
+	L16:
 	return
 .end method

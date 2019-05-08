@@ -71,13 +71,20 @@ class IntermediateCode {
                             target, true);
 
                     generateFunctionCode(statementNode.jjtGetChild(1), 0, typeList, methodList);
-                    instructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTAND, resume));
+                    instructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTAND, resume)); // TODO Improve this unreadable thing to something properly readable (GOTO X -> LB X+1)
 
                     generateFunctionCode(statementNode.jjtGetChild(2), 0, typeList, methodList);
                     instructions.addLast(new IntermediateInstruction(id, resume));
                     break;
                 case ParserTreeConstants.JJTWHILE:
-                    // TODO Generate ICode for WHILE construct
+                    final int initCond = labelId++, body = labelId++;
+                    instructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTAND, initCond)); // TODO Improve this unreadable thing to something properly readable (GOTO X -> LB X+1)
+
+                    generateFunctionCode(statementNode.jjtGetChild(1), 0, typeList, methodList);
+
+                    instructions.addLast(new IntermediateInstruction(id, initCond));
+                    generateConditionCode(statementNode.jjtGetChild(0).jjtGetChild(0), typeList, methodList,
+                            body, false);
                     break;
                 case ParserTreeConstants.JJTFCALL:
                     generateExpressionCode(statementNode.jjtGetChild(0), typeList, methodList);
@@ -116,7 +123,7 @@ class IntermediateCode {
                     final int newTarget = labelId++;
                     generateConditionCode(conditionNode.jjtGetChild(0), typeList, methodList, newTarget, true);
                     generateConditionCode(conditionNode.jjtGetChild(1), typeList, methodList, newTarget, true);
-                    instructions.addLast(new IntermediateInstruction(id, target));
+                    instructions.addLast(new IntermediateInstruction(id, target)); // TODO Improve this unreadable thing to something properly readable (GOTO X -> LB X+1)
                 }
                 else {
                     generateConditionCode(conditionNode.jjtGetChild(0), typeList, methodList, target, true);

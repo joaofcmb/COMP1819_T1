@@ -1,5 +1,7 @@
 class CondClass {
     public static void main(String[] args) {
+        int i;
+
         if (!false) {
             io.println(1);
             if (2 + 3 < 5)
@@ -27,5 +29,11 @@ class CondClass {
             io.println(0-1);
 
         io.println(7);
+
+        i = 0;
+        while (!(4 * 2 < 9 && !(2 < 3 && true)) && i < 5 && !false) {
+            io.println(8 + i);
+            i = i + 1;
+        }
     }
 }

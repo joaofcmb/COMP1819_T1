@@ -133,7 +133,7 @@ public class IntermediateInstruction {
     }
 
     /**
-     * Creates a Label Instruction
+     * Creates a If Instruction
      * @param instructionId Instruction Identifier
      * @param eval Evaluation being performed (Condition must be true or false)
      * @param labelNum Label Identifier Number
