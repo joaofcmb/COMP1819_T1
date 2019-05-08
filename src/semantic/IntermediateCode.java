@@ -16,6 +16,8 @@ class IntermediateCode {
     private final FunctionTable functionTable;
     private LinkedList<IntermediateInstruction> instructions = new LinkedList<>();
 
+    private int labelId = 1;
+
     /**
      * Creates an Intermediate Code class for a Function
      * @param functionTable Function Table, where the Intermediate Code belongs to
@@ -33,6 +35,7 @@ class IntermediateCode {
      */
     void generateFunctionCode(Node bodyNode, int i, LinkedList<Type> typeList, LinkedList<MethodSignature> methodList) {
         Node statementNode;
+
         while (i < bodyNode.jjtGetNumChildren()) {
             statementNode = bodyNode.jjtGetChild(i++);
 
@@ -63,7 +66,15 @@ class IntermediateCode {
                     }
                     break;
                 case ParserTreeConstants.JJTIF:
-                    // TODO Generate ICode for IF construct
+                    final int resume = labelId++, target = labelId++;
+                    generateConditionCode(statementNode.jjtGetChild(0).jjtGetChild(0), typeList, methodList,
+                            target, true);
+
+                    generateFunctionCode(statementNode.jjtGetChild(1), 0, typeList, methodList);
+                    instructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTAND, resume));
+
+                    generateFunctionCode(statementNode.jjtGetChild(2), 0, typeList, methodList);
+                    instructions.addLast(new IntermediateInstruction(id, resume));
                     break;
                 case ParserTreeConstants.JJTWHILE:
                     // TODO Generate ICode for WHILE construct
@@ -88,6 +99,46 @@ class IntermediateCode {
     }
 
     /**
+     * Generates the Intermediate Code of a condition
+     *
+     * @param conditionNode AST Root containing the condition
+     * @param typeList List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Gen
+     * @param methodList List of Method Signatures kept during the Semantic Analysis
+     * @param eval Whether the condition must be evaluated true or false
+     */
+    private void generateConditionCode(Node conditionNode, LinkedList<Type> typeList,
+                                       LinkedList<MethodSignature> methodList, int target, boolean eval) {
+        final int id = conditionNode.getId();
+
+        switch(id) {
+            case ParserTreeConstants.JJTAND:
+                if (!eval) {
+                    final int newTarget = labelId++;
+                    generateConditionCode(conditionNode.jjtGetChild(0), typeList, methodList, newTarget, true);
+                    generateConditionCode(conditionNode.jjtGetChild(1), typeList, methodList, newTarget, true);
+                    instructions.addLast(new IntermediateInstruction(id, target));
+                }
+                else {
+                    generateConditionCode(conditionNode.jjtGetChild(0), typeList, methodList, target, true);
+                    generateConditionCode(conditionNode.jjtGetChild(1), typeList, methodList, target, true);
+                }
+                break;
+            case ParserTreeConstants.JJTLOWER:
+                generateExpressionCode(conditionNode.jjtGetChild(0), typeList, methodList);
+                generateExpressionCode(conditionNode.jjtGetChild(1), typeList, methodList);
+                instructions.addLast(new IntermediateInstruction(id, eval, target));
+                break;
+            case ParserTreeConstants.JJTNOT:
+                generateConditionCode(conditionNode.jjtGetChild(0), typeList, methodList, target, !eval);
+                break;
+            default:
+                generateExpressionCode(conditionNode, typeList, methodList);
+                instructions.addLast(new IntermediateInstruction(id, eval, target));
+                break;
+        }
+    }
+
+    /**
      * Generates the Intermediate Code of a full expression
      *
      * The tree is traversed using DFS and the resulting instruction list is inverted, resulting in a correct order of
@@ -95,7 +146,6 @@ class IntermediateCode {
      * @param expressionNode AST Root containing the expression
      * @param typeList List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Gen
      * @param methodList List of Method Signatures kept during the Semantic Analysis
-     *
      */
     private void generateExpressionCode(Node expressionNode, LinkedList<Type> typeList,
                                         LinkedList<MethodSignature> methodList) {
@@ -174,20 +224,11 @@ class IntermediateCode {
                                 + "\tinvokespecial " + value + "/<init>()V"));
                 break;
             case ParserTreeConstants.JJTTHIS:
+            case ParserTreeConstants.JJTTRUE:
+            case ParserTreeConstants.JJTFALSE:
                 expInstructions.addLast(new IntermediateInstruction(id));
                 break;
-
-            // TODO Generation of ICode for conditions
-            case ParserTreeConstants.JJTAND:
-                break;
-            case ParserTreeConstants.JJTLOWER:
-                break;
-            case ParserTreeConstants.JJTNOT:
-                break;
-            case ParserTreeConstants.JJTTRUE:
-                break;
-            case ParserTreeConstants.JJTFALSE:
-                break;
+            // TODO Generation of ICode for boolean expressions
         }
     }
 

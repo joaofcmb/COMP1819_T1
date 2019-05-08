@@ -312,6 +312,12 @@ public abstract class FunctionTable {
             case ParserTreeConstants.JJTINTEGER:
                 return Type.INT();
             case ParserTreeConstants.JJTNOT:
+                final Type expressionType = analyseExpression(expressionNode.jjtGetChild(0), typeList, Type.BOOLEAN());
+
+                if (!expressionType.isBoolean())
+                    throw new SemanticException(expressionNode.jjtGetChild(0),
+                            "Invalid expression of type " + expressionType + ". Must be a boolean to apply negate op.");
+                return Type.BOOLEAN();
             case ParserTreeConstants.JJTTRUE:
             case ParserTreeConstants.JJTFALSE:
                 return Type.BOOLEAN();

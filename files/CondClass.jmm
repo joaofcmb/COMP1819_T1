@@ -1,0 +1,31 @@
+class CondClass {
+    public static void main(String[] args) {
+        if (!false) {
+            io.println(1);
+            if (2 + 3 < 5)
+                io.println(0-2);
+            else {
+                io.println(2);
+                if (true && 6 / 2 < 4) {
+                    io.println(3);
+                    if (!(4 * 2 < 9 && 2 < 3 && false)) {
+                        io.println(4);
+                        if (!(4 * 2 < 9 && !(2 < 3 && true)) && 4 < 5 && !false)
+                            io.println(5);
+                        else
+                            io.println(0-5);
+                    }
+                    else
+                        io.println(0-4);
+                }
+                else
+                    io.println(0-3);
+            }
+            io.println(6);
+        }
+        else
+            io.println(0-1);
+
+        io.println(7);
+    }
+}

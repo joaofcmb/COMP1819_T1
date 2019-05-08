@@ -35,6 +35,12 @@ public class IntermediateInstruction {
     private static final int IRETURN = -13;
     private static final int ARETURN = -14;
 
+    private static final int IFEQ = -15;
+    private static final int IFGT = -16;
+    private static final int IFCMPGE = -17;
+    private static final int IFCMPLT = -18;
+    private static final int GOTO = -19;
+
 
     private final static Map<Integer, String> stringMap;
 
@@ -46,7 +52,12 @@ public class IntermediateInstruction {
         tempMap.put(ALOAD,                              "aload");
         tempMap.put(IALOAD,                             "iaload");
         tempMap.put(AALOAD,                             "aaload");
+        tempMap.put(ParserTreeConstants.JJTTHIS,        "aload_0");
+
+        // CONSTANT LOADS
         tempMap.put(ParserTreeConstants.JJTINTEGER,     "ldc");
+        tempMap.put(ParserTreeConstants.JJTTRUE,        "iconst_1");
+        tempMap.put(ParserTreeConstants.JJTFALSE,       "iconst_0");
 
         // STORE and RETURN
         tempMap.put(ISTORE,                             "istore");
@@ -65,7 +76,6 @@ public class IntermediateInstruction {
         // NEW and LENGTH
         tempMap.put(ParserTreeConstants.JJTNEWARRAY,    "newarray int");
         tempMap.put(ParserTreeConstants.JJTNEWOBJ,      "new");
-        tempMap.put(ParserTreeConstants.JJTTHIS,        "aload_0");
         tempMap.put(ParserTreeConstants.JJTLENGTH,      "arraylength");
 
         // ARITHMETIC
@@ -73,6 +83,13 @@ public class IntermediateInstruction {
         tempMap.put(ParserTreeConstants.JJTMINUS,       "isub");
         tempMap.put(ParserTreeConstants.JJTTIMES,       "imul");
         tempMap.put(ParserTreeConstants.JJTDIVIDE,      "idiv");
+
+        // CONDITIONS
+        tempMap.put(IFEQ,                               "ifeq");
+        tempMap.put(IFGT,                               "ifgt");
+        tempMap.put(IFCMPGE,                            "if_icmpge");
+        tempMap.put(IFCMPLT,                            "if_icmplt");
+        tempMap.put(GOTO,                               "goto");
 
         stringMap = Collections.unmodifiableMap(tempMap);
     }
@@ -101,6 +118,38 @@ public class IntermediateInstruction {
         this.value = value;
     }
 
+    IntermediateInstruction(int instructionId, int labelNum) {
+        switch(instructionId) {
+            case ParserTreeConstants.JJTAND:
+                this.instructionId = GOTO;
+                this.value = "L" + labelNum++ + System.lineSeparator()
+                        + "\tL" + labelNum + ":";
+                break;
+            default:
+                this.instructionId = instructionId;
+                this.value = "L" + labelNum + ":";
+                break;
+        }
+    }
+
+    /**
+     * Creates a Label Instruction
+     * @param instructionId Instruction Identifier
+     * @param eval Evaluation being performed (Condition must be true or false)
+     * @param labelNum Label Identifier Number
+     */
+    IntermediateInstruction(int instructionId, boolean eval, int labelNum) {
+        switch (instructionId) {
+            case ParserTreeConstants.JJTLOWER:
+                this.instructionId = eval ? IFCMPGE : IFCMPLT;
+                break;
+            default:
+                this.instructionId = eval ? IFEQ : IFGT;
+                break;
+        }
+        this.value = "L" + labelNum;
+    }
+
     /**
      * Creates a Type specific Intermediate Instruction without any explicit paramter
      *
@@ -112,9 +161,10 @@ public class IntermediateInstruction {
     }
 
     /**
-     * Creates a Type specific Intermediate Instruction with an explicit paramter
+     * Creates a Type specific Intermediate Instruction with an explicit parameter
      *
      * @param instructionId Instruction Identifier
+     * @param value Custom value (parameters) for the instruction
      * @param type Desired Type
      */
     IntermediateInstruction(int instructionId, String value, Type type) {
@@ -186,7 +236,8 @@ public class IntermediateInstruction {
 
     @Override
     public String toString() {
-        return stringMap.get(instructionId) + " " + (value == null ? "" : value);
+        return (stringMap.containsKey(instructionId) ? stringMap.get(instructionId) + " " : "")
+                + (value == null ? "" : value);
     }
 
     public int stackSlots() {
