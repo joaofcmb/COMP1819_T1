@@ -1,6 +1,11 @@
 class CondClass {
+    public boolean compare(boolean x, boolean y) {
+        return x && y;
+    }
+
     public static void main(String[] args) {
         int i;
+        boolean x;
 
         if (!false) {
             io.println(1);
@@ -31,9 +36,16 @@ class CondClass {
         io.println(7);
 
         i = 0;
+
         while (!(4 * 2 < 9 && !(2 < 3 && true)) && i < 5 && !false) {
             io.println(8 + i);
             i = i + 1;
         }
+
+        x = !(4 * 2 < 9 && !(2 < 3 && true)) && 4 < 5 && !false;
+        x = new CondClass().compare(x, !(4 * 2 < 9 && !(2 < 3 && true)) && 4 < 5 && !false);
+
+        if (x)  io.println(13);
+        else    io.println(0-13);
     }
 }

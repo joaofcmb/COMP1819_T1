@@ -9,8 +9,8 @@
 .end method
 
 .method public static main([Ljava/lang/String;)V
-.limit stack 20
-.limit locals 2
+.limit stack 34
+.limit locals 3
 	iconst_0 
 	ifgt L2
 	ldc 1
@@ -139,5 +139,86 @@
 	ifgt L16
 	goto L15
 	L16:
+	ldc 4
+	ldc 2
+	imul 
+	ldc 9
+	if_icmpge L21
+	ldc 2
+	ldc 3
+	if_icmpge L22
+	iconst_1 
+	ifeq L22
+	goto L21
+	L22:
+	goto L20
+	L21:
+	ldc 4
+	ldc 5
+	if_icmpge L20
+	iconst_0 
+	ifgt L20
+	iconst_1 
+	goto L19
+	L20:
+	iconst_0 
+	L19:
+	istore 2
+	new CondClass
+	dup
+	invokespecial CondClass/<init>()V
+	iload 2
+	ldc 4
+	ldc 2
+	imul 
+	ldc 9
+	if_icmpge L25
+	ldc 2
+	ldc 3
+	if_icmpge L26
+	iconst_1 
+	ifeq L26
+	goto L25
+	L26:
+	goto L24
+	L25:
+	ldc 4
+	ldc 5
+	if_icmpge L24
+	iconst_0 
+	ifgt L24
+	iconst_1 
+	goto L23
+	L24:
+	iconst_0 
+	L23:
+	invokevirtual CondClass/compare(ZZ)Z
+	istore 2
+	iload 2
+	ifeq L28
+	ldc 13
+	invokestatic io/println(I)V
+	goto L27
+	L28:
+	ldc 0
+	ldc 13
+	isub 
+	invokestatic io/println(I)V
+	L27:
 	return
+.end method
+
+.method public compare(ZZ)Z
+.limit stack 2
+.limit locals 3
+	iload 1
+	ifeq L2
+	iload 2
+	ifeq L2
+	iconst_1 
+	goto L1
+	L2:
+	iconst_0 
+	L1:
+	ireturn 
 .end method

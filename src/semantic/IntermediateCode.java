@@ -3,6 +3,7 @@ package semantic;
 import parser.Node;
 import parser.ParserTreeConstants;
 
+import java.util.Collections;
 import java.util.LinkedList;
 
 /**
@@ -67,24 +68,27 @@ class IntermediateCode {
                     break;
                 case ParserTreeConstants.JJTIF:
                     final int resume = labelId++, target = labelId++;
-                    generateConditionCode(statementNode.jjtGetChild(0).jjtGetChild(0), typeList, methodList,
-                            target, true);
+                    generateConditionCode(statementNode.jjtGetChild(0).jjtGetChild(0), instructions,
+                            typeList, methodList, target, true);
 
                     generateFunctionCode(statementNode.jjtGetChild(1), 0, typeList, methodList);
-                    instructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTAND, resume)); // TODO Improve this unreadable thing to something properly readable (GOTO X -> LB X+1)
+                    instructions.addLast(IntermediateInstruction.GOTO(resume));
+                    instructions.addLast(IntermediateInstruction.LABEL(target));
 
                     generateFunctionCode(statementNode.jjtGetChild(2), 0, typeList, methodList);
-                    instructions.addLast(new IntermediateInstruction(id, resume));
+                    instructions.addLast(IntermediateInstruction.LABEL(resume));
                     break;
                 case ParserTreeConstants.JJTWHILE:
-                    final int initCond = labelId++, body = labelId++;
-                    instructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTAND, initCond)); // TODO Improve this unreadable thing to something properly readable (GOTO X -> LB X+1)
+                    final int condition = labelId++, body = labelId++;
+
+                    instructions.addLast(IntermediateInstruction.GOTO(condition));
+                    instructions.addLast(IntermediateInstruction.LABEL(body));
 
                     generateFunctionCode(statementNode.jjtGetChild(1), 0, typeList, methodList);
 
-                    instructions.addLast(new IntermediateInstruction(id, initCond));
-                    generateConditionCode(statementNode.jjtGetChild(0).jjtGetChild(0), typeList, methodList,
-                            body, false);
+                    instructions.addLast(IntermediateInstruction.LABEL(condition));
+                    generateConditionCode(statementNode.jjtGetChild(0).jjtGetChild(0), instructions,
+                            typeList, methodList, body, false);
                     break;
                 case ParserTreeConstants.JJTFCALL:
                     generateExpressionCode(statementNode.jjtGetChild(0), typeList, methodList);
@@ -113,36 +117,48 @@ class IntermediateCode {
      * @param methodList List of Method Signatures kept during the Semantic Analysis
      * @param eval Whether the condition must be evaluated true or false
      */
-    private void generateConditionCode(Node conditionNode, LinkedList<Type> typeList,
-                                       LinkedList<MethodSignature> methodList, int target, boolean eval) {
+    private void generateConditionCode(Node conditionNode, LinkedList<IntermediateInstruction> condInstructions,
+                                       LinkedList<Type> typeList, LinkedList<MethodSignature> methodList,
+                                       int target, boolean eval) {
         final int id = conditionNode.getId();
 
         switch(id) {
             case ParserTreeConstants.JJTAND:
                 if (!eval) {
                     final int newTarget = labelId++;
-                    generateConditionCode(conditionNode.jjtGetChild(0), typeList, methodList, newTarget, true);
-                    generateConditionCode(conditionNode.jjtGetChild(1), typeList, methodList, newTarget, true);
-                    instructions.addLast(new IntermediateInstruction(id, target)); // TODO Improve this unreadable thing to something properly readable (GOTO X -> LB X+1)
+                    generateConditionCode(conditionNode.jjtGetChild(0), condInstructions, typeList, methodList,
+                            newTarget, true);
+                    generateConditionCode(conditionNode.jjtGetChild(1), condInstructions, typeList, methodList,
+                            newTarget, true);
+                    condInstructions.addLast(IntermediateInstruction.GOTO(target));
+                    condInstructions.addLast(IntermediateInstruction.LABEL(newTarget));
                 }
                 else {
-                    generateConditionCode(conditionNode.jjtGetChild(0), typeList, methodList, target, true);
-                    generateConditionCode(conditionNode.jjtGetChild(1), typeList, methodList, target, true);
+                    generateConditionCode(conditionNode.jjtGetChild(0), condInstructions, typeList, methodList,
+                            target, true);
+                    generateConditionCode(conditionNode.jjtGetChild(1), condInstructions, typeList, methodList,
+                            target, true);
                 }
                 break;
             case ParserTreeConstants.JJTLOWER:
-                generateExpressionCode(conditionNode.jjtGetChild(0), typeList, methodList);
-                generateExpressionCode(conditionNode.jjtGetChild(1), typeList, methodList);
-                instructions.addLast(new IntermediateInstruction(id, eval, target));
+                getExpressionCode(conditionNode.jjtGetChild(0), condInstructions, typeList, methodList);
+                getExpressionCode(conditionNode.jjtGetChild(1), condInstructions, typeList, methodList);
+                condInstructions.addLast(new IntermediateInstruction(id, eval, target));
                 break;
             case ParserTreeConstants.JJTNOT:
-                generateConditionCode(conditionNode.jjtGetChild(0), typeList, methodList, target, !eval);
+                generateConditionCode(conditionNode.jjtGetChild(0), condInstructions, typeList, methodList,
+                        target, !eval);
                 break;
             default:
-                generateExpressionCode(conditionNode, typeList, methodList);
-                instructions.addLast(new IntermediateInstruction(id, eval, target));
+                getExpressionCode(conditionNode, condInstructions, typeList, methodList);
+                condInstructions.addLast(new IntermediateInstruction(id, eval, target));
                 break;
         }
+    }
+
+    private void generateExpressionCode(Node expressionNode, LinkedList<Type> typeList,
+                                        LinkedList<MethodSignature> methodList) {
+        getExpressionCode(expressionNode, instructions, typeList, methodList);
     }
 
     /**
@@ -151,16 +167,17 @@ class IntermediateCode {
      * The tree is traversed using DFS and the resulting instruction list is inverted, resulting in a correct order of
      * instructions, as mentioned in the classes.
      * @param expressionNode AST Root containing the expression
+     * @param instructions List to store the generated Intermediate Code
      * @param typeList List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Gen
      * @param methodList List of Method Signatures kept during the Semantic Analysis
      */
-    private void generateExpressionCode(Node expressionNode, LinkedList<Type> typeList,
-                                        LinkedList<MethodSignature> methodList) {
+    private void getExpressionCode(Node expressionNode, LinkedList<IntermediateInstruction> instructions,
+                                   LinkedList<Type> typeList, LinkedList<MethodSignature> methodList) {
         LinkedList<IntermediateInstruction> expInstructions = new LinkedList<>();
 
         generateExpressionCode(expressionNode, expInstructions, typeList, methodList);
 
-        expInstructions.descendingIterator().forEachRemaining((inst) -> instructions.addLast(inst));
+        expInstructions.descendingIterator().forEachRemaining(instructions::addLast);
     }
 
     /**
@@ -230,12 +247,25 @@ class IntermediateCode {
                                 + "\tdup" + System.lineSeparator()
                                 + "\tinvokespecial " + value + "/<init>()V"));
                 break;
+            case ParserTreeConstants.JJTAND:
+            case ParserTreeConstants.JJTLOWER:
+            case ParserTreeConstants.JJTNOT:
+                final int resume = labelId++, target = labelId++, expIndex = expInstructions.size();
+
+                generateConditionCode(expressionNode, expInstructions, typeList, methodList, target, true);
+                expInstructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTTRUE));
+                expInstructions.addLast(IntermediateInstruction.GOTO(resume));
+                expInstructions.addLast(IntermediateInstruction.LABEL(target));
+                expInstructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTFALSE));
+                expInstructions.addLast(IntermediateInstruction.LABEL(resume));
+
+                Collections.reverse(expInstructions.subList(expIndex, expInstructions.size()));
+                break;
             case ParserTreeConstants.JJTTHIS:
             case ParserTreeConstants.JJTTRUE:
             case ParserTreeConstants.JJTFALSE:
                 expInstructions.addLast(new IntermediateInstruction(id));
                 break;
-            // TODO Generation of ICode for boolean expressions
         }
     }
 

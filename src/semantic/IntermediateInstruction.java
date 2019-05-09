@@ -97,6 +97,14 @@ public class IntermediateInstruction {
     private final int instructionId;
     private String value;
 
+    static IntermediateInstruction GOTO(int labelNum) {
+        return new IntermediateInstruction(GOTO, "L" + labelNum);
+    }
+
+    static IntermediateInstruction LABEL(int labelNum) {
+        return new IntermediateInstruction(0,"L" + labelNum + ":");
+    }
+
     /**
      * Creates an Intermediate Instruction without any explicit parameter
      *
@@ -116,20 +124,6 @@ public class IntermediateInstruction {
     IntermediateInstruction(int instructionId, String value) {
         this.instructionId = instructionId;
         this.value = value;
-    }
-
-    IntermediateInstruction(int instructionId, int labelNum) {
-        switch(instructionId) {
-            case ParserTreeConstants.JJTAND:
-                this.instructionId = GOTO;
-                this.value = "L" + labelNum++ + System.lineSeparator()
-                        + "\tL" + labelNum + ":";
-                break;
-            default:
-                this.instructionId = instructionId;
-                this.value = "L" + labelNum + ":";
-                break;
-        }
     }
 
     /**
