@@ -18,9 +18,9 @@ public class CodeGenerator {
     private final IntermediateRepresentation ir;
     private final Path filePath;
 
-    public CodeGenerator(IntermediateRepresentation ir, String fileName) {
+    public CodeGenerator(IntermediateRepresentation ir, Path outputPath) {
         this.ir = ir;
-        this.filePath = Paths.get(fileName + ".j");
+        this.filePath = outputPath.resolve(ir.getClassIdentifier() + ".j");
     }
 
     public void generateFile() {

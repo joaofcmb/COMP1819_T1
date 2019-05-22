@@ -1,9 +1,10 @@
 import generation.CodeGenerator;
-import generation.NaiveRegisterAllocator;
 import parser.Parser;
 import parser.SimpleNode;
 import semantic.SemanticException;
 import semantic.IntermediateRepresentation;
+
+import java.nio.file.Paths;
 
 /*
  As cenas do parser (1º checkpoint), estao todas no package parser. O main foi alterado para aqui.
@@ -64,10 +65,10 @@ public class JMMCompiler {
         try {
             // Semantic Analysis and generation of HIR (Symbol Table + Intermediate HL Code)
             IntermediateRepresentation ir = new IntermediateRepresentation(root.jjtGetChild(0));
-            System.out.println(ir);
+            //System.out.println(ir);
 
             // Register Allocation and Code Generation
-            CodeGenerator codeGenerator = new CodeGenerator(ir, args[0].substring(0, args[0].length() - 4));
+            CodeGenerator codeGenerator = new CodeGenerator(ir, Paths.get(args[0]).getParent());
             codeGenerator.generateFile();
             System.out.println("Class file generated successfully.");
         } catch (SemanticException e) {

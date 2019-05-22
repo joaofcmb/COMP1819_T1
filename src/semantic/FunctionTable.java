@@ -140,7 +140,7 @@ public abstract class FunctionTable {
                     //  type being called as a parameter).
                     Node classNode = statementNode.jjtGetChild(0);
                     Type classType;
-                    if (classNode.getId() == ParserTreeConstants.JJTID)
+                    if (classNode.getId() == ParserTreeConstants.JJTID && getIdType(classNode) == null)
                         classType = Type.CLASS(String.valueOf(classNode.jjtGetValue()));
                     else
                         classType = analyseExpression(statementNode.jjtGetChild(0), typeList, Type.UNKNOWN());
@@ -227,7 +227,7 @@ public abstract class FunctionTable {
 
                 // Deduce the return type of unknown methods
                 if (methodSignature.getReturnType() == null) {
-                    if (!desiredType.isUnknown())
+                    if (desiredType.isUnknown())
                         throw new SemanticException(expressionNode,
                                 "Return type of unknown method could not be inferred");
 

@@ -31,15 +31,16 @@ public class IntermediateInstruction {
 
     private static final int INVOKEVIRTUAL = -11;
     private static final int INVOKESTATIC  = -12;
+    private static final int POP = -13;
 
-    private static final int IRETURN = -13;
-    private static final int ARETURN = -14;
+    private static final int IRETURN = -14;
+    private static final int ARETURN = -15;
 
-    private static final int IFEQ = -15;
-    private static final int IFGT = -16;
-    private static final int IFCMPGE = -17;
-    private static final int IFCMPLT = -18;
-    private static final int GOTO = -19;
+    private static final int IFEQ = -16;
+    private static final int IFGT = -17;
+    private static final int IFCMPGE = -18;
+    private static final int IFCMPLT = -19;
+    private static final int GOTO = -20;
 
 
     private final static Map<Integer, String> stringMap;
@@ -72,6 +73,7 @@ public class IntermediateInstruction {
         tempMap.put(PUTFIELD,                           "putfield");
         tempMap.put(INVOKEVIRTUAL,                      "invokevirtual");
         tempMap.put(INVOKESTATIC,                       "invokestatic");
+        tempMap.put(POP,                                "pop");
 
         // NEW and LENGTH
         tempMap.put(ParserTreeConstants.JJTNEWARRAY,    "newarray int");
@@ -103,6 +105,10 @@ public class IntermediateInstruction {
 
     static IntermediateInstruction LABEL(int labelNum) {
         return new IntermediateInstruction(0,"L" + labelNum + ":");
+    }
+
+    static IntermediateInstruction POP() {
+        return new IntermediateInstruction(POP);
     }
 
     /**
@@ -243,6 +249,8 @@ public class IntermediateInstruction {
             case PUTFIELD:
             case IALOAD:
             case AALOAD:
+            case IFEQ:
+            case IFGT:
             case ParserTreeConstants.JJTINDEX:
             case ParserTreeConstants.JJTPLUS:
             case ParserTreeConstants.JJTMINUS:
@@ -256,6 +264,9 @@ public class IntermediateInstruction {
             case ParserTreeConstants.JJTTHIS:
             case ParserTreeConstants.JJTNEWOBJ:
                 return 1;
+            case IFCMPLT:
+            case IFCMPGE:
+                return -2;
             case IASTORE:
             case AASTORE:
                 return -3;
@@ -267,9 +278,9 @@ public class IntermediateInstruction {
                 String[] splitValue = value.split("[()]");
 
                 if (splitValue.length > 1) {
-                    String parameters = splitValue[1];
+                    final String parameters = splitValue[1];
                     for (int i = 0; i < parameters.length(); i++) {
-                        char c = parameters.charAt(0);
+                        final char c = parameters.charAt(i);
 
                         if (c == '[')   continue;
                         else if (c == 'L') {

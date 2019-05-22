@@ -98,8 +98,12 @@ class IntermediateCode {
                         generateExpressionCode(parameterNode.jjtGetChild(j), typeList, methodList);
 
                     final Type classType = typeList.remove();
+                    final MethodSignature methodSignature = methodList.remove();
                     instructions.addLast(new IntermediateInstruction(classType,
-                            methodList.remove().toDescriptor(classType.toString())));
+                            methodSignature.toDescriptor(classType.toString())));
+
+                    if (!(methodSignature.getReturnType().equals(Type.VOID())))
+                        instructions.addLast(IntermediateInstruction.POP());
                     break;
                 case ParserTreeConstants.JJTRETURN:
                     generateExpressionCode(statementNode.jjtGetChild(0), typeList, methodList);
