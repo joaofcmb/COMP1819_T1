@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Map;
 
 public class CodeGenerator {
@@ -32,7 +31,7 @@ public class CodeGenerator {
             pw.println(".super " + superClass + System.lineSeparator());
 
             for (Map.Entry<String, Type> fieldEntry : ir.getAttributes().entrySet()) {
-                pw.println(".field public " + fieldEntry.getKey() + " " + fieldEntry.getValue().toDescriptor());
+                pw.println(".field public '" + fieldEntry.getKey() + "' " + fieldEntry.getValue().toDescriptor());
             }
 
             pw.println(System.lineSeparator() + ".method public <init>()V");

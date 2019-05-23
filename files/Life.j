@@ -1,13 +1,13 @@
 .class public Life
 .super java/lang/Object
 
-.field public REPRODUCE_NUM I
-.field public yMax I
-.field public field [I
-.field public OVERPOP_LIM I
-.field public UNDERPOP_LIM I
-.field public xMax I
-.field public LOOPS_PER_MS I
+.field public 'REPRODUCE_NUM' I
+.field public 'yMax' I
+.field public 'field' [I
+.field public 'OVERPOP_LIM' I
+.field public 'UNDERPOP_LIM' I
+.field public 'xMax' I
+.field public 'LOOPS_PER_MS' I
 
 .method public <init>()V
 	aload_0

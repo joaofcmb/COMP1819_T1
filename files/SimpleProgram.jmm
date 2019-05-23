@@ -1,5 +1,6 @@
 /*
  * Class declaration
+ * WARNING - Used to test syntactical and semantic errors. Not meant to be compiled
  */
 class Test extends Base {
     int x;

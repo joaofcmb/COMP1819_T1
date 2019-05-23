@@ -1,5 +1,6 @@
 /*
  * Class declaration
+ * WARNING - Meant to test while error recovery. Not meant to be compiled
  */
 class Test {
     public int main() {

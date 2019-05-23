@@ -1,0 +1,25 @@
+class CondChild extends CondClass {
+    public boolean threeCompare(boolean x, boolean y, boolean z) {
+        return this.compare(x, y) && this.compare(y, z);
+    }
+
+    public static void main(String[] args) {
+        CondChild obj;
+        boolean x;
+        boolean y;
+        boolean z;
+
+        obj = new CondChild();
+
+        x = true;
+        y = true;
+        z = !obj.compare(x, y);
+
+
+        if (obj.threeCompare(x, y, z))
+            io.println(1);
+        else if (obj.compare(x, y))
+            io.println(2);
+        else {}
+    }
+}

@@ -261,6 +261,8 @@ public class IntermediateInstruction {
             case ALOAD:
             case GETFIELD:
             case ParserTreeConstants.JJTINTEGER:
+            case ParserTreeConstants.JJTTRUE:
+            case ParserTreeConstants.JJTFALSE:
             case ParserTreeConstants.JJTTHIS:
             case ParserTreeConstants.JJTNEWOBJ:
                 return 1;
@@ -282,9 +284,9 @@ public class IntermediateInstruction {
                     for (int i = 0; i < parameters.length(); i++) {
                         final char c = parameters.charAt(i);
 
-                        if (c == '[')   continue;
+                        if (c == '[') continue;
                         else if (c == 'L') {
-                            while (parameters.charAt(++i) != ';');
+                            while (parameters.charAt(++i) != ';') ;
                         }
 
                         stackSlots--;

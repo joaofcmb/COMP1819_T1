@@ -9,7 +9,7 @@
 .end method
 
 .method public static main([Ljava/lang/String;)V
-.limit stack 34
+.limit stack 5
 .limit locals 3
 	iconst_0 
 	ifgt L2

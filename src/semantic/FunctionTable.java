@@ -154,7 +154,11 @@ public abstract class FunctionTable {
                     if (methodSignature.getReturnType() == null)
                         methodSignature.setReturnType(Type.VOID());
 
-                    typeList.add(classType);
+                    if (methodSignature.isParent())
+                        typeList.add(Type.ID(classTable.getExtendIdentifier()));
+                    else
+                        typeList.add(classType);
+
                     methodList.add(methodSignature);
 
                     break;
@@ -234,7 +238,11 @@ public abstract class FunctionTable {
                     methodSignature.setReturnType(desiredType);
                 }
 
-                typeList.add(classType);
+                if (methodSignature.isParent())
+                    typeList.add(Type.ID(classTable.getExtendIdentifier()));
+                else
+                    typeList.add(classType);
+
                 methodList.add(methodSignature);
 
                 // When generating stack based intermediate code, the traversal order of parameters is reversed

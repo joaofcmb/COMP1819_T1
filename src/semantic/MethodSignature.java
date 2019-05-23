@@ -11,6 +11,8 @@ import java.util.Arrays;
  * therefore, for Method Overloading
  */
 public class MethodSignature {
+    private boolean parent = false;
+
     private Type returnType;
     private final String methodId;
     private final Type[] parameterTypes;
@@ -96,5 +98,13 @@ public class MethodSignature {
         // TODO Use inferred returnType from semantic analysis to fill the null returnType, otherwise code generation fails
 
         return sb.toString();
+    }
+
+    void setParent() {
+        parent = true;
+    }
+
+    boolean isParent() {
+        return parent;
     }
 }

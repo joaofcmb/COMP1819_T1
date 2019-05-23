@@ -97,6 +97,10 @@ public class IntermediateRepresentation {
                 methodSignature.setReturnType(methods.get(methodSignature).getReturnType());
                 return methodSignature;
             }
+            else if (extendIdentifier != null) {
+                methodSignature.setParent();
+                return methodSignature;
+            }
             else
                 throw new SemanticException(node, "Invoked method of " + classIdentifier + " not found");
         }

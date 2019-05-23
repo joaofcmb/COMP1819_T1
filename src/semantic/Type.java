@@ -39,7 +39,7 @@ public class Type {
         stringMap = Collections.unmodifiableMap(tempMap);
     }
     private final int typeId;
-    private final String typeName;
+    private String typeName;
 
     // Method Factories for Types
     static Type INT() {
