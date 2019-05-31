@@ -48,8 +48,26 @@ public class SymbolTable {
     boolean containsId(Node idNode) {
         return symbols.containsKey(String.valueOf(idNode.jjtGetValue()));
     }
+
+    /**
+     * Retrieves a Symbol Type given its Identifier
+     *
+     * @param idNode AST Node containing the Identifier
+     *
+     * @return Type of that Symbol
+     */
     Type getId(Node idNode) {
         return symbols.get(String.valueOf(idNode.jjtGetValue()));
+    }
+
+    /**
+     * Sets the Type of a given Symbol
+     *
+     * @param idNode AST Node containing the Identifier
+     * @param newType New Type of that Symbol
+     */
+    void setId(Node idNode, Type newType) {
+        symbols.put(String.valueOf(idNode.jjtGetValue()), newType);
     }
 
     public Set<Map.Entry<String, Type>> entrySet() {

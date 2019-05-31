@@ -113,11 +113,16 @@ public abstract class FunctionTable {
                     final Type assignType = analyseExpression(statementNode.jjtGetChild(0), typeList, Type.UNKNOWN());
                     final Type expressionType = analyseExpression(statementNode.jjtGetChild(1), typeList, assignType);
 
-                    if (!assignType.equals(expressionType))
-                        throw new SemanticException(statementNode,
-                                "Invalid assignment of " + expressionType + " to variable of type " + assignType);
+                    if (notInheritance(assignType, expressionType)) {
+                        if (!assignType.equals(expressionType))
+                            throw new SemanticException(statementNode,
+                                    "Invalid assignment of " + expressionType + " to variable of type " + assignType);
+                    }
+                    else {
+                        setIdType(statementNode.jjtGetChild(0), expressionType);
+                    }
 
-                    typeList.add(assignType);
+                    typeList.add(expressionType);
                     break;
                 case ParserTreeConstants.JJTIF:
                 case ParserTreeConstants.JJTWHILE:
@@ -176,6 +181,11 @@ public abstract class FunctionTable {
                     throw new SemanticException(statementNode, "Invalid statement");
             }
         }
+    }
+
+    private boolean notInheritance(Type parentClass, Type childClass) {
+        return !parentClass.equals(Type.ID(classTable.getExtendIdentifier()))
+                && !childClass.equals(Type.ID(classTable.getClassIdentifier()));
     }
 
     /**
@@ -363,6 +373,19 @@ public abstract class FunctionTable {
         else if (isClassField(idNode))              return classTable.getAttributes().getId(idNode);
 
         return null;
+    }
+
+    /**
+     * Sets the Type of a variable on its Symbol Table
+     *
+     * @param idNoxe Node containing the Symbol Identifier
+     *
+     * @param newType New Type of the Symbol
+     */
+    private void setIdType(Node idNode, Type newType) {
+        if (variables.containsId(idNode))           variables.setId(idNode, newType);
+        else if (parameters.containsId(idNode))     parameters.setId(idNode, newType);
+        else if (isClassField(idNode))              classTable.getAttributes().setId(idNode, newType);
     }
 
     boolean isClassField(Node idNode) {
