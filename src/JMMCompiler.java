@@ -1,3 +1,4 @@
+import generation.AllocationException;
 import generation.CodeGenerator;
 import parser.Parser;
 import parser.SimpleNode;
@@ -48,17 +49,31 @@ public class JMMCompiler {
      * @param args Contains one command line argument, corresponding to the path of the file to compile
      */
     public static void main(String[] args) {
-        if (args.length != 1) {
-            System.out.println ("Usage: java Parser <file_path>");
+        int maxRegisters = 0;
+        boolean optimize = false;
+
+        if (args.length > 3 || args.length < 1) {
+            System.out.println ("Usage: .\\jmm [-r=<n>] [-o] <file_path>");
             return;
         }
-        else if (!args[0].endsWith(".jmm")) {
+        else if (!args[args.length - 1].endsWith(".jmm")) {
             System.out.println ("Invalid file \"" + args[0] + "\" (must have .jmm extension)");
             return;
         }
 
+        for (int i = 0; i < args.length - 1; i++) {
+            if (args[i].startsWith("-r=")) {
+                maxRegisters = Integer.parseInt(args[i].split("=")[1]);
+            } else if (args[i].equals("-o") && i == args.length - 2) {
+                optimize = true;
+            } else {
+                System.out.println("Invalid command: " + args[i]);
+                return;
+            }
+        }
+
         // Lexical and Syntactical Analysis
-        SimpleNode root = Parser.parse(args[0]);
+        SimpleNode root = Parser.parse(args[args.length - 1]);
         if (root == null)   return;
         //root.dump("");
 
@@ -68,11 +83,13 @@ public class JMMCompiler {
             //System.out.println(ir);
 
             // Register Allocation and Code Generation
-            CodeGenerator codeGenerator = new CodeGenerator(ir, Paths.get(args[0]).getParent());
+            CodeGenerator codeGenerator = new CodeGenerator(ir, Paths.get(args[args.length - 1]).getParent(),
+                    maxRegisters, optimize);
             codeGenerator.generateFile();
             System.out.println("Class file generated successfully.");
-        } catch (SemanticException e) {
+        } catch (SemanticException | AllocationException e) {
             System.out.println(e.getMessage());
+            System.out.println("Class file not generated with success.");
         }
     }
 }

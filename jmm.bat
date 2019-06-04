@@ -1,1 +1,1 @@
-java -cp ./out/production/Project JMMCompiler %1
+java -cp ./out/production/Project JMMCompiler %*

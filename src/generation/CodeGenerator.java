@@ -13,16 +13,18 @@ import java.nio.file.Path;
 import java.util.Map;
 
 public class CodeGenerator {
-    private final RegisterAllocator registerAllocator = new NaiveRegisterAllocator();
+    private final RegisterAllocator registerAllocator;
     private final IntermediateRepresentation ir;
     private final Path filePath;
 
-    public CodeGenerator(IntermediateRepresentation ir, Path outputPath) {
+    // TODO Code Optimization
+    public CodeGenerator(IntermediateRepresentation ir, Path outputPath, int maxRegisters, boolean optimize) {
+        this.registerAllocator = maxRegisters > 0 ? new GraphColoringAllocator(maxRegisters) : new NaiveRegisterAllocator();
         this.ir = ir;
         this.filePath = outputPath.resolve(ir.getClassIdentifier() + ".j");
     }
 
-    public void generateFile() {
+    public void generateFile() throws AllocationException {
         try (PrintWriter pw = new PrintWriter(Files.newOutputStream(filePath))) {
             final String fileClass = ir.getClassIdentifier();
             final String superClass = ir.getExtendIdentifier() != null ? ir.getExtendIdentifier() : "java/lang/Object";
@@ -59,7 +61,7 @@ public class CodeGenerator {
         }
     }
 
-    private void generateMethod(PrintWriter pw, FunctionTable method, int paramStart) {
+    private void generateMethod(PrintWriter pw, FunctionTable method, int paramStart) throws AllocationException {
         pw.println(".limit stack " + stackSlots(method));
         pw.println(".limit locals " +  registerAllocator.allocate(method, paramStart));
 

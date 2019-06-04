@@ -17,7 +17,7 @@ class IntermediateCode {
     private final FunctionTable functionTable;
     private LinkedList<IntermediateInstruction> instructions = new LinkedList<>();
 
-    private int labelId = 1;
+    private int labelId = 0;
 
     /**
      * Creates an Intermediate Code class for a Function

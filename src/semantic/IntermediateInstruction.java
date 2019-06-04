@@ -223,11 +223,31 @@ public class IntermediateInstruction {
      * @return Whether the Intermediate Instruction is using a local variable or not (Loads and Stores)
      */
     public boolean isLocal() {
-        return instructionId == ILOAD || instructionId == ALOAD || instructionId == ISTORE || instructionId == ASTORE;
+        return isLoad() || isStore();
+    }
+
+    public boolean isLoad() {
+        return instructionId == ILOAD || instructionId == ALOAD;
+    }
+
+    public boolean isStore() {
+        return instructionId == ISTORE || instructionId == ASTORE;
+    }
+
+    public boolean isGoto() {
+        return instructionId == GOTO;
+    }
+
+    public boolean isBranch() {
+        return instructionId == IFCMPGE || instructionId == IFCMPLT || instructionId == IFEQ || instructionId == IFGT;
     }
 
     public String getValue() {
         return value;
+    }
+
+    public String getLabel() {
+        return this.instructionId == 0 ? this.value.substring(0, this.value.length() - 1) : null;
     }
 
     public void setVarNum(int value) {

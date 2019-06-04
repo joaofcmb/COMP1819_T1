@@ -1,0 +1,21 @@
+class RegisterClass {
+    public static void main(String[] args) {
+        int x;
+        int y;
+        int z;
+        int i;
+        int a;
+
+        x = 10;
+        y = 20;
+        z = x + y;
+
+        i = 0;
+        while (i < 5) {
+            a = 10;
+            z = z + a + x;
+            i = i + 1;
+        }
+        io.println(z);
+    }
+}

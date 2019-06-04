@@ -27,6 +27,7 @@ public abstract class FunctionTable {
     private final Type returnType;
 
     private final IntermediateCode intermediateCode = new IntermediateCode(this);
+
     private final LinkedList<Type> typeList = new LinkedList<>();
     private final LinkedList<MethodSignature> methodList = new LinkedList<>();
 
@@ -378,7 +379,7 @@ public abstract class FunctionTable {
     /**
      * Sets the Type of a variable on its Symbol Table
      *
-     * @param idNoxe Node containing the Symbol Identifier
+     * @param idNode Node containing the Symbol Identifier
      *
      * @param newType New Type of the Symbol
      */
