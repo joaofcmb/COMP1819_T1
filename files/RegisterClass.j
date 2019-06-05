@@ -12,19 +12,19 @@
 .limit stack 3
 .limit locals 4
 	ldc 30
-	istore 1
+	istore 3
 	ldc 0
 	istore 2
 	goto L0
 	L1:
 	ldc 10
-	istore 3
-	iload 1
+	istore 1
 	iload 3
+	iload 1
 	iadd 
 	ldc 10
 	iadd 
-	istore 1
+	istore 3
 	iload 2
 	ldc 1
 	iadd 
@@ -39,15 +39,15 @@
 	ldc 10
 	ldc 10
 	invokevirtual RegisterClass/test(II)I
-	istore 3
-	iload 1
+	istore 1
+	iload 3
 	invokestatic io/println(I)V
 	return
 .end method
 
 .method public test(II)I
 .limit stack 2
-.limit locals 3
+.limit locals 4
 	iload 1
 	iload 2
 	imul 

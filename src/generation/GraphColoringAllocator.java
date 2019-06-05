@@ -28,6 +28,8 @@ class GraphColoringAllocator implements RegisterAllocator {
         final Map<String, Integer> labelIndexes = labelIndexes(instructionList);
 
         final ArrayList<String> variableList = new ArrayList<>();
+        final ArrayList<String> parameterList = new ArrayList<>(method.getParameters().keySet());
+
         final ArrayList<int[]> successorsList = new ArrayList<>(instructionSize);
 
         for (int i = 0; i < instructionSize; i++) {
@@ -44,8 +46,9 @@ class GraphColoringAllocator implements RegisterAllocator {
                 if (instruction.isLocal()) {
                     String varIdentifier = instruction.getValue();
 
-                    if (!variableList.contains(varIdentifier))
+                    if (!variableList.contains(varIdentifier) && !parameterList.contains(varIdentifier)) {
                         variableList.add(varIdentifier);
+                    }
                 }
             }
         }
@@ -61,10 +64,14 @@ class GraphColoringAllocator implements RegisterAllocator {
             def[i] = new BitSet(variableSize);
 
             final IntermediateInstruction instruction = instructionList.get(i);
-            if (instruction.isStore())
+            if (!variableList.contains(instruction.getValue())) continue;
+
+            if (instruction.isStore()) {
                 def[i].set(variableList.indexOf(instruction.getValue()));
-            else if (instruction.isLoad())
+            }
+            else if (instruction.isLoad()) {
                 use[i].set(variableList.indexOf(instruction.getValue()));
+            }
         }
 
         //System.out.println(Arrays.toString(use));
@@ -88,8 +95,9 @@ class GraphColoringAllocator implements RegisterAllocator {
                 final BitSet currIn = (BitSet) use[i].clone();
 
                 for (int successor : successorsList.get(i)) {
-                    if (successor < instructionSize)
+                    if (successor < instructionSize) {
                         currOut.or(in[successor]);
+                    }
                 }
 
                 if (!currOut.equals(out[i]))    notFinalIteration = true;
@@ -117,7 +125,7 @@ class GraphColoringAllocator implements RegisterAllocator {
             addToGraph(graph, in[i].stream().toArray());
         }
 
-        System.out.println(Arrays.toString(graph));
+        //System.out.println(Arrays.toString(graph));
 
         // Register Allocation
         final ArrayDeque<Integer> stack = new ArrayDeque<>(variableSize);
@@ -146,7 +154,6 @@ class GraphColoringAllocator implements RegisterAllocator {
                     .min().getAsInt();
         }
 
-        final ArrayList<String> parameterList = new ArrayList<>(method.getParameters().keySet());
 
         System.out.println("Register Allocation");
 
@@ -157,7 +164,7 @@ class GraphColoringAllocator implements RegisterAllocator {
             System.out.println("\t" + variableList.get(i) + " -> " + allocation[i]);
         }
 
-        System.out.println("Number of Registers: " + ++n);
+        System.out.println("Number of Registers: " + (++n > 1 ? n : 0));
 
         if (n > maxRegisters)
             throw new AllocationException("ABORT: The input source code requires at least " + n + " local variables.");

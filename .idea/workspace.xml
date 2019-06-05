@@ -2,18 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ac857157-4237-4531-ab58-c5cf2169cac7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CondChild.class" beforeDir="false" afterPath="$PROJECT_DIR$/CondChild.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Life.class" beforeDir="false" afterPath="$PROJECT_DIR$/Life.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RegisterClass.class" beforeDir="false" afterPath="$PROJECT_DIR$/RegisterClass.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/CondChild.j" beforeDir="false" afterPath="$PROJECT_DIR$/files/CondChild.j" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/Life.j" beforeDir="false" afterPath="$PROJECT_DIR$/files/Life.j" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/files/RegisterClass.j" beforeDir="false" afterPath="$PROJECT_DIR$/files/RegisterClass.j" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files/RegisterClass.jmm" beforeDir="false" afterPath="$PROJECT_DIR$/files/RegisterClass.jmm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/semantic/FunctionTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/semantic/FunctionTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/semantic/IntermediateCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/semantic/IntermediateCode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/semantic/FunctionTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/semantic/FunctionTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/semantic/IntermediateCode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/semantic/IntermediateCode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/generation/GraphColoringAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/generation/GraphColoringAllocator.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -68,6 +59,20 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/generation/GraphColoringAllocator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="476">
+              <caret line="166" column="56" selection-start-line="166" selection-start-column="56" selection-end-line="166" selection-end-column="56" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#456#457#0" expanded="true" />
+                <element signature="e#504#505#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/semantic/ValueTable.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -107,14 +112,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/semantic/IntermediateCode.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="265" column="46" selection-start-line="265" selection-start-column="46" selection-end-line="265" selection-end-column="46" />
+            <state relative-caret-position="527">
+              <caret line="270" column="113" lean-forward="true" selection-start-line="270" selection-start-column="113" selection-end-line="270" selection-end-column="113" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#23275#23276#0" expanded="true" />
+                <element signature="e#23229#23230#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -218,7 +223,6 @@
         <option value="$PROJECT_DIR$/src/generation/AllocationException.java" />
         <option value="$PROJECT_DIR$/src/generation/RegisterAllocator.java" />
         <option value="$PROJECT_DIR$/src/generation/CodeGenerator.java" />
-        <option value="$PROJECT_DIR$/src/generation/GraphColoringAllocator.java" />
         <option value="$PROJECT_DIR$/src/JMMCompiler.java" />
         <option value="$PROJECT_DIR$/src/semantic/IntermediateRepresentation.java" />
         <option value="$PROJECT_DIR$/src/semantic/MainTable.java" />
@@ -227,6 +231,7 @@
         <option value="$PROJECT_DIR$/src/semantic/FunctionTable.java" />
         <option value="$PROJECT_DIR$/files/RegisterClass.jmm" />
         <option value="$PROJECT_DIR$/src/semantic/IntermediateCode.java" />
+        <option value="$PROJECT_DIR$/src/generation/GraphColoringAllocator.java" />
       </list>
     </option>
   </component>
@@ -412,12 +417,12 @@
       <workItem from="1559568398905" duration="14549000" />
       <workItem from="1559652223231" duration="10705000" />
       <workItem from="1559672563440" duration="1872000" />
-      <workItem from="1559730017345" duration="18582000" />
+      <workItem from="1559730017345" duration="18988000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="233235000" />
+    <option name="totallyTimeSpent" value="233641000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -752,18 +757,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/generation/GraphColoringAllocator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#456#457#0" expanded="true" />
-            <element signature="e#504#505#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/semantic/SymbolTable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="501">
@@ -793,25 +786,6 @@
         <state>
           <folding>
             <element signature="e#0#372#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/semantic/FunctionTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="84" lean-forward="true" selection-start-line="9" selection-start-column="84" selection-end-line="9" selection-end-column="84" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#18296#18297#0" expanded="true" />
-            <element signature="e#18377#18378#0" expanded="true" />
-            <element signature="e#19266#19267#0" expanded="true" />
-            <element signature="e#19298#19299#0" expanded="true" />
-            <element signature="e#18503#18504#0" expanded="true" />
-            <element signature="e#18592#18593#0" expanded="true" />
-            <element signature="e#19294#19295#0" expanded="true" />
-            <element signature="e#19329#19330#0" expanded="true" />
-            <element signature="e#19360#19361#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -892,13 +866,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/semantic/IntermediateCode.java">
+    <entry file="file://$PROJECT_DIR$/src/semantic/FunctionTable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="265" column="46" selection-start-line="265" selection-start-column="46" selection-end-line="265" selection-end-column="46" />
+        <state relative-caret-position="153">
+          <caret line="9" column="84" lean-forward="true" selection-start-line="9" selection-start-column="84" selection-end-line="9" selection-end-column="84" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#23275#23276#0" expanded="true" />
+            <element signature="e#18296#18297#0" expanded="true" />
+            <element signature="e#18377#18378#0" expanded="true" />
+            <element signature="e#19266#19267#0" expanded="true" />
+            <element signature="e#19298#19299#0" expanded="true" />
+            <element signature="e#18503#18504#0" expanded="true" />
+            <element signature="e#18592#18593#0" expanded="true" />
+            <element signature="e#19294#19295#0" expanded="true" />
+            <element signature="e#19329#19330#0" expanded="true" />
+            <element signature="e#19360#19361#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/semantic/IntermediateCode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="270" column="113" lean-forward="true" selection-start-line="270" selection-start-column="113" selection-end-line="270" selection-end-column="113" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#23229#23230#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/generation/GraphColoringAllocator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="166" column="56" selection-start-line="166" selection-start-column="56" selection-end-line="166" selection-end-column="56" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#456#457#0" expanded="true" />
+            <element signature="e#504#505#0" expanded="true" />
           </folding>
         </state>
       </provider>
