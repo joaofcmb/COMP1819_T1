@@ -23,54 +23,54 @@
 	iload 2
 	iload 3
 	invokevirtual CondClass/compare(ZZ)Z
-	ifgt L2
+	ifgt L1
 	iconst_1 
-	goto L1
-	L2:
-	iconst_0 
+	goto L0
 	L1:
+	iconst_0 
+	L0:
 	istore 4
 	aload 1
 	iload 2
 	iload 3
 	iload 4
-	invokevirtual CondChild/epicCompare(ZZZ)Z
-	ifeq L4
+	invokevirtual CondChild/threeCompare(ZZZ)Z
+	ifeq L3
 	ldc 1
 	invokestatic io/println(I)V
-	goto L3
-	L4:
+	goto L2
+	L3:
 	aload 1
 	iload 2
 	iload 3
 	invokevirtual CondClass/compare(ZZ)Z
-	ifeq L6
+	ifeq L5
 	ldc 2
 	invokestatic io/println(I)V
-	goto L5
-	L6:
+	goto L4
 	L5:
-	L3:
+	L4:
+	L2:
 	return
 .end method
 
-.method public epicCompare(ZZZ)Z
+.method public threeCompare(ZZZ)Z
 .limit stack 4
 .limit locals 4
 	aload_0 
 	iload 1
 	iload 2
 	invokevirtual CondClass/compare(ZZ)Z
-	ifeq L2
+	ifeq L1
 	aload_0 
 	iload 2
 	iload 3
 	invokevirtual CondClass/compare(ZZ)Z
-	ifeq L2
+	ifeq L1
 	iconst_1 
-	goto L1
-	L2:
-	iconst_0 
+	goto L0
 	L1:
+	iconst_0 
+	L0:
 	ireturn 
 .end method

@@ -43,7 +43,7 @@ class IntermediateCode {
             final int id = statementNode.getId();
             switch(id) {
                 case ParserTreeConstants.JJTASSIGN:
-                    Node assignNode = statementNode.jjtGetChild(0);
+                    final Node assignNode = statementNode.jjtGetChild(0);
 
                     if (assignNode.getId() == ParserTreeConstants.JJTID) {
                         if (functionTable.isClassField(assignNode)) {
@@ -54,13 +54,29 @@ class IntermediateCode {
                                     typeList.remove()));
                         }
                         else {
-                            if (functionTable.getVariables().hasValue(assignNode)) {
-                                typeList.remove();
+                            if (functionTable.isOptimize()) {
+                                if (functionTable.getVariables().hasValue(assignNode)) {
+                                    typeList.remove();
+                                    break;
+                                } else {
+                                    try {
+                                        instructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTINTEGER,
+                                                String.valueOf(evaluateExpression(statementNode.jjtGetChild(1))))
+                                        );
+
+                                        final int instructionSize = instructions.size();
+                                        generateExpressionCode(statementNode.jjtGetChild(1), typeList, methodList);
+                                        while (instructions.size() > instructionSize)   instructions.removeLast();
+                                    } catch (SemanticException e) {
+                                        generateExpressionCode(statementNode.jjtGetChild(1), typeList, methodList);
+                                    }
+                                }
                             } else {
                                 generateExpressionCode(statementNode.jjtGetChild(1), typeList, methodList);
-                                instructions.addLast(new IntermediateInstruction(id,
-                                        String.valueOf(assignNode.jjtGetValue()), typeList.remove()));
                             }
+
+                            instructions.addLast(new IntermediateInstruction(id,
+                                    String.valueOf(assignNode.jjtGetValue()), typeList.remove()));
                         }
                     }
                     else {
@@ -72,8 +88,34 @@ class IntermediateCode {
                     break;
                 case ParserTreeConstants.JJTIF:
                     final int resume = labelId++, target = labelId++;
-                    generateConditionCode(statementNode.jjtGetChild(0).jjtGetChild(0), instructions,
-                            typeList, methodList, target, true);
+
+                    final Node condNode = statementNode.jjtGetChild(0).jjtGetChild(0);
+                    if (functionTable.isOptimize()) {
+                        try {
+                            if (evaluateCondition(condNode)) {
+                                generateConditionCode(condNode, new LinkedList<>(), typeList, methodList,
+                                        target, true);
+                                generateFunctionCode(statementNode.jjtGetChild(1), 0, typeList, methodList);
+
+                                final int instructionSize = instructions.size();
+                                generateFunctionCode(statementNode.jjtGetChild(2), 0, typeList, methodList);
+                                while (instructions.size() > instructionSize)   instructions.removeLast();
+                            } else {
+                                generateConditionCode(condNode, new LinkedList<>(), typeList, methodList,
+                                        target, true);
+
+                                final int instructionSize = instructions.size();
+                                generateFunctionCode(statementNode.jjtGetChild(1), 0, typeList, methodList);
+                                while (instructions.size() > instructionSize)   instructions.removeLast();
+
+                                generateFunctionCode(statementNode.jjtGetChild(2), 0, typeList, methodList);
+                            }
+                            break;
+                        } catch (SemanticException ignored) {
+                        }
+                    }
+
+                    generateConditionCode(condNode, instructions, typeList, methodList, target, true);
 
                     generateFunctionCode(statementNode.jjtGetChild(1), 0, typeList, methodList);
                     instructions.addLast(IntermediateInstruction.GOTO(resume));
@@ -85,21 +127,56 @@ class IntermediateCode {
                 case ParserTreeConstants.JJTWHILE:
                     final int condition = labelId++, body = labelId++;
 
-                    instructions.addLast(IntermediateInstruction.GOTO(condition));
+                    final Node conditionNode = statementNode.jjtGetChild(0).jjtGetChild(0);
+
+                    if (functionTable.isOptimize()) {
+                        try {
+                            if (!evaluateCondition(conditionNode)) {
+                                final int instructionSize = instructions.size();
+                                generateFunctionCode(statementNode.jjtGetChild(1), 0, typeList, methodList);
+                                while (instructions.size() > instructionSize)   instructions.removeLast();
+
+                                generateConditionCode(conditionNode, new LinkedList<>(),
+                                        typeList, methodList, body, false);
+                                break;
+                            }
+                        } catch (SemanticException ignored) {
+                            instructions.addLast(IntermediateInstruction.GOTO(condition));
+                        }
+                    }
+                    else {
+                        instructions.addLast(IntermediateInstruction.GOTO(condition));
+                    }
+
                     instructions.addLast(IntermediateInstruction.LABEL(body));
 
                     generateFunctionCode(statementNode.jjtGetChild(1), 0, typeList, methodList);
 
                     instructions.addLast(IntermediateInstruction.LABEL(condition));
-                    generateConditionCode(statementNode.jjtGetChild(0).jjtGetChild(0), instructions,
-                            typeList, methodList, body, false);
+                    generateConditionCode(conditionNode, instructions, typeList, methodList, body, false);
                     break;
                 case ParserTreeConstants.JJTFCALL:
                     generateExpressionCode(statementNode.jjtGetChild(0), typeList, methodList);
 
                     Node parameterNode = statementNode.jjtGetChild(2);
-                    for (int j = 0; j < parameterNode.jjtGetNumChildren(); j++)
-                        generateExpressionCode(parameterNode.jjtGetChild(j), typeList, methodList);
+                    for (int j = 0; j < parameterNode.jjtGetNumChildren(); j++) {
+                       if (functionTable.isOptimize()) {
+                            try {
+                                instructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTINTEGER,
+                                        String.valueOf(evaluateExpression(parameterNode.jjtGetChild(j))))
+                                );
+
+                                final int instructionSize = instructions.size();
+                                generateExpressionCode(parameterNode.jjtGetChild(j), typeList, methodList);
+                                while (instructions.size() > instructionSize)   instructions.removeLast();
+                            } catch (SemanticException e) {
+                                generateExpressionCode(parameterNode.jjtGetChild(j), typeList, methodList);
+                            }
+                        }
+                        else {
+                            generateExpressionCode(parameterNode.jjtGetChild(j), typeList, methodList);
+                        }
+                    }
 
                     final Type classType = typeList.remove();
                     final MethodSignature methodSignature = methodList.remove();
@@ -164,6 +241,44 @@ class IntermediateCode {
         }
     }
 
+    private boolean evaluateCondition(Node condNode) throws SemanticException {
+        switch (condNode.getId()) {
+            case ParserTreeConstants.JJTAND:
+                return evaluateCondition(condNode.jjtGetChild(0))
+                        && evaluateCondition(condNode.jjtGetChild(1));
+            case ParserTreeConstants.JJTNOT:
+                return !evaluateCondition(condNode.jjtGetChild(0));
+            case ParserTreeConstants.JJTTRUE:
+                return true;
+            case ParserTreeConstants.JJTFALSE:
+                return false;
+            case ParserTreeConstants.JJTLOWER:
+                return evaluateExpression(condNode.jjtGetChild(0)) < evaluateExpression(condNode.jjtGetChild(1));
+            default:
+                throw new SemanticException(condNode, "Can't evaluate (You're not supposed to be seeing this)");
+        }
+    }
+
+    private int evaluateExpression(Node exprNode) throws SemanticException {
+        switch (exprNode.getId()) {
+            case ParserTreeConstants.JJTPLUS:
+                return evaluateExpression(exprNode.jjtGetChild(0)) + evaluateExpression(exprNode.jjtGetChild(1));
+            case ParserTreeConstants.JJTMINUS:
+                return evaluateExpression(exprNode.jjtGetChild(0)) - evaluateExpression(exprNode.jjtGetChild(1));
+            case ParserTreeConstants.JJTTIMES:
+                return evaluateExpression(exprNode.jjtGetChild(0)) * evaluateExpression(exprNode.jjtGetChild(1));
+            case ParserTreeConstants.JJTDIVIDE:
+                return evaluateExpression(exprNode.jjtGetChild(0)) / evaluateExpression(exprNode.jjtGetChild(1));
+            case ParserTreeConstants.JJTINTEGER:
+                return Integer.parseInt(String.valueOf(exprNode.jjtGetValue()));
+            case ParserTreeConstants.JJTID:
+                final Integer value = functionTable.getVariables().getValue(exprNode);
+                if (value != null)  return value;
+            default:
+                throw new SemanticException(exprNode, "Can't evaluate (You're not supposed to be seeing this)");
+        }
+    }
+
     private void generateExpressionCode(Node expressionNode, LinkedList<Type> typeList,
                                         LinkedList<MethodSignature> methodList) {
         getExpressionCode(expressionNode, instructions, typeList, methodList);
@@ -206,8 +321,24 @@ class IntermediateCode {
                         methodList.remove().toDescriptor(classType.toString())));
 
                 Node parameterNode = expressionNode.jjtGetChild(2);
-                for (int i = parameterNode.jjtGetNumChildren() - 1; i >= 0; i--)
-                    generateExpressionCode(parameterNode.jjtGetChild(i), expInstructions, typeList, methodList);
+                for (int i = parameterNode.jjtGetNumChildren() - 1; i >= 0; i--) {
+                    if (functionTable.isOptimize()) {
+                        try {
+                            expInstructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTINTEGER,
+                                    String.valueOf(evaluateExpression(parameterNode.jjtGetChild(i))))
+                            );
+
+                            final int instructionSize = expInstructions.size();
+                            generateExpressionCode(parameterNode.jjtGetChild(i), expInstructions, typeList, methodList);
+                            while (expInstructions.size() > instructionSize)   expInstructions.removeLast();
+                        } catch (SemanticException e) {
+                            generateExpressionCode(parameterNode.jjtGetChild(i), expInstructions, typeList, methodList);
+                        }
+                    }
+                    else {
+                        generateExpressionCode(parameterNode.jjtGetChild(i), expInstructions, typeList, methodList);
+                    }
+                }
 
                 generateExpressionCode(expressionNode.jjtGetChild(0), expInstructions, typeList, methodList);
                 break;

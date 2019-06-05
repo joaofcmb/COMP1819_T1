@@ -25,8 +25,7 @@
 	aload 1
 	invokevirtual Life/init()Z
 	pop 
-	goto L1
-	L2:
+	L1:
 	aload 1
 	invokevirtual Life/printField()Z
 	pop 
@@ -35,9 +34,9 @@
 	pop 
 	invokestatic io/read()I
 	istore 2
-	L1:
+	L0:
 	iconst_1 
-	ifgt L2
+	ifgt L1
 	return
 .end method
 
@@ -79,12 +78,12 @@
 .limit locals 3
 	iload 1
 	iload 2
-	if_icmpge L2
+	if_icmpge L1
 	iconst_1 
-	goto L1
-	L2:
-	iconst_0 
+	goto L0
 	L1:
+	iconst_0 
+	L0:
 	ireturn 
 .end method
 
@@ -611,18 +610,18 @@
 	iload 1
 	iload 2
 	invokevirtual Life/le(II)Z
-	ifgt L2
+	ifgt L1
 	iconst_1 
-	goto L1
-	L2:
-	iconst_0 
+	goto L0
 	L1:
+	iconst_0 
+	L0:
 	ireturn 
 .end method
 
 .method public getNeighborCoords(I)[I
 .limit stack 19
-.limit locals 10
+.limit locals 8
 	aload_0 
 	iload 1
 	invokevirtual Life/cartIdx(I)[I
@@ -638,127 +637,115 @@
 	iload 3
 	aload_0 
 	getfield Life/xMax I
-	if_icmpge L2
-	iload 3
-	ldc 1
-	iadd 
-	istore 5
+	if_icmpge L1
 	aload_0 
 	iload 3
 	ldc 0
 	invokevirtual Life/gt(II)Z
-	ifeq L4
+	ifeq L3
 	iload 3
 	ldc 1
 	isub 
-	istore 6
-	goto L3
-	L4:
+	istore 5
+	goto L2
+	L3:
 	aload_0 
 	getfield Life/xMax I
-	istore 6
-	L3:
-	goto L1
-	L2:
-	ldc 0
 	istore 5
+	L2:
+	goto L0
+	L1:
 	iload 3
 	ldc 1
 	isub 
-	istore 6
-	L1:
+	istore 5
+	L0:
 	iload 4
 	aload_0 
 	getfield Life/yMax I
-	if_icmpge L6
-	iload 4
-	ldc 1
-	iadd 
-	istore 7
+	if_icmpge L5
 	aload_0 
 	iload 4
 	ldc 0
 	invokevirtual Life/gt(II)Z
-	ifeq L8
+	ifeq L7
 	iload 4
 	ldc 1
 	isub 
-	istore 8
-	goto L7
-	L8:
+	istore 6
+	goto L6
+	L7:
 	aload_0 
 	getfield Life/yMax I
-	istore 8
-	L7:
-	goto L5
+	istore 6
 	L6:
-	ldc 0
-	istore 7
+	goto L4
+	L5:
 	iload 4
 	ldc 1
 	isub 
-	istore 8
-	L5:
+	istore 6
+	L4:
 	ldc 8
 	newarray int 
-	astore 9
-	aload 9
+	astore 7
+	aload 7
 	ldc 0
 	aload_0 
 	iload 3
-	iload 8
+	iload 6
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 9
+	aload 7
 	ldc 1
 	aload_0 
+	iload 5
 	iload 6
-	iload 8
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 9
+	aload 7
 	ldc 2
 	aload_0 
-	iload 6
+	iload 5
 	iload 4
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 9
+	aload 7
 	ldc 3
 	aload_0 
-	iload 6
-	iload 7
+	iload 5
+	ldc 0
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 9
+	aload 7
 	ldc 4
 	aload_0 
 	iload 3
-	iload 7
+	ldc 0
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 9
+	aload 7
 	ldc 5
 	aload_0 
-	iload 5
-	iload 7
+	ldc 0
+	ldc 0
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 9
+	aload 7
 	ldc 6
 	aload_0 
-	iload 5
+	ldc 0
 	iload 4
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 9
+	aload 7
 	ldc 7
 	aload_0 
-	iload 5
-	iload 8
+	ldc 0
+	iload 6
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 9
+	aload 7
 	areturn 
 .end method
 
@@ -772,16 +759,16 @@
 	istore 2
 	ldc 0
 	istore 3
-	goto L1
-	L2:
+	goto L0
+	L1:
 	iload 3
 	ldc 1
 	iadd 
 	istore 3
-	L1:
+	L0:
 	iload 3
 	iload 2
-	if_icmplt L2
+	if_icmplt L1
 	iconst_1 
 	ireturn 
 .end method
@@ -797,8 +784,8 @@
 	astore 3
 	ldc 0
 	istore 4
-	goto L1
-	L2:
+	goto L0
+	L1:
 	aload_0 
 	aload_0 
 	getfield Life/field [I
@@ -808,23 +795,23 @@
 	iaload 
 	ldc 0
 	invokevirtual Life/ne(II)Z
-	ifeq L4
+	ifeq L3
 	iload 2
 	ldc 1
 	iadd 
 	istore 2
-	goto L3
-	L4:
+	goto L2
 	L3:
+	L2:
 	iload 4
 	ldc 1
 	iadd 
 	istore 4
-	L1:
+	L0:
 	iload 4
 	aload 3
 	arraylength 
-	if_icmplt L2
+	if_icmplt L1
 	iload 2
 	ireturn 
 .end method
@@ -836,19 +823,19 @@
 	iload 1
 	iload 2
 	invokevirtual Life/eq(II)Z
-	ifgt L3
+	ifgt L2
 	aload_0 
 	iload 1
 	iload 2
 	invokevirtual Life/gt(II)Z
-	ifgt L3
-	goto L2
-	L3:
-	iconst_1 
+	ifgt L2
 	goto L1
 	L2:
-	iconst_0 
+	iconst_1 
+	goto L0
 	L1:
+	iconst_0 
+	L0:
 	ireturn 
 .end method
 
@@ -859,20 +846,20 @@
 	istore 1
 	ldc 0
 	istore 2
-	goto L1
-	L2:
+	goto L0
+	L1:
 	aload_0 
 	iload 2
 	aload_0 
 	getfield Life/xMax I
 	invokevirtual Life/gt(II)Z
-	ifeq L4
+	ifeq L3
 	invokestatic io/println()V
 	ldc 0
 	istore 2
-	goto L3
-	L4:
+	goto L2
 	L3:
+	L2:
 	aload_0 
 	getfield Life/field [I
 	iload 1
@@ -886,12 +873,12 @@
 	ldc 1
 	iadd 
 	istore 2
-	L1:
+	L0:
 	iload 1
 	aload_0 
 	getfield Life/field [I
 	arraylength 
-	if_icmplt L2
+	if_icmplt L1
 	invokestatic io/println()V
 	invokestatic io/println()V
 	iconst_1 
@@ -905,17 +892,17 @@
 	iload 1
 	iload 2
 	invokevirtual Life/lt(II)Z
-	ifgt L2
+	ifgt L1
 	aload_0 
 	iload 2
 	iload 1
 	invokevirtual Life/lt(II)Z
-	ifgt L2
+	ifgt L1
 	iconst_1 
-	goto L1
-	L2:
-	iconst_0 
+	goto L0
 	L1:
+	iconst_0 
+	L0:
 	ireturn 
 .end method
 
@@ -926,12 +913,12 @@
 	iload 1
 	iload 2
 	invokevirtual Life/eq(II)Z
-	ifgt L2
+	ifgt L1
 	iconst_1 
-	goto L1
-	L2:
-	iconst_0 
+	goto L0
 	L1:
+	iconst_0 
+	L0:
 	ireturn 
 .end method
 
@@ -942,19 +929,19 @@
 	iload 1
 	iload 2
 	invokevirtual Life/eq(II)Z
-	ifgt L3
+	ifgt L2
 	aload_0 
 	iload 1
 	iload 2
 	invokevirtual Life/lt(II)Z
-	ifgt L3
-	goto L2
-	L3:
-	iconst_1 
+	ifgt L2
 	goto L1
 	L2:
-	iconst_0 
+	iconst_1 
+	goto L0
 	L1:
+	iconst_0 
+	L0:
 	ireturn 
 .end method
 
@@ -1018,7 +1005,7 @@
 .end method
 
 .method public update()Z
-.limit stack 14
+.limit stack 16
 .limit locals 6
 	aload_0 
 	getfield Life/field [I
@@ -1027,8 +1014,8 @@
 	astore 1
 	ldc 0
 	istore 2
-	goto L1
-	L2:
+	goto L0
+	L1:
 	aload_0 
 	getfield Life/field [I
 	iload 2
@@ -1040,33 +1027,33 @@
 	istore 4
 	iload 3
 	ldc 1
-	if_icmplt L4
+	if_icmplt L3
 	aload_0 
 	iload 4
 	aload_0 
 	getfield Life/UNDERPOP_LIM I
 	invokevirtual Life/le(II)Z
-	ifeq L6
+	ifeq L5
 	aload_0 
 	iload 4
 	aload_0 
 	getfield Life/OVERPOP_LIM I
 	invokevirtual Life/ge(II)Z
-	ifeq L6
+	ifeq L5
 	iconst_1 
-	goto L5
-	L6:
-	iconst_0 
+	goto L4
 	L5:
+	iconst_0 
+	L4:
 	istore 5
 	iload 5
-	ifgt L8
+	ifgt L7
 	aload 1
 	iload 2
 	ldc 0
 	iastore 
-	goto L7
-	L8:
+	goto L6
+	L7:
 	aload 1
 	iload 2
 	aload_0 
@@ -1074,21 +1061,21 @@
 	iload 2
 	iaload 
 	iastore 
-	L7:
-	goto L3
-	L4:
+	L6:
+	goto L2
+	L3:
 	aload_0 
 	iload 4
 	aload_0 
 	getfield Life/REPRODUCE_NUM I
 	invokevirtual Life/eq(II)Z
-	ifeq L10
+	ifeq L9
 	aload 1
 	iload 2
 	ldc 1
 	iastore 
-	goto L9
-	L10:
+	goto L8
+	L9:
 	aload 1
 	iload 2
 	aload_0 
@@ -1096,18 +1083,18 @@
 	iload 2
 	iaload 
 	iastore 
-	L9:
-	L3:
+	L8:
+	L2:
 	iload 2
 	ldc 1
 	iadd 
 	istore 2
-	L1:
+	L0:
 	iload 2
 	aload_0 
 	getfield Life/field [I
 	arraylength 
-	if_icmplt L2
+	if_icmplt L1
 	aload_0 
 	aload 1
 	putfield Life/field [I

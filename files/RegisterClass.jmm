@@ -1,4 +1,8 @@
 class RegisterClass {
+    public int test(int x, int y) {
+        return x * y;
+    }
+
     public static void main(String[] args) {
         int x;
         int y;
@@ -16,6 +20,16 @@ class RegisterClass {
             z = z + a + x;
             i = i + 1;
         }
-        io.println(z);
+
+        a = new RegisterClass().test(x, y - 10);
+
+        while (x < 5) {
+            i = i + 1;
+        }
+
+        if (x < y && !false)
+            io.println(z);
+        else
+            io.println(a);
     }
 }

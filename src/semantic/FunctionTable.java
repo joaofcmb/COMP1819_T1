@@ -433,4 +433,8 @@ public abstract class FunctionTable {
     public String methodCode() {
         return intermediateCode.toString();
     }
+
+    boolean isOptimize() {
+        return optimize;
+    }
 }
