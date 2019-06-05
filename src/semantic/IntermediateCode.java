@@ -54,9 +54,13 @@ class IntermediateCode {
                                     typeList.remove()));
                         }
                         else {
-                            generateExpressionCode(statementNode.jjtGetChild(1), typeList, methodList);
-                            instructions.addLast(new IntermediateInstruction(id,
-                                    String.valueOf(assignNode.jjtGetValue()), typeList.remove()));
+                            if (functionTable.getVariables().hasValue(assignNode)) {
+                                typeList.remove();
+                            } else {
+                                generateExpressionCode(statementNode.jjtGetChild(1), typeList, methodList);
+                                instructions.addLast(new IntermediateInstruction(id,
+                                        String.valueOf(assignNode.jjtGetValue()), typeList.remove()));
+                            }
                         }
                     }
                     else {
@@ -232,8 +236,16 @@ class IntermediateCode {
                     expInstructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTTHIS));
                 }
                 else {
-                    expInstructions.addLast(new IntermediateInstruction(id,
-                            String.valueOf(expressionNode.jjtGetValue()), idType));
+                    final Integer value = functionTable.getVariables().getValue(expressionNode);
+
+                    if (value != null) {
+                        expInstructions.addLast(new IntermediateInstruction(ParserTreeConstants.JJTINTEGER,
+                                String.valueOf(value)));
+                    }
+                    else {
+                        expInstructions.addLast(new IntermediateInstruction(id,
+                                String.valueOf(expressionNode.jjtGetValue()), idType));
+                    }
                 }
                 break;
             case ParserTreeConstants.JJTINTEGER:

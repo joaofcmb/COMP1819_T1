@@ -15,10 +15,11 @@ public class MethodTable extends FunctionTable {
      * @param methodNode AST Root containing the method
      * @param ir IR of the class this method belongs to
      *
+     * @param optimize
      * @throws SemanticException on Semantic Error (Conflicting Symbols)
      */
-    MethodTable(Node methodNode, IntermediateRepresentation ir) throws SemanticException {
-        super(methodNode.jjtGetChild(3), ir, new Type(methodNode.jjtGetChild(0)));
+    MethodTable(Node methodNode, IntermediateRepresentation ir, boolean optimize) throws SemanticException {
+        super(methodNode.jjtGetChild(3), ir, new Type(methodNode.jjtGetChild(0)), optimize);
 
         final Node parameterNode = methodNode.jjtGetChild(2);
         for (int i = 0; i < parameterNode.jjtGetNumChildren(); i+=2) {

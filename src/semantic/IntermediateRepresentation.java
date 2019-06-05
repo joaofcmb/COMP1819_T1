@@ -35,9 +35,10 @@ public class IntermediateRepresentation {
      *
      * @param classRoot AST Node representing the root of the IR class
      *
+     * @param optimize
      * @throws SemanticException on Semantic Error (Conflicting Symbols / Methods)
      */
-    public IntermediateRepresentation(Node classRoot) throws SemanticException {
+    public IntermediateRepresentation(Node classRoot, boolean optimize) throws SemanticException {
         int iterator = 0;
 
         this.classIdentifier = String.valueOf(classRoot.jjtGetChild(iterator++).jjtGetValue());
@@ -56,7 +57,7 @@ public class IntermediateRepresentation {
                     if (mainMethod != null)
                         throw new SemanticException(node, "Duplicate main method declaration");
 
-                    mainMethod = new MainTable(node, this);
+                    mainMethod = new MainTable(node, this, optimize);
                     break;
                 case ParserTreeConstants.JJTMETHOD:
                     MethodSignature methodSignature = new MethodSignature(node);
@@ -64,7 +65,7 @@ public class IntermediateRepresentation {
                     if (methods.containsKey(methodSignature))
                         throw new SemanticException(node, "Duplicate method declaration");
 
-                    methods.put(methodSignature, new MethodTable(node, this));
+                    methods.put(methodSignature, new MethodTable(node, this, optimize));
                     break;
             }
         }

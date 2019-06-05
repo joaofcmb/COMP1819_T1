@@ -79,7 +79,7 @@ public class JMMCompiler {
 
         try {
             // Semantic Analysis and generation of HIR (Symbol Table + Intermediate HL Code)
-            IntermediateRepresentation ir = new IntermediateRepresentation(root.jjtGetChild(0));
+            IntermediateRepresentation ir = new IntermediateRepresentation(root.jjtGetChild(0), optimize);
             //System.out.println(ir);
 
             // Register Allocation and Code Generation

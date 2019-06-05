@@ -14,10 +14,11 @@ class MainTable extends FunctionTable {
      * @param mainNode AST Root containing Main
      * @param ir IR of the class this method belongs to
      *
+     * @param optimize
      * @throws SemanticException on Semantic Error (Conflicting Symbols)
      */
-    MainTable(Node mainNode, IntermediateRepresentation ir) throws SemanticException {
-        super(mainNode.jjtGetChild(1), ir);
+    MainTable(Node mainNode, IntermediateRepresentation ir, boolean optimize) throws SemanticException {
+        super(mainNode.jjtGetChild(1), ir, optimize);
 
         final Node parameterId = mainNode.jjtGetChild(0);
 

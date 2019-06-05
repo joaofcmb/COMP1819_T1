@@ -22,7 +22,7 @@ public abstract class FunctionTable {
     private final IntermediateRepresentation classTable;
 
     private final LinkedSymbolTable parameters = new LinkedSymbolTable();
-    private final SymbolTable variables = new SymbolTable();
+    private final ValueTable variables = new ValueTable();
 
     private final Type returnType;
 
@@ -31,29 +31,32 @@ public abstract class FunctionTable {
     private final LinkedList<Type> typeList = new LinkedList<>();
     private final LinkedList<MethodSignature> methodList = new LinkedList<>();
 
+    private final boolean optimize;
+
     /**
      * Constructor of the class, initializing the Function Table with its AST body Node and its belonging IR without a
      * return type (Only case is Main)
-     *
-     * @param bodyNode AST Root of the Function body
+     *  @param bodyNode AST Root of the Function body
      * @param ir IntermediateRepresentation to which this Function Table belongs to
+     * @param optimize
      */
-    FunctionTable(Node bodyNode, IntermediateRepresentation ir) {
-        this(bodyNode, ir, null);
+    FunctionTable(Node bodyNode, IntermediateRepresentation ir, boolean optimize) {
+        this(bodyNode, ir, null, optimize);
     }
 
     /**
      * Constructor of the class, initializing the Function Table with its AST body Node, its belonging IR and its
      * Return Type
-     *
-     * @param bodyNode AST Root of the Function body
+     *  @param bodyNode AST Root of the Function body
      * @param ir IntermediateRepresentation to which this Function Table belongs to
      * @param returnType Return Type of the Function
+     * @param optimize
      */
-    FunctionTable(Node bodyNode, IntermediateRepresentation ir, Type returnType) {
+    FunctionTable(Node bodyNode, IntermediateRepresentation ir, Type returnType, boolean optimize) {
         this.bodyNode = bodyNode;
         this.classTable = ir;
         this.returnType = returnType;
+        this.optimize = optimize;
     }
 
     /**
@@ -98,8 +101,6 @@ public abstract class FunctionTable {
      * @param statementsNode AST Root containing the statements to be analysed
      * @param i Index of the first statement child in the provided node
      *
-     * @return List of Types kept during the Semantic Analysis that are useful for the Intermediate Code Generation
-     *
      * @throws SemanticException on Semantic Error
      */
     private void analyseStatements(Node statementsNode, int i) throws SemanticException {
@@ -109,15 +110,22 @@ public abstract class FunctionTable {
 
             switch(statementNode.getId()) {
                 case ParserTreeConstants.JJTASSIGN:
-                    // TODO If Forward chaining doesnt work (Cannot infer assign type and use it on expression type),
-                    //  check if the expression type can be deduced and use it to deduce the assignType.
-                    final Type assignType = analyseExpression(statementNode.jjtGetChild(0), typeList, Type.UNKNOWN());
-                    final Type expressionType = analyseExpression(statementNode.jjtGetChild(1), typeList, assignType);
+                    final Node assignNode = statementNode.jjtGetChild(0);
+                    final Node expressionNode = statementNode.jjtGetChild(1);
+
+                    final Type assignType = analyseExpression(assignNode, typeList, Type.UNKNOWN());
+                    final Type expressionType = analyseExpression(expressionNode, typeList, assignType);
 
                     if (notInheritance(assignType, expressionType)) {
-                        if (!assignType.equals(expressionType))
+                        if (!assignType.equals(expressionType)) {
                             throw new SemanticException(statementNode,
                                     "Invalid assignment of " + expressionType + " to variable of type " + assignType);
+                        } else if (variables.hasValue(assignNode)) {
+                            variables.putValue(assignNode, null);
+                        } else if (expressionNode.getId() == ParserTreeConstants.JJTINTEGER && optimize) {
+                            variables.putValue(assignNode,
+                                    Integer.parseInt(String.valueOf(expressionNode.jjtGetValue())));
+                        }
                     }
                     else {
                         setIdType(statementNode.jjtGetChild(0), expressionType);
@@ -140,11 +148,7 @@ public abstract class FunctionTable {
                         analyseStatements(statementNode.jjtGetChild(2), 0);
                     break;
                 case ParserTreeConstants.JJTFCALL:
-                    // TODO If Backward Chaining of type deduction doesn't work (i.e. Unknown return type used
-                    //  as a parameter to a method), attempt to use Forward Chaining (Using the same example, check if
-                    //  any known method fits the first method being called and, from there, deduce the unknown return
-                    //  type being called as a parameter).
-                    Node classNode = statementNode.jjtGetChild(0);
+                    final Node classNode = statementNode.jjtGetChild(0);
                     Type classType;
                     if (classNode.getId() == ParserTreeConstants.JJTID && getIdType(classNode) == null)
                         classType = Type.CLASS(String.valueOf(classNode.jjtGetValue()));
@@ -395,6 +399,10 @@ public abstract class FunctionTable {
 
     public LinkedSymbolTable getParameters() {
         return parameters;
+    }
+
+    ValueTable getVariables() {
+        return variables;
     }
 
     Type getReturnType() {
