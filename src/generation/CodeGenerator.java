@@ -16,12 +16,15 @@ public class CodeGenerator {
     private final RegisterAllocator registerAllocator;
     private final IntermediateRepresentation ir;
     private final Path filePath;
+    private final boolean optimize;
 
-    // TODO Code Optimization
     public CodeGenerator(IntermediateRepresentation ir, Path outputPath, int maxRegisters, boolean optimize) {
-        this.registerAllocator = maxRegisters > 0 ? new GraphColoringAllocator(maxRegisters) : new NaiveRegisterAllocator();
+        this.registerAllocator = maxRegisters > 0
+                ? new GraphColoringAllocator(maxRegisters)
+                : new NaiveRegisterAllocator();
         this.ir = ir;
         this.filePath = outputPath.resolve(ir.getClassIdentifier() + ".j");
+        this.optimize = optimize;
     }
 
     public void generateFile() throws AllocationException {
@@ -65,7 +68,8 @@ public class CodeGenerator {
         pw.println(".limit stack " + stackSlots(method));
         pw.println(".limit locals " +  registerAllocator.allocate(method, paramStart));
 
-        pw.print(method.methodCode());
+        if (optimize)   pw.print(Optimizer.optimize(method));
+        else            pw.print(method.methodCode());
     }
 
     private int stackSlots(FunctionTable method) {

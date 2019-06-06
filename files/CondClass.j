@@ -10,215 +10,130 @@
 
 .method public static main([Ljava/lang/String;)V
 .limit stack 5
-.limit locals 3
-	iconst_0 
-	ifgt L2
-	ldc 1
+.limit locals 2
+	bipush 1
 	invokestatic io/println(I)V
-	ldc 2
-	ldc 3
-	iadd 
-	ldc 5
-	if_icmpge L4
-	ldc 0
-	ldc 2
-	isub 
+	bipush 2
 	invokestatic io/println(I)V
-	goto L3
-	L4:
-	ldc 2
+	bipush 3
 	invokestatic io/println(I)V
-	iconst_1 
-	ifeq L6
-	ldc 6
-	ldc 2
-	idiv 
-	ldc 4
-	if_icmpge L6
-	ldc 3
+	bipush 4
 	invokestatic io/println(I)V
-	ldc 4
-	ldc 2
-	imul 
-	ldc 9
-	if_icmpge L9
-	ldc 2
-	ldc 3
-	if_icmpge L9
-	iconst_0 
-	ifeq L9
-	goto L8
-	L9:
-	ldc 4
+	bipush 5
 	invokestatic io/println(I)V
-	ldc 4
-	ldc 2
-	imul 
-	ldc 9
-	if_icmpge L12
-	ldc 2
-	ldc 3
-	if_icmpge L13
-	iconst_1 
-	ifeq L13
-	goto L12
-	L13:
-	goto L11
-	L12:
-	ldc 4
-	ldc 5
-	if_icmpge L11
-	iconst_0 
-	ifgt L11
-	ldc 5
+	bipush 6
 	invokestatic io/println(I)V
-	goto L10
-	L11:
-	ldc 0
-	ldc 5
-	isub 
+	bipush 7
 	invokestatic io/println(I)V
-	L10:
-	goto L7
-	L8:
-	ldc 0
-	ldc 4
-	isub 
-	invokestatic io/println(I)V
-	L7:
-	goto L5
-	L6:
-	ldc 0
-	ldc 3
-	isub 
-	invokestatic io/println(I)V
-	L5:
-	L3:
-	ldc 6
-	invokestatic io/println(I)V
-	goto L1
-	L2:
-	ldc 0
-	ldc 1
-	isub 
-	invokestatic io/println(I)V
-	L1:
-	ldc 7
-	invokestatic io/println(I)V
-	ldc 0
+	bipush 0
 	istore 1
-	goto L14
-	L15:
-	ldc 8
-	iload 1
-	iadd 
-	invokestatic io/println(I)V
-	iload 1
-	ldc 1
-	iadd 
-	istore 1
+	goto L13
 	L14:
-	ldc 4
-	ldc 2
+	bipush 8
+	iload 1
+	iadd 
+	invokestatic io/println(I)V
+	iinc 1 1
+	L13:
+	bipush 4
+	bipush 2
 	imul 
-	ldc 9
+	bipush 9
+	if_icmpge L16
+	bipush 2
+	bipush 3
 	if_icmpge L17
-	ldc 2
-	ldc 3
-	if_icmpge L18
 	iconst_1 
-	ifeq L18
-	goto L17
-	L18:
+	ifeq L17
 	goto L16
 	L17:
-	iload 1
-	ldc 5
-	if_icmpge L16
-	iconst_0 
-	ifgt L16
 	goto L15
 	L16:
-	ldc 4
-	ldc 2
+	iload 1
+	bipush 5
+	if_icmpge L15
+	iconst_0 
+	ifgt L15
+	goto L14
+	L15:
+	bipush 4
+	bipush 2
 	imul 
-	ldc 9
+	bipush 9
+	if_icmpge L20
+	bipush 2
+	bipush 3
 	if_icmpge L21
-	ldc 2
-	ldc 3
-	if_icmpge L22
 	iconst_1 
-	ifeq L22
-	goto L21
-	L22:
+	ifeq L21
 	goto L20
 	L21:
-	ldc 4
-	ldc 5
-	if_icmpge L20
-	iconst_0 
-	ifgt L20
-	iconst_1 
 	goto L19
 	L20:
+	bipush 4
+	bipush 5
+	if_icmpge L19
 	iconst_0 
+	ifgt L19
+	iconst_1 
+	goto L18
 	L19:
-	istore 2
+	iconst_0 
+	L18:
+	istore 1
 	new CondClass
 	dup
 	invokespecial CondClass/<init>()V
-	iload 2
-	ldc 4
-	ldc 2
+	iload 1
+	bipush 4
+	bipush 2
 	imul 
-	ldc 9
+	bipush 9
+	if_icmpge L24
+	bipush 2
+	bipush 3
 	if_icmpge L25
-	ldc 2
-	ldc 3
-	if_icmpge L26
 	iconst_1 
-	ifeq L26
-	goto L25
-	L26:
+	ifeq L25
 	goto L24
 	L25:
-	ldc 4
-	ldc 5
-	if_icmpge L24
-	iconst_0 
-	ifgt L24
-	iconst_1 
 	goto L23
 	L24:
+	bipush 4
+	bipush 5
+	if_icmpge L23
 	iconst_0 
+	ifgt L23
+	iconst_1 
+	goto L22
 	L23:
+	iconst_0 
+	L22:
 	invokevirtual CondClass/compare(ZZ)Z
-	istore 2
-	iload 2
-	ifeq L28
-	ldc 13
+	istore 1
+	iload 1
+	ifeq L27
+	bipush 13
 	invokestatic io/println(I)V
-	goto L27
-	L28:
-	ldc 0
-	ldc 13
-	isub 
-	invokestatic io/println(I)V
+	goto L26
 	L27:
+	bipush -13
+	invokestatic io/println(I)V
+	L26:
 	return
 .end method
 
 .method public compare(ZZ)Z
 .limit stack 2
-.limit locals 3
+.limit locals 4
 	iload 1
-	ifeq L2
+	ifeq L1
 	iload 2
-	ifeq L2
+	ifeq L1
 	iconst_1 
-	goto L1
-	L2:
-	iconst_0 
+	ireturn 
 	L1:
+	iconst_0 
+	L0:
 	ireturn 
 .end method

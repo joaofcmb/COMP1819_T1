@@ -42,6 +42,10 @@ public class IntermediateInstruction {
     private static final int IFCMPLT = -19;
     private static final int GOTO = -20;
 
+    private static final int BIPUSH = -21;
+    private static final int SIPUSH = -22;
+    private static final int LDC = -23;
+
 
     private final static Map<Integer, String> stringMap;
 
@@ -56,7 +60,9 @@ public class IntermediateInstruction {
         tempMap.put(ParserTreeConstants.JJTTHIS,        "aload_0");
 
         // CONSTANT LOADS
-        tempMap.put(ParserTreeConstants.JJTINTEGER,     "ldc");
+        tempMap.put(BIPUSH,     "bipush");
+        tempMap.put(SIPUSH,     "sipush");
+        tempMap.put(LDC,     "ldc");
         tempMap.put(ParserTreeConstants.JJTTRUE,        "iconst_1");
         tempMap.put(ParserTreeConstants.JJTFALSE,       "iconst_0");
 
@@ -128,7 +134,16 @@ public class IntermediateInstruction {
      * @param value Instruction Parameter
      */
     IntermediateInstruction(int instructionId, String value) {
-        this.instructionId = instructionId;
+        if (instructionId == ParserTreeConstants.JJTINTEGER) {
+            final int intValue = Integer.parseInt(value);
+
+            if (intValue >= -128 && intValue <= 127)            this.instructionId = BIPUSH;
+            else if (intValue >= -32768 && intValue <= 32767)   this.instructionId = SIPUSH;
+            else                                                this.instructionId = LDC;
+        }
+        else {
+            this.instructionId = instructionId;
+        }
         this.value = value;
     }
 
@@ -139,13 +154,10 @@ public class IntermediateInstruction {
      * @param labelNum Label Identifier Number
      */
     IntermediateInstruction(int instructionId, boolean eval, int labelNum) {
-        switch (instructionId) {
-            case ParserTreeConstants.JJTLOWER:
-                this.instructionId = eval ? IFCMPGE : IFCMPLT;
-                break;
-            default:
-                this.instructionId = eval ? IFEQ : IFGT;
-                break;
+        if (instructionId == ParserTreeConstants.JJTLOWER) {
+            this.instructionId = eval ? IFCMPGE : IFCMPLT;
+        } else {
+            this.instructionId = eval ? IFEQ : IFGT;
         }
         this.value = "L" + labelNum;
     }
@@ -280,7 +292,9 @@ public class IntermediateInstruction {
             case ILOAD:
             case ALOAD:
             case GETFIELD:
-            case ParserTreeConstants.JJTINTEGER:
+            case BIPUSH:
+            case SIPUSH:
+            case LDC:
             case ParserTreeConstants.JJTTRUE:
             case ParserTreeConstants.JJTFALSE:
             case ParserTreeConstants.JJTTHIS:

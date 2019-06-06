@@ -11,33 +11,30 @@
 .method public static main([Ljava/lang/String;)V
 .limit stack 3
 .limit locals 4
-	ldc 30
+	bipush 30
 	istore 3
-	ldc 0
+	bipush 0
 	istore 2
 	goto L0
 	L1:
-	ldc 10
+	bipush 10
 	istore 1
 	iload 3
 	iload 1
 	iadd 
-	ldc 10
+	bipush 10
 	iadd 
 	istore 3
-	iload 2
-	ldc 1
-	iadd 
-	istore 2
+	iinc 2 1
 	L0:
 	iload 2
-	ldc 5
+	bipush 5
 	if_icmplt L1
 	new RegisterClass
 	dup
 	invokespecial RegisterClass/<init>()V
-	ldc 10
-	ldc 10
+	bipush 10
+	bipush 10
 	invokevirtual RegisterClass/test(II)I
 	istore 1
 	iload 3
