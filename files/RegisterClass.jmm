@@ -11,12 +11,12 @@ class RegisterClass {
         int a;
 
         x = 10;
+        a = 10;
         y = 20;
         z = x + y;
 
         i = 0;
         while (i < 5) {
-            a = 10;
             z = z + a + x;
             i = i + 1;
         }

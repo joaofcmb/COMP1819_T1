@@ -69,7 +69,7 @@ public class CodeGenerator {
         pw.println(".limit locals " +  registerAllocator.allocate(method, paramStart));
 
         if (optimize)   pw.print(Optimizer.optimize(method));
-        else            pw.print(method.methodCode());
+        else            pw.print(Optimizer.cleanupCode(method.methodCode()));
     }
 
     private int stackSlots(FunctionTable method) {
