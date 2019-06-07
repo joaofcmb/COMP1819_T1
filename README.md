@@ -31,9 +31,9 @@ Global Grade of the Project: **19**
 
 ## Task Distribution
 
-- **Lexical and Syntactic Analysis -** César Pinho | Rui Guedes
-- **Semantic Analysis and Intermediate Code -** João Barbosa | Rui Guedes
-- **Code Generation and Optimizations -** César Pinho | João Barbosa
+- **Lexical and Syntactic Analysis -** César Pinho and Rui Guedes
+- **Semantic Analysis and Intermediate Code -** João Barbosa and Rui Guedes
+- **Code Generation and Optimizations -** César Pinho and João Barbosa
 
 ## Pros
 
