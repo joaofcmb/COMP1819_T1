@@ -4,7 +4,7 @@
 
 - **César Alexandre da Costa Pinho** - up201604039 - Grade **20** - **33%** Contribution
 - **João Fernando da Costa Meireles Barbosa** - up201604156 - Grade **20** - **33%** Contribution
-- **Rui Jorge Leão Guedes** - up201603854** - Grade **20** - **33%** Contribution
+- **Rui Jorge Leão Guedes** - up201603854 - Grade **20** - **33%** Contribution
 
 Global Grade of the Project: **20**
 
