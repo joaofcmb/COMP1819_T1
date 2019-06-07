@@ -3,7 +3,7 @@
  * WARNING - Meant to test while error recovery. Not meant to be compiled
  */
 class Test {
-    public int main() {
+    public static void main(String[] args) {
         while (x < +) {
             while (x < 4 {
                 while (x < {

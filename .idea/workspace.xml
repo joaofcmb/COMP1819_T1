@@ -7,25 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ac857157-4237-4531-ab58-c5cf2169cac7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/jmm_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/JJTParserState.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/JJTParserState.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/ParseException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/ParseException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/Parser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/Parser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/ParserTokenManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/ParserTokenManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/SimpleCharStream.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/SimpleCharStream.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/SimpleNode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/SimpleNode.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/Token.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/Token.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/parser/TokenMgrError.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/parser/TokenMgrError.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/semantic/LinkedSymbolTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/semantic/LinkedSymbolTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/semantic/MethodSignature.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/semantic/MethodSignature.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/semantic/SemanticException.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/semantic/SemanticException.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/semantic/SymbolTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/semantic/SymbolTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Project/semantic/Type.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Project/semantic/Type.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/parser/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/files/WhileTest.jmm" beforeDir="false" afterPath="$PROJECT_DIR$/files/WhileTest.jmm" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -54,19 +38,24 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/files/CondClass.jmm">
+        <entry file="file://$PROJECT_DIR$/src/generation/GraphColoringAllocator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="748">
-              <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
+            <state relative-caret-position="418">
+              <caret line="152" column="14" selection-start-line="152" selection-start-column="14" selection-end-line="152" selection-end-column="14" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#456#457#0" expanded="true" />
+                <element signature="e#504#505#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/files/CondClass.j">
+        <entry file="file://$PROJECT_DIR$/files/CondClass.jmm">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="439">
-              <caret line="115" column="13" selection-start-line="115" selection-start-column="13" selection-end-line="115" selection-end-column="13" />
+            <state relative-caret-position="748">
+              <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -100,14 +89,12 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/semantic/IntermediateCode.java">
+        <entry file="file://$PROJECT_DIR$/src/generation/CodeGenerator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6460">
-              <caret line="382" column="75" selection-start-line="382" selection-start-column="75" selection-end-line="382" selection-end-column="75" />
+            <state relative-caret-position="314">
+              <caret line="57" column="44" lean-forward="true" selection-start-line="57" selection-start-column="44" selection-end-line="57" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#23194#23195#0" expanded="true" />
-                <element signature="e#23229#23230#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -126,19 +113,23 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/files/Life.jmm">
+        <entry file="file://$PROJECT_DIR$/src/semantic/FunctionTable.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
-              <caret line="304" column="40" selection-start-line="304" selection-start-column="40" selection-end-line="304" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/files/Life.j">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="575">
-              <caret line="763" column="12" selection-start-line="763" selection-start-column="12" selection-end-line="763" selection-end-column="12" />
+            <state relative-caret-position="323">
+              <caret line="19" column="20" lean-forward="true" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#18228#18229#0" expanded="true" />
+                <element signature="e#18296#18297#0" expanded="true" />
+                <element signature="e#18344#18345#0" expanded="true" />
+                <element signature="e#18377#18378#0" expanded="true" />
+                <element signature="e#18470#18471#0" expanded="true" />
+                <element signature="e#18503#18504#0" expanded="true" />
+                <element signature="e#18538#18539#0" expanded="true" />
+                <element signature="e#18592#18593#0" expanded="true" />
+                <element signature="e#19244#19245#0" expanded="true" />
+                <element signature="e#19294#19295#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -147,10 +138,31 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="544">
-                <caret line="32" column="23" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
+              <first_editor relative-caret-position="2176">
+                <caret line="128" selection-start-line="128" selection-end-line="128" />
               </first_editor>
               <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/semantic/IntermediateRepresentation.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1003">
+              <caret line="59" column="45" selection-start-line="59" selection-start-column="45" selection-end-line="59" selection-end-column="45" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/files/WhileTest.jmm">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="36" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -220,7 +232,6 @@
         <option value="$PROJECT_DIR$/files/Life.jmm" />
         <option value="$PROJECT_DIR$/files/Life.java" />
         <option value="$PROJECT_DIR$/files/SimpleProgram.jmm" />
-        <option value="$PROJECT_DIR$/files/WhileTest.jmm" />
         <option value="$PROJECT_DIR$/src/semantic/Type.java" />
         <option value="$PROJECT_DIR$/src/semantic/MethodSignature.java" />
         <option value="$PROJECT_DIR$/files/CondChild.jmm" />
@@ -244,6 +255,7 @@
         <option value="$PROJECT_DIR$/files/Life.j" />
         <option value="$PROJECT_DIR$/src/semantic/IntermediateInstruction.java" />
         <option value="$PROJECT_DIR$/src/generation/GraphColoringAllocator.java" />
+        <option value="$PROJECT_DIR$/files/WhileTest.jmm" />
         <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
@@ -306,6 +318,11 @@
             <path>
               <item name="COMP1819_G16" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="Project" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="files" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="COMP1819_G16" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Project" type="2674bda8:ScopeViewTreeModel$GroupNode" />
               <item name="out" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
             <path>
@@ -317,7 +334,25 @@
               <item name="COMP1819_G16" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
               <item name="Project" type="2674bda8:ScopeViewTreeModel$GroupNode" />
               <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="generation" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="COMP1819_G16" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Project" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
               <item name="META-INF" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="COMP1819_G16" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Project" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="parser" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="COMP1819_G16" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="Project" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="semantic" type="9f88c78c:ScopeViewTreeModel$FileNode" />
             </path>
           </expand>
           <select />
@@ -427,12 +462,12 @@
       <workItem from="1559730017345" duration="19057000" />
       <workItem from="1559830333190" duration="8350000" />
       <workItem from="1559897102275" duration="599000" />
-      <workItem from="1559911860478" duration="19392000" />
+      <workItem from="1559911860478" duration="27033000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="262051000" />
+    <option name="totallyTimeSpent" value="269692000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -503,13 +538,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/files/WhileTest.jmm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="73" selection-start-line="2" selection-start-column="73" selection-end-line="2" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/files/SimpleProgram.jmm">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
@@ -542,24 +570,6 @@
           <caret line="106" column="4" selection-start-line="106" selection-start-column="4" selection-end-line="106" selection-end-column="4" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/parser/Parser.jjt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="969">
-          <caret line="99" column="13" selection-start-line="99" selection-start-column="13" selection-end-line="99" selection-end-column="13" />
-          <folding>
-            <element signature="e#1157#1195#0" expanded="true" />
-            <element signature="e#1243#1312#0" expanded="true" />
-            <element signature="e#1314#1379#0" expanded="true" />
-            <element signature="n#!!block;n#Id#0;n#!!top" expanded="true" />
-            <element signature="e#2551#2577#0" expanded="true" />
-            <element signature="n#!!block;n#Integer#0;n#!!top" expanded="true" />
-            <element signature="e#2643#2669#0" expanded="true" />
-            <element signature="n#!!block;n#TypeId#0;n#!!top" expanded="true" />
-            <element signature="e#2852#2878#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -651,16 +661,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/semantic/IntermediateRepresentation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="59" column="45" selection-start-line="59" selection-start-column="45" selection-end-line="59" selection-end-column="45" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/semantic/MainTable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
@@ -739,54 +739,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/semantic/FunctionTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="841">
-          <caret line="433" column="37" selection-start-line="433" selection-start-column="37" selection-end-line="433" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#18228#18229#0" expanded="true" />
-            <element signature="e#18296#18297#0" expanded="true" />
-            <element signature="e#18344#18345#0" expanded="true" />
-            <element signature="e#18377#18378#0" expanded="true" />
-            <element signature="e#18470#18471#0" expanded="true" />
-            <element signature="e#18503#18504#0" expanded="true" />
-            <element signature="e#18538#18539#0" expanded="true" />
-            <element signature="e#18592#18593#0" expanded="true" />
-            <element signature="e#19244#19245#0" expanded="true" />
-            <element signature="e#19294#19295#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/generation/CodeGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="51" column="39" lean-forward="true" selection-start-line="51" selection-start-column="39" selection-end-line="51" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/generation/NaiveRegisterAllocator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="22" selection-start-line="22" selection-end-line="22" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/generation/GraphColoringAllocator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="586">
-          <caret line="152" column="14" selection-start-line="152" selection-start-column="14" selection-end-line="152" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#456#457#0" expanded="true" />
-            <element signature="e#504#505#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -835,13 +793,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/files/CondClass.jmm">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="748">
-          <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/compile.bat">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -852,14 +803,70 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/JMMCompiler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="688">
+          <caret line="83" lean-forward="true" selection-start-line="83" selection-end-line="83" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/files/CondClass.jmm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="748">
+          <caret line="44" column="29" selection-start-line="44" selection-start-column="29" selection-end-line="44" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/parser/Parser.jjt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="290" column="33" lean-forward="true" selection-start-line="290" selection-start-column="33" selection-end-line="290" selection-end-column="33" />
+          <folding>
+            <element signature="e#1157#1195#0" expanded="true" />
+            <element signature="e#1243#1312#0" expanded="true" />
+            <element signature="e#1314#1379#0" expanded="true" />
+            <element signature="e#1415#2470#0" expanded="true" />
+            <element signature="n#!!block;n#Id#0;n#!!top" expanded="true" />
+            <element signature="e#2551#2577#0" expanded="true" />
+            <element signature="n#!!block;n#Integer#0;n#!!top" expanded="true" />
+            <element signature="e#2643#2669#0" expanded="true" />
+            <element signature="n#!!block;n#TypeId#0;n#!!top" expanded="true" />
+            <element signature="e#2852#2878#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/files/WhileTest.jmm">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="36" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/semantic/IntermediateCode.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6460">
-          <caret line="382" column="75" selection-start-line="382" selection-start-column="75" selection-end-line="382" selection-end-column="75" />
+        <state relative-caret-position="17">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#23194#23195#0" expanded="true" />
             <element signature="e#23229#23230#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/semantic/IntermediateRepresentation.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1003">
+          <caret line="59" column="45" selection-start-line="59" selection-start-column="45" selection-end-line="59" selection-end-column="45" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -890,6 +897,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/generation/CodeGenerator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="314">
+          <caret line="57" column="44" lean-forward="true" selection-start-line="57" selection-start-column="44" selection-end-line="57" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/generation/Optimizer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
@@ -900,24 +917,43 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/JMMCompiler.java">
+    <entry file="file://$PROJECT_DIR$/src/semantic/FunctionTable.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="688">
-          <caret line="83" lean-forward="true" selection-start-line="83" selection-end-line="83" />
+        <state relative-caret-position="323">
+          <caret line="19" column="20" lean-forward="true" selection-start-line="19" selection-start-column="20" selection-end-line="19" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#18228#18229#0" expanded="true" />
+            <element signature="e#18296#18297#0" expanded="true" />
+            <element signature="e#18344#18345#0" expanded="true" />
+            <element signature="e#18377#18378#0" expanded="true" />
+            <element signature="e#18470#18471#0" expanded="true" />
+            <element signature="e#18503#18504#0" expanded="true" />
+            <element signature="e#18538#18539#0" expanded="true" />
+            <element signature="e#18592#18593#0" expanded="true" />
+            <element signature="e#19244#19245#0" expanded="true" />
+            <element signature="e#19294#19295#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/META-INF/MANIFEST.MF">
-      <provider selected="true" editor-type-id="text-editor" />
+    <entry file="file://$PROJECT_DIR$/src/generation/GraphColoringAllocator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="152" column="14" selection-start-line="152" selection-start-column="14" selection-end-line="152" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#456#457#0" expanded="true" />
+            <element signature="e#504#505#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="544">
-            <caret line="32" column="23" selection-start-line="32" selection-start-column="23" selection-end-line="32" selection-end-column="23" />
+          <first_editor relative-caret-position="2176">
+            <caret line="128" selection-start-line="128" selection-end-line="128" />
           </first_editor>
           <second_editor />
         </state>
