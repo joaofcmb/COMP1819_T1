@@ -10,40 +10,10 @@
 
 .method public static main([Ljava/lang/String;)V
 .limit stack 3
-.limit locals 4
+.limit locals 3
 	bipush 10
-	istore 3
-	bipush 30
-	istore 2
-	iload 2
-	iload 3
-	iadd 
-	bipush 10
-	iadd 
-	istore 2
-	iload 2
-	iload 3
-	iadd 
-	bipush 10
-	iadd 
-	istore 2
-	iload 2
-	iload 3
-	iadd 
-	bipush 10
-	iadd 
-	istore 2
-	iload 2
-	iload 3
-	iadd 
-	bipush 10
-	iadd 
-	istore 2
-	iload 2
-	iload 3
-	iadd 
-	bipush 10
-	iadd 
+	istore 1
+	sipush 430
 	istore 2
 	new RegisterClass
 	dup
@@ -51,7 +21,7 @@
 	bipush 10
 	bipush 10
 	invokevirtual RegisterClass/test(II)I
-	istore 3
+	istore 1
 	iload 2
 	invokestatic io/println(I)V
 	return
