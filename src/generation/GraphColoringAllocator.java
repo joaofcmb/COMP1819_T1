@@ -28,6 +28,8 @@ class GraphColoringAllocator implements RegisterAllocator {
         final Map<String, Integer> labelIndexes = labelIndexes(instructionList);
 
         final ArrayList<String> variableList = new ArrayList<>();
+        final ArrayList<Boolean> typeList = new ArrayList<>();
+
         final ArrayList<String> parameterList = new ArrayList<>(method.getParameters().keySet());
 
         final ArrayList<int[]> successorsList = new ArrayList<>(instructionSize);
@@ -48,6 +50,7 @@ class GraphColoringAllocator implements RegisterAllocator {
 
                     if (!variableList.contains(varIdentifier) && !parameterList.contains(varIdentifier)) {
                         variableList.add(varIdentifier);
+                        typeList.add(instruction.getRegisterType());
                     }
                 }
             }
@@ -149,9 +152,13 @@ class GraphColoringAllocator implements RegisterAllocator {
         while (!stack.isEmpty()) {
             final int node = stack.pop();
 
-            allocation[node] = IntStream.range(0, variableSize)
-                    .filter(value -> graph[node].stream().map(i1 -> allocation[i1]).noneMatch(i -> i == value))
-                    .min().getAsInt();
+            allocation[node] = IntStream.range(0, variableSize).filter(value ->
+                            // Filter registers to remove those associated with conflicting variables
+                            graph[node].stream().noneMatch(i1 -> allocation[i1] == value)
+                            // Filter registers to remove those associated with variables of other types
+                            && IntStream.range(0, variableSize).filter(il -> allocation[il] == value)
+                                    .allMatch(il -> typeList.get(node) == typeList.get(il))
+            ).min().getAsInt();
         }
 
 

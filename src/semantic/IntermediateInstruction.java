@@ -262,6 +262,10 @@ public class IntermediateInstruction {
         return this.instructionId == 0 ? this.value.substring(0, this.value.length() - 1) : null;
     }
 
+    public boolean getRegisterType() {
+        return (instructionId == ILOAD || instructionId == ISTORE);
+    }
+
     public void setVarNum(int value) {
         this.value = String.valueOf(value);
     }

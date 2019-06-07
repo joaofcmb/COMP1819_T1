@@ -21,19 +21,19 @@
 	new Life
 	dup
 	invokespecial Life/<init>()V
-	astore 1
-	aload 1
+	astore 2
+	aload 2
 	invokevirtual Life/init()Z
 	pop 
 	L1:
-	aload 1
+	aload 2
 	invokevirtual Life/printField()Z
 	pop 
-	aload 1
+	aload 2
 	invokevirtual Life/update()Z
 	pop 
 	invokestatic io/read()I
-	istore 2
+	istore 1
 	L0:
 	iconst_1 
 	ifgt L1
@@ -42,45 +42,45 @@
 
 .method public cartIdx(I)[I
 .limit stack 4
-.limit locals 6
+.limit locals 5
 	aload_0 
 	getfield Life/xMax I
-	ldc 1
+	bipush 1
 	iadd 
-	istore 2
-	iload 1
-	iload 2
-	idiv 
 	istore 3
 	iload 1
 	iload 3
-	iload 2
+	idiv 
+	istore 4
+	iload 1
+	iload 4
+	iload 3
 	imul 
 	isub 
-	istore 4
-	ldc 2
+	istore 3
+	bipush 2
 	newarray int 
-	astore 5
-	aload 5
-	ldc 0
-	iload 4
-	iastore 
-	aload 5
-	ldc 1
+	astore 2
+	aload 2
+	bipush 0
 	iload 3
 	iastore 
-	aload 5
+	aload 2
+	bipush 1
+	iload 4
+	iastore 
+	aload 2
 	areturn 
 .end method
 
 .method public lt(II)Z
 .limit stack 2
-.limit locals 3
+.limit locals 4
 	iload 1
 	iload 2
 	if_icmpge L1
 	iconst_1 
-	goto L0
+	ireturn 
 	L1:
 	iconst_0 
 	L0:
@@ -89,514 +89,514 @@
 
 .method public field([I)[I
 .limit stack 104
-.limit locals 2
+.limit locals 3
 	aload_0 
-	ldc 100
+	bipush 100
 	newarray int 
 	putfield Life/field [I
 	aload 1
-	ldc 0
-	ldc 10
+	bipush 0
+	bipush 10
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 0
-	ldc 0
+	bipush 0
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 1
-	ldc 0
+	bipush 1
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 2
-	ldc 1
+	bipush 2
+	bipush 1
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 3
-	ldc 0
+	bipush 3
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 4
-	ldc 0
+	bipush 4
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 5
-	ldc 0
+	bipush 5
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 6
-	ldc 0
+	bipush 6
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 7
-	ldc 0
+	bipush 7
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 8
-	ldc 0
+	bipush 8
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 9
-	ldc 0
+	bipush 9
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 10
-	ldc 1
+	bipush 10
+	bipush 1
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 11
-	ldc 0
+	bipush 11
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 12
-	ldc 1
+	bipush 12
+	bipush 1
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 13
-	ldc 0
+	bipush 13
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 14
-	ldc 0
+	bipush 14
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 15
-	ldc 0
+	bipush 15
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 16
-	ldc 0
+	bipush 16
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 17
-	ldc 0
+	bipush 17
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 18
-	ldc 0
+	bipush 18
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 19
-	ldc 0
+	bipush 19
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 20
-	ldc 0
+	bipush 20
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 21
-	ldc 1
+	bipush 21
+	bipush 1
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 22
-	ldc 1
+	bipush 22
+	bipush 1
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 23
-	ldc 0
+	bipush 23
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 24
-	ldc 0
+	bipush 24
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 25
-	ldc 0
+	bipush 25
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 26
-	ldc 0
+	bipush 26
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 27
-	ldc 0
+	bipush 27
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 28
-	ldc 0
+	bipush 28
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 29
-	ldc 0
+	bipush 29
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 30
-	ldc 0
+	bipush 30
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 31
-	ldc 0
+	bipush 31
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 32
-	ldc 0
+	bipush 32
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 33
-	ldc 0
+	bipush 33
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 34
-	ldc 0
+	bipush 34
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 35
-	ldc 0
+	bipush 35
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 36
-	ldc 0
+	bipush 36
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 37
-	ldc 0
+	bipush 37
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 38
-	ldc 0
+	bipush 38
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 39
-	ldc 0
+	bipush 39
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 40
-	ldc 0
+	bipush 40
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 41
-	ldc 0
+	bipush 41
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 42
-	ldc 0
+	bipush 42
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 43
-	ldc 0
+	bipush 43
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 44
-	ldc 0
+	bipush 44
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 45
-	ldc 0
+	bipush 45
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 46
-	ldc 0
+	bipush 46
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 47
-	ldc 0
+	bipush 47
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 48
-	ldc 0
+	bipush 48
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 49
-	ldc 0
+	bipush 49
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 50
-	ldc 0
+	bipush 50
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 51
-	ldc 0
+	bipush 51
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 52
-	ldc 0
+	bipush 52
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 53
-	ldc 0
+	bipush 53
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 54
-	ldc 0
+	bipush 54
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 55
-	ldc 0
+	bipush 55
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 56
-	ldc 0
+	bipush 56
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 57
-	ldc 0
+	bipush 57
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 58
-	ldc 0
+	bipush 58
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 59
-	ldc 0
+	bipush 59
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 60
-	ldc 0
+	bipush 60
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 61
-	ldc 0
+	bipush 61
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 62
-	ldc 0
+	bipush 62
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 63
-	ldc 0
+	bipush 63
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 64
-	ldc 0
+	bipush 64
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 65
-	ldc 0
+	bipush 65
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 66
-	ldc 0
+	bipush 66
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 67
-	ldc 0
+	bipush 67
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 68
-	ldc 0
+	bipush 68
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 69
-	ldc 0
+	bipush 69
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 70
-	ldc 0
+	bipush 70
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 71
-	ldc 0
+	bipush 71
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 72
-	ldc 0
+	bipush 72
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 73
-	ldc 0
+	bipush 73
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 74
-	ldc 0
+	bipush 74
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 75
-	ldc 0
+	bipush 75
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 76
-	ldc 0
+	bipush 76
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 77
-	ldc 0
+	bipush 77
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 78
-	ldc 0
+	bipush 78
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 79
-	ldc 0
+	bipush 79
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 80
-	ldc 0
+	bipush 80
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 81
-	ldc 0
+	bipush 81
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 82
-	ldc 0
+	bipush 82
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 83
-	ldc 0
+	bipush 83
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 84
-	ldc 0
+	bipush 84
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 85
-	ldc 0
+	bipush 85
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 86
-	ldc 0
+	bipush 86
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 87
-	ldc 0
+	bipush 87
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 88
-	ldc 0
+	bipush 88
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 89
-	ldc 0
+	bipush 89
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 90
-	ldc 0
+	bipush 90
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 91
-	ldc 0
+	bipush 91
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 92
-	ldc 0
+	bipush 92
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 93
-	ldc 0
+	bipush 93
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 94
-	ldc 0
+	bipush 94
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 95
-	ldc 0
+	bipush 95
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 96
-	ldc 0
+	bipush 96
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 97
-	ldc 0
+	bipush 97
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 98
-	ldc 0
+	bipush 98
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
-	ldc 99
-	ldc 0
+	bipush 99
+	bipush 0
 	iastore 
 	aload_0 
 	getfield Life/field [I
@@ -605,14 +605,14 @@
 
 .method public gt(II)Z
 .limit stack 3
-.limit locals 3
+.limit locals 4
 	aload_0 
 	iload 1
 	iload 2
 	invokevirtual Life/le(II)Z
 	ifgt L1
 	iconst_1 
-	goto L0
+	ireturn 
 	L1:
 	iconst_0 
 	L0:
@@ -621,131 +621,131 @@
 
 .method public getNeighborCoords(I)[I
 .limit stack 19
-.limit locals 8
+.limit locals 7
 	aload_0 
 	iload 1
 	invokevirtual Life/cartIdx(I)[I
 	astore 2
 	aload 2
-	ldc 0
+	bipush 0
 	iaload 
-	istore 3
+	istore 6
 	aload 2
-	ldc 1
+	bipush 1
 	iaload 
-	istore 4
-	iload 3
+	istore 5
+	iload 6
 	aload_0 
 	getfield Life/xMax I
 	if_icmpge L1
 	aload_0 
-	iload 3
-	ldc 0
+	iload 6
+	bipush 0
 	invokevirtual Life/gt(II)Z
 	ifeq L3
-	iload 3
-	ldc 1
+	iload 6
+	bipush 1
 	isub 
-	istore 5
-	goto L2
+	istore 4
+	goto L0
 	L3:
 	aload_0 
 	getfield Life/xMax I
-	istore 5
+	istore 4
 	L2:
 	goto L0
 	L1:
-	iload 3
-	ldc 1
+	iload 6
+	bipush 1
 	isub 
-	istore 5
+	istore 4
 	L0:
-	iload 4
+	iload 5
 	aload_0 
 	getfield Life/yMax I
 	if_icmpge L5
 	aload_0 
-	iload 4
-	ldc 0
+	iload 5
+	bipush 0
 	invokevirtual Life/gt(II)Z
 	ifeq L7
-	iload 4
-	ldc 1
+	iload 5
+	bipush 1
 	isub 
-	istore 6
-	goto L6
+	istore 3
+	goto L4
 	L7:
 	aload_0 
 	getfield Life/yMax I
-	istore 6
+	istore 3
 	L6:
 	goto L4
 	L5:
-	iload 4
-	ldc 1
+	iload 5
+	bipush 1
 	isub 
-	istore 6
+	istore 3
 	L4:
-	ldc 8
+	bipush 8
 	newarray int 
-	astore 7
-	aload 7
-	ldc 0
+	astore 2
+	aload 2
+	bipush 0
 	aload_0 
+	iload 6
 	iload 3
-	iload 6
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 7
-	ldc 1
+	aload 2
+	bipush 1
 	aload_0 
-	iload 5
-	iload 6
-	invokevirtual Life/trIdx(II)I
-	iastore 
-	aload 7
-	ldc 2
-	aload_0 
-	iload 5
 	iload 4
-	invokevirtual Life/trIdx(II)I
-	iastore 
-	aload 7
-	ldc 3
-	aload_0 
-	iload 5
-	ldc 0
-	invokevirtual Life/trIdx(II)I
-	iastore 
-	aload 7
-	ldc 4
-	aload_0 
 	iload 3
-	ldc 0
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 7
-	ldc 5
+	aload 2
+	bipush 2
 	aload_0 
-	ldc 0
-	ldc 0
-	invokevirtual Life/trIdx(II)I
-	iastore 
-	aload 7
-	ldc 6
-	aload_0 
-	ldc 0
 	iload 4
+	iload 5
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 7
-	ldc 7
+	aload 2
+	bipush 3
 	aload_0 
-	ldc 0
-	iload 6
+	iload 4
+	bipush 0
 	invokevirtual Life/trIdx(II)I
 	iastore 
-	aload 7
+	aload 2
+	bipush 4
+	aload_0 
+	iload 6
+	bipush 0
+	invokevirtual Life/trIdx(II)I
+	iastore 
+	aload 2
+	bipush 5
+	aload_0 
+	bipush 0
+	bipush 0
+	invokevirtual Life/trIdx(II)I
+	iastore 
+	aload 2
+	bipush 6
+	aload_0 
+	bipush 0
+	iload 5
+	invokevirtual Life/trIdx(II)I
+	iastore 
+	aload 2
+	bipush 7
+	aload_0 
+	bipush 0
+	iload 3
+	invokevirtual Life/trIdx(II)I
+	iastore 
+	aload 2
 	areturn 
 .end method
 
@@ -756,18 +756,15 @@
 	aload_0 
 	getfield Life/LOOPS_PER_MS I
 	imul 
-	istore 2
-	ldc 0
 	istore 3
+	bipush 0
+	istore 2
 	goto L0
 	L1:
-	iload 3
-	ldc 1
-	iadd 
-	istore 3
+	iinc 2 1
 	L0:
-	iload 3
 	iload 2
+	iload 3
 	if_icmplt L1
 	iconst_1 
 	ireturn 
@@ -776,49 +773,43 @@
 .method public getLiveNeighborN(I)I
 .limit stack 6
 .limit locals 5
-	ldc 0
-	istore 2
+	bipush 0
+	istore 4
 	aload_0 
 	iload 1
 	invokevirtual Life/getNeighborCoords(I)[I
 	astore 3
-	ldc 0
-	istore 4
+	bipush 0
+	istore 2
 	goto L0
 	L1:
 	aload_0 
 	aload_0 
 	getfield Life/field [I
 	aload 3
-	iload 4
+	iload 2
 	iaload 
 	iaload 
-	ldc 0
+	bipush 0
 	invokevirtual Life/ne(II)Z
 	ifeq L3
-	iload 2
-	ldc 1
-	iadd 
-	istore 2
+	iinc 4 1
 	goto L2
 	L3:
 	L2:
-	iload 4
-	ldc 1
-	iadd 
-	istore 4
+	iinc 2 1
 	L0:
-	iload 4
+	iload 2
 	aload 3
 	arraylength 
 	if_icmplt L1
-	iload 2
+	iload 4
 	ireturn 
 .end method
 
 .method public ge(II)Z
 .limit stack 4
-.limit locals 3
+.limit locals 4
 	aload_0 
 	iload 1
 	iload 2
@@ -832,7 +823,7 @@
 	goto L1
 	L2:
 	iconst_1 
-	goto L0
+	ireturn 
 	L1:
 	iconst_0 
 	L0:
@@ -842,39 +833,33 @@
 .method public printField()Z
 .limit stack 6
 .limit locals 3
-	ldc 0
-	istore 1
-	ldc 0
+	bipush 0
 	istore 2
+	bipush 0
+	istore 1
 	goto L0
 	L1:
 	aload_0 
-	iload 2
+	iload 1
 	aload_0 
 	getfield Life/xMax I
 	invokevirtual Life/gt(II)Z
 	ifeq L3
 	invokestatic io/println()V
-	ldc 0
-	istore 2
+	bipush 0
+	istore 1
 	goto L2
 	L3:
 	L2:
 	aload_0 
 	getfield Life/field [I
-	iload 1
+	iload 2
 	iaload 
 	invokestatic io/print(I)V
-	iload 1
-	ldc 1
-	iadd 
-	istore 1
-	iload 2
-	ldc 1
-	iadd 
-	istore 2
+	iinc 2 1
+	iinc 1 1
 	L0:
-	iload 1
+	iload 2
 	aload_0 
 	getfield Life/field [I
 	arraylength 
@@ -887,7 +872,7 @@
 
 .method public eq(II)Z
 .limit stack 4
-.limit locals 3
+.limit locals 4
 	aload_0 
 	iload 1
 	iload 2
@@ -899,7 +884,7 @@
 	invokevirtual Life/lt(II)Z
 	ifgt L1
 	iconst_1 
-	goto L0
+	ireturn 
 	L1:
 	iconst_0 
 	L0:
@@ -908,14 +893,14 @@
 
 .method public ne(II)Z
 .limit stack 3
-.limit locals 3
+.limit locals 4
 	aload_0 
 	iload 1
 	iload 2
 	invokevirtual Life/eq(II)Z
 	ifgt L1
 	iconst_1 
-	goto L0
+	ireturn 
 	L1:
 	iconst_0 
 	L0:
@@ -924,7 +909,7 @@
 
 .method public le(II)Z
 .limit stack 4
-.limit locals 3
+.limit locals 4
 	aload_0 
 	iload 1
 	iload 2
@@ -938,7 +923,7 @@
 	goto L1
 	L2:
 	iconst_1 
-	goto L0
+	ireturn 
 	L1:
 	iconst_0 
 	L0:
@@ -947,11 +932,11 @@
 
 .method public trIdx(II)I
 .limit stack 4
-.limit locals 3
+.limit locals 4
 	iload 1
 	aload_0 
 	getfield Life/xMax I
-	ldc 1
+	bipush 1
 	iadd 
 	iload 2
 	imul 
@@ -962,42 +947,42 @@
 .method public init()Z
 .limit stack 11
 .limit locals 3
-	ldc 1
+	bipush 1
 	newarray int 
-	astore 1
+	astore 2
 	aload_0 
-	ldc 2
+	bipush 2
 	putfield Life/UNDERPOP_LIM I
 	aload_0 
-	ldc 3
+	bipush 3
 	putfield Life/OVERPOP_LIM I
 	aload_0 
-	ldc 3
+	bipush 3
 	putfield Life/REPRODUCE_NUM I
 	aload_0 
 	ldc 225000
 	putfield Life/LOOPS_PER_MS I
 	aload_0 
 	aload_0 
-	aload 1
+	aload 2
 	invokevirtual Life/field([I)[I
 	putfield Life/field [I
-	aload 1
-	ldc 0
+	aload 2
+	bipush 0
 	iaload 
-	istore 2
+	istore 1
 	aload_0 
-	iload 2
-	ldc 1
+	iload 1
+	bipush 1
 	isub 
 	putfield Life/xMax I
 	aload_0 
 	aload_0 
 	getfield Life/field [I
 	arraylength 
-	iload 2
+	iload 1
 	idiv 
-	ldc 1
+	bipush 1
 	isub 
 	putfield Life/yMax I
 	iconst_1 
@@ -1006,36 +991,36 @@
 
 .method public update()Z
 .limit stack 16
-.limit locals 6
+.limit locals 5
 	aload_0 
 	getfield Life/field [I
 	arraylength 
 	newarray int 
-	astore 1
-	ldc 0
-	istore 2
+	astore 4
+	bipush 0
+	istore 3
 	goto L0
 	L1:
 	aload_0 
 	getfield Life/field [I
-	iload 2
-	iaload 
-	istore 3
-	aload_0 
-	iload 2
-	invokevirtual Life/getLiveNeighborN(I)I
-	istore 4
 	iload 3
-	ldc 1
+	iaload 
+	istore 2
+	aload_0 
+	iload 3
+	invokevirtual Life/getLiveNeighborN(I)I
+	istore 1
+	iload 2
+	bipush 1
 	if_icmplt L3
 	aload_0 
-	iload 4
+	iload 1
 	aload_0 
 	getfield Life/UNDERPOP_LIM I
 	invokevirtual Life/le(II)Z
 	ifeq L5
 	aload_0 
-	iload 4
+	iload 1
 	aload_0 
 	getfield Life/OVERPOP_LIM I
 	invokevirtual Life/ge(II)Z
@@ -1045,58 +1030,55 @@
 	L5:
 	iconst_0 
 	L4:
-	istore 5
-	iload 5
+	istore 1
+	iload 1
 	ifgt L7
-	aload 1
-	iload 2
-	ldc 0
+	aload 4
+	iload 3
+	bipush 0
 	iastore 
-	goto L6
+	goto L2
 	L7:
-	aload 1
-	iload 2
+	aload 4
+	iload 3
 	aload_0 
 	getfield Life/field [I
-	iload 2
+	iload 3
 	iaload 
 	iastore 
 	L6:
 	goto L2
 	L3:
 	aload_0 
-	iload 4
+	iload 1
 	aload_0 
 	getfield Life/REPRODUCE_NUM I
 	invokevirtual Life/eq(II)Z
 	ifeq L9
-	aload 1
-	iload 2
-	ldc 1
+	aload 4
+	iload 3
+	bipush 1
 	iastore 
 	goto L8
 	L9:
-	aload 1
-	iload 2
+	aload 4
+	iload 3
 	aload_0 
 	getfield Life/field [I
-	iload 2
+	iload 3
 	iaload 
 	iastore 
 	L8:
 	L2:
-	iload 2
-	ldc 1
-	iadd 
-	istore 2
+	iinc 3 1
 	L0:
-	iload 2
+	iload 3
 	aload_0 
 	getfield Life/field [I
 	arraylength 
 	if_icmplt L1
 	aload_0 
-	aload 1
+	aload 4
 	putfield Life/field [I
 	iconst_1 
 	ireturn 
